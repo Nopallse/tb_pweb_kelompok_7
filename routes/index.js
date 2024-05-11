@@ -8,7 +8,7 @@ import { checkUserLoggedIn } from "../controllers/auth.js";
 const router = express.Router();
 
 router.use(session({
-  secret: 'secret_key', // Ganti dengan kunci rahasia yang aman
+  secret: 'secret_key', 
   resave: false,
   saveUninitialized: true
 }));
@@ -17,14 +17,14 @@ router.use(session({
 router.get('/users', verifyToken, async (req, res) => {
   try {
     // Ambil data pengguna dari database
-    const users = await getUsers(); // Anda perlu mengimplementasikan fungsi getUsers sesuai dengan logika aplikasi Anda
+    const users = await getUsers(); 
 
     // Kirim data pengguna sebagai respons
     res.json(users);
   } catch (error) {
-    // Tangani kesalahan jika terjadi
+
     console.error('Error fetching user data:', error);
-    // Kembalikan respons dengan kode status 500 (Internal Server Error)
+
     res.status(500).send('Internal Server Error');
   }
 });
