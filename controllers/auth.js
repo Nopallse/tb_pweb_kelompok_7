@@ -85,7 +85,6 @@ export const Login = async (req, res) => {
       // secure:true
     });
 
-    // Pastikan sesi telah diinisialisasi sebelum mengaksesnya
     if (req.session) {
       req.session.user = {
         userId: userId,
@@ -127,7 +126,7 @@ export const Login = async (req, res) => {
 export const Logout = async(req,res)=>{
     const refreshToken = req.cookies.refreshToken;
     if (!refreshToken) return res.sendStatus(204);
-    console.log('Refresh Token:', refreshToken); // Tambahkan ini
+    console.log('Refresh Token:', refreshToken);
 
     const user = await Users.findAll({
       where: {
@@ -135,7 +134,7 @@ export const Logout = async(req,res)=>{
       },
     });
     if (!user[0]) { 
-        console.log('User tidak ditemukan dengan refresh token tersebut'); // Tambahkan ini
+        console.log('User tidak ditemukan dengan refresh token tersebut.'); 
         return res.sendStatus(204);
     }
 

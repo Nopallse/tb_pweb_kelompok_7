@@ -5,7 +5,7 @@ export const refreshToken = async (req, res) => {
   try {
     const refreshToken = req.cookies.refreshToken;
     if (!refreshToken) return res.sendStatus(401);
-    console.log('Refresh Token:', refreshToken); // Tambahkan ini
+    console.log('Refresh Token:', refreshToken); 
 
     const user = await Users.findAll({
       where: {
@@ -13,18 +13,18 @@ export const refreshToken = async (req, res) => {
       },
     });
     if (!user[0]) { 
-        console.log('User tidak ditemukan dengan refresh token tersebut'); // Tambahkan ini
+        console.log('User tidak ditemukan dengan refresh token tersebut'); 
         return res.sendStatus(403);
     }
     
-    console.log('User ditemukan:', user[0]); // Tambahkan ini
+    console.log('User ditemukan:', user[0]);
 
     jwt.verify(
       refreshToken,
       process.env.REFRESH_TOKEN_SECRET,
       (err, decoded) => {
         if (err){ 
-            console.log('Verifikasi refresh token gagal:', err); // Tambahkan ini
+            console.log('Verifikasi refresh token gagal:', err);
             return res.sendStatus(403);
         }
         const userId = user[0].id;
