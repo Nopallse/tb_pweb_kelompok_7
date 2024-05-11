@@ -1,0 +1,53 @@
+<!-- Di dalam berkas views/Account.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account</title>
+  <!-- Tambahkan CSS eksternal atau tambahkan styling internal di sini -->
+</head>
+
+<body>
+  <header>
+    <!-- Tambahkan header sesuai kebutuhan -->
+    <h1>Welcome to Your Account</h1>
+  </header>
+
+  <main>
+    <!-- Tampilkan informasi pengguna di sini -->
+    <section>
+      <h2>User Information</h2>
+      <p>Name: <%= user.name %></p>
+      <p>Nim: <%= user.nim %></p>
+      <p>Department: <%= user.departemen %></p>
+      <p>Email: <%= user.email %></p>
+      <p>No Handphone: <%= user.hp %></p>
+
+
+      <!-- Tambahkan informasi lainnya sesuai kebutuhan -->
+    </section>
+
+    <!-- Tambahkan bagian lain dari halaman akun di sini -->
+
+    <!-- Contoh: Tombol untuk logout -->
+    <a href="/home"  >
+      Back
+    </a>
+    <br>
+    <a href="/profil/edit"  >
+      Edit Profile
+    </a>
+  </main>
+
+  <footer>
+    <!-- Tambahkan footer sesuai kebutuhan -->
+    <p>© 2024 YourWebsite.com. All rights reserved.</p>
+  </footer>
+
+  <!-- Tambahkan script JS eksternal atau tambahkan script internal di sini -->
+</body>
+
+</html>
