@@ -2,10 +2,10 @@
   "development": {
     "username": "root",
     "password": null,
-    "database": "keterangan_aktif_kuliah",
+    "database": "aktif_kuliah",
     "host": "localhost",
     "dialect": "mysql"
-   },
+  },
   "test": {
     "username": "root",
     "password": null,
