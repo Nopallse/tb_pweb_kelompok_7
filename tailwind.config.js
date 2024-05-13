@@ -3,11 +3,13 @@
 module.exports = {
   content: [
     './views/*.{html,js,ejs}',
-    'node_modules/preline/dist/*.js'
+    './views/admin/*.{html,js,ejs}',
+    'node_modules/preline/dist/*.js',
+    './views/user/*.{html,js,ejs}'
   ],
   theme: {
     extend: {},
   },
-  plugins: [require('preline/plugin'),],
+  plugins: [require('preline/plugin')],
 }
 

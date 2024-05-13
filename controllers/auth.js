@@ -61,11 +61,11 @@ export const Login = async (req, res) => {
 
 
 
-    const accessToken = jwt.sign({ userId, name, email,role,nim,hp,departemen }, process.env.ACCESS_TOKEN_SECRET, {
-      expiresIn: "10s",
+    const token = jwt.sign({ userId, name, email,role,nim,hp,departemen }, process.env.ACCESS_TOKEN_SECRET, {
+      expiresIn: "5s",
     });
     const refreshToken = jwt.sign({ userId, name, email,role,nim,hp,departemen }, process.env.REFRESH_TOKEN_SECRET, {
-      expiresIn: "15m",
+      expiresIn: "10s",
     });
 
     await Users.update(
@@ -84,6 +84,7 @@ export const Login = async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000,
       // secure:true
     });
+    console.log(refreshToken)
 
     if (req.session) {
       req.session.user = {
@@ -99,15 +100,17 @@ export const Login = async (req, res) => {
       console.error('Sesi belum diinisialisasi');
     }
 
+
+    res.cookie("token", token, { httpOnly: true });
+
     if (user.role === "mahasiswa") {
       return res.redirect("/home");
     } else if (user.role === "admin") {
       return res.redirect("/admin/dashboard");
     }
 
-    res.redirect("/admin/dashboard");
-    console.log(user.role)
     
+
   } catch (error) {
     console.log(error);
     res.status(401).send(error.message);
@@ -152,13 +155,12 @@ export const Logout = async(req,res)=>{
 
 export function checkUserLoggedIn(req) {
     const refreshToken = req.cookies.refreshToken;
+    console.log(refreshToken)
     let user = null;
-    let userLoggedIn = false;
 
     if (refreshToken) {
         try {
             const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-            userLoggedIn = true;
             user = {
                 userId: decoded.userId,
                 name: decoded.name,
@@ -167,13 +169,69 @@ export function checkUserLoggedIn(req) {
                 nim: decoded.nim,
                 hp: decoded.hp,
                 departemen:decoded.departemen
-
             };
         } catch (error) {
             console.error('Token invalid or expired:', error.message);
         }
     }
 
-    return { userLoggedIn, user };
+    return {  user };
 }
+
+export const changePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+
+    // Cari pengguna berdasarkan userId
+    const user = await Users.findByPk(req.userId);
+    console.log(user)
+    if (!user) {
+      return res.status(404).json({ message: "Pengguna tidak ditemukan" });
+    }
+
+    // Periksa apakah password saat ini cocok
+    const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: "Password saat ini salah" });
+    }
+
+    // Enkripsi password baru
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+    // Perbarui password pengguna di database
+    await user.update({ password: hashedNewPassword });
+
+    return res.status(200).json({ message: "Password berhasil diubah" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Terjadi kesalahan server" });
+  }
+};
+export const editProfile = async (req, res) => {
+  try {
+    const { newPhoneNumber } = req.body;
+
+    const user = await Users.findByPk(req.userId);
+    if (!user) {
+      return res.status(404).json({ message: "Pengguna tidak ditemukan" });
+    }
+    
+    await user.update({ 
+      hp: newPhoneNumber
+    });
+    // Setelah berhasil menyimpan perubahan, arahkan kembali pengguna ke halaman profil
+    // dan tampilkan profil baru
+    return res.redirect('/profile');
+  } catch (error) {
+    console.log(error);
+     return res.status(500).json({ message: "Terjadi kesalahan server" });
+  }
+};
+
+export const view_profile = async (req, res) => {
+  const { user } = checkUserLoggedIn(req);
+  const newProfile = await Users.findByPk(user.userId);
+  res.render('user/profile', { newProfile });
+};
+
 

@@ -7,7 +7,7 @@ export const refreshToken = async (req, res) => {
     if (!refreshToken) return res.sendStatus(401);
     console.log('Refresh Token:', refreshToken); 
 
-    const user = await Users.findAll({
+    const user = await Users.findOne({
       where: {
         refresh_token: refreshToken,
       },
@@ -34,7 +34,7 @@ export const refreshToken = async (req, res) => {
           { userId, name, email },
           process.env.ACCESS_TOKEN_SECRET,
           {
-            expiresIn: "20s",
+            expiresIn: "10s",
           }
         );
         res.json({ accessToken });

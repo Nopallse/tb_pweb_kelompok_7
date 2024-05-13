@@ -27,8 +27,6 @@ const Users = db.define('users', {
     nim: {
         type: DataTypes.STRING
     }
-
-
 }, {
     freezeTableName: true
 });

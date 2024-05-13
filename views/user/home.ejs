@@ -24,7 +24,7 @@
         <a class="font-medium sm:py-6" style="color: #388E3C ;" href="/home" aria-current="page">Home</a>
         <a class="font-medium text-gray-500 hover:text-gray-400 sm:py-6" href="#">Request</a>
         <a class="font-medium text-gray-500 hover:text-gray-400 sm:py-6" href="#">History</a>
-        
+
         <div class="container mx-auto mt-4">
        
             <!-- Jika user sudah login -->
@@ -33,7 +33,7 @@
             <!-- Tambahkan informasi pengguna lainnya di sini jika diperlukan -->
          
         </div>
-        <% if (userLoggedIn) { %>
+
 
           <h1 class="font-medium text-gray-500" style="color: #388E3C; white-space: nowrap;">Welcome, <%= user.name %>!</h1>
 
@@ -56,7 +56,7 @@
                                 <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
                                 notification
                             </a>
-                            <a href="/profil" class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300" href="#">
+                            <a href="/profile" class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300" href="#">
                               <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                               Profile
                             </a>
@@ -77,22 +77,7 @@
                 </div>
               </div>
           </nav>
-          
-        <% } else { %>    
-          <nav class="flex justify-between bg-green-600 px-4 py-2 text-white hover:bg-green-700" style="border-radius: 10px;">
-            <div >
-                <div>      
-                  <!-- Jika user belum login -->
-                  <a class="flex items-center gap-x-2 font-medium text-white hover:text-green-500 hover:bg-black-900 hover:border-green-500" href="/login">
-                      <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                          <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-                      </svg>
-                      Login
-                  </a>
-                </div>
-              </div>
-          </nav>
-        <% } %>
+        
 
       
 

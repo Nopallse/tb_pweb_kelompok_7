@@ -4,7 +4,7 @@ import { getUsers, Register, Login, Logout } from "../controllers/auth.js";
 import { verifyToken } from "../middleware/VerifyToken.js";
 import { refreshToken } from "../controllers/RefreshToken.js";
 import { checkUserLoggedIn } from "../controllers/auth.js";
-
+import checkRole from "../middleware/checkrole.middleware.js";
 const router = express.Router();
 
 router.use(session({
@@ -29,6 +29,13 @@ router.get('/users', verifyToken, async (req, res) => {
   }
 });
 
+
+router.get('/admin', (req, res) => {
+  res.redirect('/admin/dashboard'); // Redirect ke halaman home
+});
+
+
+
 // Endpoint untuk registrasi pengguna baru
 router.post('/users', Register);
 
@@ -44,11 +51,23 @@ router.delete('/logout', Logout);
 router.get('/', (req, res) => {
   res.redirect('/home'); // Redirect ke halaman home
 });
-// Route untuk halaman home
-router.get('/home', async (req, res) => {
-  const { userLoggedIn, user } = checkUserLoggedIn(req);
-  res.render('user/home', { userLoggedIn, user });
+
+
+
+
+// // Route untuk halaman home
+// router.get('/home', async (req, res) => {
+//   const { userLoggedIn, user } = checkUserLoggedIn(req);
+//   res.render('user/home', { userLoggedIn, user });
+// });
+
+router.get("/home", verifyToken, checkRole("mahasiswa"), async (req, res) => {
+  const {  user } = checkUserLoggedIn(req);
+  res.render("user/home",{ user });
 });
+
+
+
 
 
 
@@ -63,7 +82,7 @@ router.get('/logout', (req, res) => {
   res.clearCookie('refreshToken');
 
   // Redirect kembali ke halaman utama
-  res.redirect('/home');
+  res.redirect('/login');
 });
 
 router.get('/account', verifyToken, async (req, res) => {
