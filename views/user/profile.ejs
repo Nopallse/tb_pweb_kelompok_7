@@ -20,11 +20,11 @@
     <!-- Tampilkan informasi pengguna di sini -->
     <section>
       <h2>User Information</h2>
-      <p>Name: <%= user.name %></p>
-      <p>Nim: <%= user.nim %></p>
-      <p>Department: <%= user.departemen %></p>
-      <p>Email: <%= user.email %></p>
-      <p>No Handphone: <%= user.hp %></p>
+      <p>Name: <%= newProfile.name %></p>
+      <p>Nim: <%= newProfile.nim %></p>
+      <p>Department: <%= newProfile.departemen %></p>
+      <p>Email: <%= newProfile.email %></p>
+      <p>No Handphone: <%= newProfile.hp %></p>
 
 
       <!-- Tambahkan informasi lainnya sesuai kebutuhan -->
@@ -37,8 +37,12 @@
       Back
     </a>
     <br>
-    <a href="/profil/edit"  >
-      Edit Profile
+    <a href="/profile/change-password"  >
+      Change password
+    </a>
+    <br>
+    <a href="/profile/change-profile"  >
+      Change profile
     </a>
   </main>
 

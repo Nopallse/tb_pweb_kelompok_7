@@ -15,7 +15,7 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(process.cwd(), 'views'));
 app.use(express.static(path.join(process.cwd(), 'assets')));
-app.use('/preline', express.static(path.join(process.cwd(), 'node_modules/preline/dist')));
+app.use('/preline', express.static(path.join(process.cwd(), '/node_modules/preline/dist')));
 app.use('/images', express.static(path.join(process.cwd(), 'public/images')));
 
 app.use(express.json());
@@ -48,6 +48,7 @@ app.use((req, res, next) => {
   }
   next();
 });
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
