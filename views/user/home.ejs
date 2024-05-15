@@ -27,52 +27,42 @@
 
         <div class="container mx-auto mt-4">
        
-            <!-- Jika user sudah login -->
-            <h1> </h1>
-            <p> </p>
-            <!-- Tambahkan informasi pengguna lainnya di sini jika diperlukan -->
-         
+
         </div>
 
 
-          <h1 class="font-medium text-gray-500" style="color: #388E3C; white-space: nowrap;">Welcome, <%= user.name %>!</h1>
+          <h1 class="font-medium text-gray-500" style="color: #388E3C; white-space: nowrap;"><%= user.email %></h1>
 
 
         <nav class="flex justify-between px-4 py-2 text-white">
           <div >
               <div>
-                  <!-- Jika user sudah login -->
                   <div class="hs-dropdown " data-hs-dropdown-placement="bottom-right">
                     <button id="hs-dropdown-with-header" class="rounded-full" type="button" style="width: 50px; height: 50px; background-color: aqua;">
                       <img class="rounded-full"  src="https://lh3.googleusercontent.com/a/ACg8ocJ1H3DxS0qAPJZMJbBFu5iAA0hhd5yRuEfOyNMfYNEnQepUQHKn=s260-c-no" alt="Image Description">
                     </button>
-                    <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-60 max-w-[200px] z-10 bg-white shadow-md rounded-lg p-2 dark:bg-neutral-800 dark:border dark:border-neutral-700" style="background-color: white;" aria-labelledby="hs-dropdown-with-header">
-                        <div class="py-3 px-5 -m-2 bg-gray-100 rounded-t-lg dark:bg-neutral-700">
-                            <p class="text-sm text-gray-500 dark:text-neutral-400" style="padding-left: 10px;">Signed in as</p>
-                            <p class="text-sm font-medium text-gray-800 dark:text-neutral-300" style="padding: 10px 10px 0px 10px;"><%= user.email %></p>
-                        </div>
-                        <div class="mt-2 py-2 first:pt-0 last:pb-0">
-                            <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300" href="#">
-                                <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
-                                notification
-                            </a>
-                            <a href="/profile" class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300" href="#">
+                    <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-[200px] max-w-[400px] z-10 bg-white shadow-md rounded-lg p-2" style="background-color: white;" aria-labelledby="hs-dropdown-with-header">
+                      <div class="mt-2 py-2 first:pt-0 last:pb-0">
+                          <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300" href="#">
+                              <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                              notification
+                          </a>
+                          <a href="/profile" class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300" href="#">
                               <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                               Profile
-                            </a>
-                            <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300" href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                          </a>
+                          <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300" href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                               <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                   <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M12 12v9"/><path d="m8 17 4 4 4-4"/>
                               </svg>
                               Log-out
                           </a>
-                          
+                  
                           <form id="logout-form" action="/logout" method="DELETE" style="display: none;">
                               <input type="hidden" name="_method" value="DELETE">
                           </form>
-
                       </div>
-                    </div>
+                  </div>
                   </div>
                 </div>
               </div>
@@ -88,26 +78,168 @@
 <div style="position: relative; text-align: center; color: white;">
   <img style="width: 100%; height: auto; display: block;" src="/images/FTI.svg" alt="Gambar">
   <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 24px; font-weight: bold;">
-    <div >
-      <h1 class="mb-5 text-5xl font-bold" style="text-align: center;margin-top: 20px; margin-bottom: 20px;">Selamat Datang DI Pusat Pelayanan FTI</h1>
-      <p class="mb-5 font-medium" style="margin-top: 20px; margin-bottom: 20px;">Website dikelola langsung oleh tim IT FTI <br>
-        Pusat informasi dan seluruh permintaan dan permohonan dari mahasiswa dapat di ajukan di sini.</p>
-      <button class="btn btn-primary" style="margin-top: 20px; margin-bottom: 20px; background-color:#5CB874;border: #5CB874;">Informasi</button>
-    </div>
+  </div>
+</div>
+<br>
+
+<h1 class="text-5xl font-medium" style=" color: #1F2937 ;text-align: center; padding-top: 40px;">ABOUT US</h1>
+<img src="/images/garis.svg" style="margin-left: auto; margin-right: auto; padding-top: 20px; ">
+<p class="mb-5 " style="margin-top: 20px; margin-bottom: 20px; text-align: center;color: #939393;">Pusat informasi dan seluruh permintaan dan permohonan dari mahasiswa dapat di ajukan di sini.</p>
+
+
+
+
+<div style="width: 90%; max-width: 1200px; padding: 100px 0; margin: 0 auto; text-align: center;">
+  <div style="display: inline-block; max-width: 550px; vertical-align: top;">
+      <img src="/images/FTI1.svg" alt="Gambar" style="width: 100%; height: auto;">
+  </div>
+  <div style="display: inline-block; max-width: 550px; margin-left: 20px; vertical-align: top; text-align: left;">
+      <h1 style="color: #1F2937; font-size: 32px; font-weight: bold;">Fakultas Teknologi Informasi Universitas Andalas</h1>
+      <p style="color: #1F2937; padding-top: 24px; padding-bottom: 24px; font-size: 16px;">Fakultas Teknologi Informasi Universitas Andalas merupakan salah satu fakultas yang berada di bawah naungan Universitas Andalas. <br><br>
+          Terletak bersebelahan dengan Gedung Pascasarjana Unand, FTI Unand merupakan bagian integral dari kelompok fakultas-fakultas rumpun informatika. <br><br>
+          Sebagai pusat informasi, kami menyambut seluruh permintaan dan permohonan dari mahasiswa dengan penuh dedikasi.
+      </p>
   </div>
 </div>
 
-
-
-
-<div style="display: flex; align-items: center; justify-content: space-around; padding: 20px;">
-  <div style="flex: 1; margin-right: 20px;">
-      <img src="/images/FTI1.svg" alt="Gambar" style="width: 100%; height: auto; display: block;">
+<div style="width: 90%; max-width: 1200px; padding: 0 0 100px 0; margin: 0 auto; text-align: center;">
+  <div style="display: inline-block; max-width: 550px; margin-right: 20px; vertical-align: top; text-align: left;">
+      <h1 style="color: #1F2937; font-size: 32px; font-weight: bold;">Departemen</h1>
+      <p style="color: #1F2937; padding-top: 24px; padding-bottom: 24px; font-size: 16px;">Fakultas Teknologi Informasi Universitas Andalas merupakan fakultas ke-15 yang ada di Universitas Andalas dan menaungi 3 departemen: <br><br>
+          1. Sistem Informasi <br>
+          2. Teknik Komputer <br>
+          3. Informatika <br><br>
+          Departemen yang ada merupakan departemen yang bergerak pada dunia IT sehingga diharapkan lulusan yang telah menyelesaikan studi dapat bergerak dan bermanfaat pada dunia teknologi.
+      </p>
   </div>
-  <div style="flex: 1; margin-left: 20px;">
-      <p>Teks Anda disini...</p>
+  <div style="display: inline-block; max-width: 550px; vertical-align: top;">
+      <img src="/images/FTI2.svg" alt="Gambar" style="width: 100%; height: auto;">
   </div>
 </div>
+<h1 class="text-5xl font-medium" style=" color: #1F2937 ;text-align: center; padding-top: 40px;">CONTACT</h1>
+<img src="/images/garis.svg" style="margin-left: auto; margin-right: auto; padding-top: 20px; ">
+<p class="mb-5 " style=" margin-left: auto;margin-right: auto; width: 70%;text-align: center;margin-top: 20px; margin-bottom: 20px;color: #939393;">Kami siap melayani segala pertanyaan, permintaan, dan kebutuhan mahasiswa. Silakan hubungi kami untuk informasi lebih lanjut atau untuk mengajukan permohonan melalui kontak yang tersedia di bawah ini.</p>
+
+
+
+
+
+<!-- Contact Us -->
+<div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+  <div class="max-w-2xl lg:max-w-5xl mx-auto">
+    
+      <!-- Card -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <div class="flex flex-col border rounded-xl p-4 sm:p-6 lg:p-8" style="width: 100%;">
+          <!-- Konten elemen pertama -->
+          <div style=" padding: 20px; box-sizing: border-box;">        
+    
+    
+    
+            <div class="items-start" style="display: flex;display: flex;flex-direction: row;">
+              <img src="/images/location.svg" style="width: 30px;margin: 10px;">
+              <div>
+                <p>
+                  <span style="font-weight: bold;">Location:</span><br>
+                  Kampus Utama Limau Manis, Padang - Fakultas Teknologi Informasi Unand Sumatra Barat - 25163
+                </p>
+              </div>
+            </div>
+      
+              <br>
+              <div style="display: flex;display: flex;flex-direction: row;">
+              <img src="/images/email.svg" style="width: 30px;margin: 10px;">
+              
+                
+              <div>
+                <p>
+                  <span style="font-weight: bold;">Email:</span><br>
+                  sanretamilk@unand.ac.id
+                </p>
+              </div>
+              
+              </div>
+              <br>
+              <div style="display: flex;display: flex;flex-direction: row;">
+                <img src="/images/call.svg" style="width: 30px;margin: 10px;">
+      
+      
+              <div>
+                <p>
+                  <span style="font-weight: bold;">Call:</span><br>
+                  +62 853-6610-5388
+                </p>
+              </div>
+      
+      
+             
+              </div>
+              <br>
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d17911.369761246544!2d100.45008292348001!3d-0.9201048479147952!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2fd4b7963e1ea631%3A0x452d09b61f76d6ec!2sFakultas%20Teknologi%20Informasi!5e0!3m2!1sid!2sid!4v1636513787840!5m2!1sid!2sid" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      
+          </div>
+    
+
+
+        </div>
+        <div class="flex flex-col border rounded-xl p-4 sm:p-6 lg:p-8">
+          <!-- Konten elemen kedua -->
+          <div>
+            <form>
+              <div class="grid gap-4">
+                <!-- Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label for="hs-firstname-contacts-1" class="sr-only">Your Name</label>
+                    <input type="text" name="hs-firstname-contacts-1" id="hs-firstname-contacts-1" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Your Name">
+                  </div>
+    
+                  <div>
+                    <label for="hs-lastname-contacts-1" class="sr-only">Your Email</label>
+                    <input type="text" name="hs-lastname-contacts-1" id="hs-lastname-contacts-1" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Your Email">
+                  </div>
+                </div>
+                <!-- End Grid -->
+    
+                <div>
+                  <label for="hs-phone-number-1" class="sr-only">Phone Number</label>
+                  <input type="text" name="hs-phone-number-1" id="hs-phone-number-1" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Subject">
+                </div>
+    
+                <div>
+                  <label for="hs-about-contacts-1" class="sr-only">Details</label>
+                  <textarea id="hs-about-contacts-1" style="height: 300px;" name="hs-about-contacts-1" rows="4" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Details"></textarea>
+                </div>
+              </div>
+              <!-- End Grid -->
+    
+              <div class="mt-4 grid">
+                <button type="submit" class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none">Send inquiry</button>
+              </div>
+    
+              <div class="mt-3 text-center">
+                <p class="text-sm text-gray-500">
+                  We'll get back to you in 1-2 business days.
+                </p>
+              </div>
+            </form>
+          </div>
+          <!-- End Card -->
+    
+
+        </div>
+      </div>
+
+      
+      </div>
+  
+  </div>
+</div>
+<!-- End Contact Us -->
+
+
+
+
 
 
 <script src="/preline/preline.js"></script>
