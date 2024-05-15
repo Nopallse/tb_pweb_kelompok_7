@@ -1,39 +1,71 @@
-import jwt from "jsonwebtoken";
+import jwt from 'jsonwebtoken';
 
+function verifyToken(role) {
+  return function (req, res, next) {
+    const accessToken = req.cookies.token;
+    const refreshToken = req.cookies.refreshToken;
 
-
-const verifyToken = (req, res, next) => {
-  const token = req.cookies.token;
-  console.log(token)
-
-  // Periksa apakah token tersedia
-  if (!token) {
-    return res.redirect('/login');
-  }
-
-  console.log(process.env.ACCESS_TOKEN_SECRET);
-
-  // Verify token
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, function(err, decoded) {
-    if (err) {
-      return res.status(403).json({ message: "Token akses tidak valid" });
+    if (!refreshToken) {
+      console.log("No refresh token found, redirecting to login");
+      return res.redirect('/login');
     }
 
-    // Set decoded user information to request object
-    req.email = decoded.email;
-    req.userId = decoded.userId;
-    req.nim = decoded.nim;
-    req.hp = decoded.hp;
-    req.departemen = decoded.departemen;
-    req.role = decoded.role;
+    if (!accessToken) {
+      console.log("No access token found, redirecting to login");
+      return res.redirect('/login');
+    }
 
-    console.log("Email:", req.email);
-    console.log("User ID:", req.userId);
-    console.log("NIM:", req.nim);
-    console.log("Nomor HP:", req.hp);
-    console.log("Departemen:", req.departemen);
-    next();
-  });
-};
+    jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+      if (err) {
+        if (err.name === 'TokenExpiredError') {
+          console.log("Access token expired, verifying refresh token");
+
+          jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decodedRefresh) => {
+            if (err) {
+              console.log("Refresh token verification failed:", err);
+              return res.redirect('/login');
+            }
+
+            const newAccessToken = jwt.sign({ userId: decodedRefresh.userId, role: decodedRefresh.role }, process.env.ACCESS_TOKEN_SECRET, {
+              expiresIn: '15m'
+            });
+
+            console.log("New access token generated:", newAccessToken);
+
+            res.cookie('token', newAccessToken, { httpOnly: true, secure: true });
+
+            req.userId = decodedRefresh.userId;
+            req.userRole = decodedRefresh.role;
+
+            if (role && req.userRole !== role) {
+              if (req.userRole === "mahasiswa") {
+                return res.redirect("/home");
+              } else if (req.userRole === "admin") {
+                return res.redirect("/admin/dashboard");
+              }
+            }
+            return next();
+          });
+        } else {
+          console.log("Access token verification failed:", err);
+          return res.status(403).json({ message: "Token akses tidak valid" });
+        }
+      } else {
+        req.userId = decoded.userId;
+        req.userRole = decoded.role;
+
+        if (role && req.userRole !== role) {
+          if (req.userRole === "mahasiswa") {
+            return res.redirect("/home");
+          } else if (req.userRole === "admin") {
+            return res.redirect("/admin/dashboard");
+          }
+        }
+
+        next();
+      }
+    });
+  };
+}
 
 export { verifyToken };

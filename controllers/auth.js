@@ -2,35 +2,6 @@ import jwt from 'jsonwebtoken';
 import Users from "../models/UserModel.js";
 import bcrypt from "bcrypt"
 
-export const getUsers = async (req,res)=> {
-    try {
-        const users = await Users.findAll({
-            attributes:['id','name','email','role','nim','hp','departemen']
-        })
-        res.json(users)
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-
-export const Register = async(req, res)=>{
-    const {name, email, password,nim,hp,departemen }= req.body;
-    const salt = await bcrypt.genSalt();
-    const hashPassord = await bcrypt.hash(password, salt)
-    try{
-        await Users.create({
-            name: name,
-            email: email,
-            password: hashPassord
-        });
-        res.json({msg: "Register berhasil"})
-    } catch(error) {
-        console.log(error)
-    }
-}
-
-
 export const Login = async (req, res) => {
   try {
     const user = await Users.findOne({
@@ -57,15 +28,11 @@ export const Login = async (req, res) => {
     const hp = user.hp;
     const departemen = user.departemen;
 
-
-
-
-
     const token = jwt.sign({ userId, name, email,role,nim,hp,departemen }, process.env.ACCESS_TOKEN_SECRET, {
-      expiresIn: "5s",
+      expiresIn: "15m",
     });
     const refreshToken = jwt.sign({ userId, name, email,role,nim,hp,departemen }, process.env.REFRESH_TOKEN_SECRET, {
-      expiresIn: "10s",
+      expiresIn: "7d",
     });
 
     await Users.update(
@@ -81,25 +48,9 @@ export const Login = async (req, res) => {
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
       // secure:true
     });
-    console.log(refreshToken)
-
-    if (req.session) {
-      req.session.user = {
-        userId: userId,
-        name: name,
-        email: email,
-        role: role,
-        nim: nim,
-        hp: hp,
-        departemen:departemen        
-      };
-    } else {
-      console.error('Sesi belum diinisialisasi');
-    }
-
 
     res.cookie("token", token, { httpOnly: true });
 
@@ -109,53 +60,51 @@ export const Login = async (req, res) => {
       return res.redirect("/admin/dashboard");
     }
 
-    
-
   } catch (error) {
     console.log(error);
     res.status(401).send(error.message);
   }
 };
 
-
-
-
-
-
-
-
-
-
-export const Logout = async(req,res)=>{
+export const Logout = async (req, res) => {
+  try {
     const refreshToken = req.cookies.refreshToken;
+    
     if (!refreshToken) return res.sendStatus(204);
-    console.log('Refresh Token:', refreshToken);
 
-    const user = await Users.findAll({
+    const user = await Users.findOne({
       where: {
         refresh_token: refreshToken,
+        token: token,
       },
     });
-    if (!user[0]) { 
-        console.log('User tidak ditemukan dengan refresh token tersebut.'); 
-        return res.sendStatus(204);
+
+    if (!user) {
+      console.log('User tidak ditemukan dengan refresh token tersebut.');
+      return res.sendStatus(204);
     }
 
-    const userId = user[0].id;
-    await Users.update({refresh_token:null},{
-        where: {
-            id: userId
-        }
-    })
-    res.clearCookie('refreshToken')
-    return res.sendStatus(200)
-}
+    const userId = user.id;
+    
+    await Users.update({ refresh_token: null }, {
+      where: {
+        id: userId
+      }
+    });
 
+    res.clearCookie('refreshToken');
+
+    return res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Terjadi kesalahan server");
+  }
+};
 
 
 export function checkUserLoggedIn(req) {
     const refreshToken = req.cookies.refreshToken;
-    console.log(refreshToken)
+    
     let user = null;
 
     if (refreshToken) {
@@ -170,11 +119,12 @@ export function checkUserLoggedIn(req) {
                 hp: decoded.hp,
                 departemen:decoded.departemen
             };
+            
         } catch (error) {
             console.error('Token invalid or expired:', error.message);
+            return { user: null };
         }
     }
-
     return {  user };
 }
 
@@ -182,34 +132,32 @@ export const changePassword = async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body;
 
-    // Cari pengguna berdasarkan userId
     const user = await Users.findByPk(req.userId);
-    console.log(user)
     if (!user) {
       return res.status(404).json({ message: "Pengguna tidak ditemukan" });
     }
 
-    // Periksa apakah password saat ini cocok
     const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
     if (!isPasswordValid) {
       return res.status(401).json({ message: "Password saat ini salah" });
     }
 
-    // Enkripsi password baru
     const hashedNewPassword = await bcrypt.hash(newPassword, 10);
 
-    // Perbarui password pengguna di database
     await user.update({ password: hashedNewPassword });
 
-    return res.status(200).json({ message: "Password berhasil diubah" });
+    res.redirect('/logout');
+
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Terjadi kesalahan server" });
   }
 };
+
+
 export const editProfile = async (req, res) => {
   try {
-    const { newPhoneNumber } = req.body;
+    const { newName,newEmail, newNim, newDepartment, newPhoneNumber,  } = req.body;
 
     const user = await Users.findByPk(req.userId);
     if (!user) {
@@ -217,21 +165,29 @@ export const editProfile = async (req, res) => {
     }
     
     await user.update({ 
+      name: newName,
+      email: newEmail,
+      nim: newNim,
+      departemen: newDepartment,
       hp: newPhoneNumber
     });
-    // Setelah berhasil menyimpan perubahan, arahkan kembali pengguna ke halaman profil
-    // dan tampilkan profil baru
     return res.redirect('/profile');
+
   } catch (error) {
     console.log(error);
-     return res.status(500).json({ message: "Terjadi kesalahan server" });
+    return res.status(500).json({ message: "Terjadi kesalahan server" });
   }
 };
 
-export const view_profile = async (req, res) => {
-  const { user } = checkUserLoggedIn(req);
-  const newProfile = await Users.findByPk(user.userId);
-  res.render('user/profile', { newProfile });
-};
+export const getUser = async (req, res) => {
+  const { user } = checkUserLoggedIn(req, res);
+  if (!user) {
+    return res.redirect('/login');
 
+  }
+
+  const newProfile = await Users.findByPk(user.userId);
+  
+  return newProfile; 
+};
 

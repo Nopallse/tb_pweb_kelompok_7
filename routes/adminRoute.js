@@ -1,38 +1,55 @@
 import express from "express";
 import { verifyToken } from "../middleware/VerifyToken.js";
-import { checkUserLoggedIn } from "../controllers/auth.js";
-import checkRole from "../middleware/checkrole.middleware.js";
+import { editProfile, getUser } from "../controllers/auth.js";
+import { changePassword} from "../controllers/auth.js";
+
 const router = express.Router();
 
 
-router.get('/admin', (req, res) => {
-  res.redirect('/dashboard'); // Redirect ke halaman home
+router.get('/', (req, res) => {
+  res.redirect('/home'); 
 });
 
 
-// // Route untuk halaman home
-// router.get('/dashboard', async (req, res) => {
-//   const { userLoggedIn, user } = checkUserLoggedIn(req);
-//   res.render('admin/dashboard', { userLoggedIn, user });
-// });
-
-
-
-router.get("/dashboard", verifyToken, checkRole("admin"), function (req, res, next) {
-  const {  user } = checkUserLoggedIn(req);
-  res.render("admin/dashboard",{  user });
+router.get("/home", verifyToken('mahasiswa'), async function (req, res) {
+    const user = await getUser(req, res); 
+    res.render("user/home", { user });
 });
 
 
-
-
-
-router.get('/profile', async (req, res) => {
-  const { userLoggedIn, user } = checkUserLoggedIn(req);
-  res.render('admin/profile', { userLoggedIn, user });
+router.get("/profile", verifyToken('mahasiswa'), async function (req, res) {
+  const user = await getUser(req, res); 
+  res.render("user/profile", { user });
 });
 
 
 
+router.get('/profile/change-password',verifyToken('mahasiswa'), async function (req, res) {
+  const user = await getUser(req, res); 
+  res.render('user/change-password', { user });
+});
 
-export default router;
+router.post('/change-password', verifyToken('mahasiswa'), async (req, res) => {
+  await changePassword(req, res);
+});
+
+
+router.get('/logout', (req, res) => {
+  res.clearCookie('refreshToken');
+  res.redirect('/login');
+});
+
+router.post('/change-password', verifyToken, async (req, res) => {
+  await changePassword(req, res);
+});
+
+router.get('/profile/change-profile',verifyToken('mahasiswa'), async (req, res) => {
+  const user = await getUser(req, res); 
+  res.render('user/change-profile', { user });
+});
+
+router.post('/change-profile', verifyToken('mahasiswa'), async (req, res) => {
+  await editProfile(req, res);
+});
+
+  export default router;
