@@ -16,6 +16,15 @@ router.get("/home", verifyToken('mahasiswa'), async function (req, res) {
     res.render("user/home", { user });
 });
 
+router.get("/layanan", verifyToken('mahasiswa'), async function (req, res) {
+  const user = await getUser(req, res); 
+  res.render("user/layanan", { user });
+});
+
+router.get("/layanan/form", verifyToken('mahasiswa'), async function (req, res) {
+  const user = await getUser(req, res); 
+  res.render("user/form", { user });
+});
 
 router.get("/profile", verifyToken('mahasiswa'), async function (req, res) {
   const user = await getUser(req, res); 

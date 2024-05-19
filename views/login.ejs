@@ -5,55 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="/output.css" rel="stylesheet">
   <script src="./node_modules/preline/dist/preline.js"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-<body style="background-image: url('/images/unand.jpg');background-image: url('/images/unand.jpg');
-background-size: cover;
-background-repeat: no-repeat;
-backdrop-filter: blur(5px);
-margin: 0;
-padding: 0;
-height: 100vh;
-display: flex;
-justify-content: center;
-align-items: center;">
+<body style="background-image: url('/images/unand.jpg'); background-size: cover; background-repeat: no-repeat; backdrop-filter: blur(5px); margin: 0; padding: 0; height: 100vh; display: flex; justify-content: center; align-items: center;">
 
-  <main id="content" class="w-full max-w-md mx-auto p-6" style="backdrop-filter: blur(5px); width: 100vw;">
-    <div class="mt-7 rounded-xl shadow-sm" style="position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    backdrop-filter: blur(5px);
-    opacity: 1;
-    background-color: white;
-    border: 1px solid gray;
-    border-radius: 0.75rem; /* 12px for rounded-xl */
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    z-index: -1;">
-    </div>
-    <div class="mt-7 rounded-xl shadow-sm" style="">
-      <div class="p-4 sm:p-7" style="opacity: 1;">
+  <div style="height: 100vh; width: 100vw; display: flex; justify-content: center; align-items: center;">
+    <main id="content" class="p-6" style="backdrop-filter: blur(5px); width: 400px; margin-top: auto; margin-bottom: auto;">
+      <div class="mt-7 rounded-xl shadow-sm" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; backdrop-filter: blur(5px); opacity: 1; background-color: white; border: 1px solid gray; border-radius: 0.75rem; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); z-index: -1;"></div>
+      <div class="mt-7 rounded-xl shadow-sm">
+        <div class="p-4 sm:p-7" style="opacity: 1;">
           <div class="text-center" style="opacity: 1;">
-            <h1 class="block text-2xl font-bold text-gray-800" > Login To Your Account</h1>
-            <p class="mt-2 text-sm text-gray-600">
-              Enter your institutional email and password:
-            </p>
+            <h1 class="block text-2xl font-bold text-gray-800">Login To Your Account</h1>
+            <p class="mt-2 text-sm text-gray-600">Enter your institutional email and password:</p>
           </div>
-      
           <div class="mt-5">
-            
-      
-            <br><br>
             <!-- Form -->
-            
-            <form method="POST" action="/login">
+            <form id="loginForm">
               <div class="grid gap-y-4">
                 <!-- Form Group -->
                 <div>
                   <label for="email" class="block text-sm mb-2">Institutional email</label>
                   <div class="relative">
-                    <input type="email" id="email" name="email" class="py-3 px-4 block w-full border-white rounded-lg text-sm focus:border-red-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" required aria-describedby="email-error" style="background-color: lightgray;border: 20px;opacity: 0.4;">
+                    <input type="email" id="email" name="email" class="py-3 px-4 block w-full border-white rounded-lg text-sm focus:border-red-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" required aria-describedby="email-error" style="background-color: lightgray; border: 20px; opacity: 0.6;">
                     <div class="hidden absolute inset-y-0 end-0 pointer-events-none pe-3">
                       <svg class="size-5 text-red-500" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
@@ -63,14 +36,14 @@ align-items: center;">
                   <p class="hidden text-xs text-red-600 mt-2" id="email-error">Please include a valid email address so we can get back to you</p>
                 </div>
                 <!-- End Form Group -->
-      
+
                 <!-- Form Group -->
                 <div>
                   <div class="flex justify-between items-center">
                     <label for="password" class="block text-sm mb-2">Password</label>
                   </div>
                   <div class="relative">
-                    <input type="password" id="password" name="password" style="opacity: 0.4;background-color: lightgray;" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" required aria-describedby="password-error" >
+                    <input type="password" id="password" name="password" style="opacity: 0.6; background-color: lightgray;" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" required aria-describedby="password-error">
                     <div class="hidden absolute inset-y-0 end-0 pointer-events-none pe-3">
                       <svg class="size-5 text-red-500" width="16" height="16" fill="" viewBox="0 0 16 16" aria-hidden="true">
                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
@@ -80,18 +53,7 @@ align-items: center;">
                   <p class="hidden text-xs text-red-600 mt-2" id="password-error">8+ characters required</p>
                 </div>
                 <!-- End Form Group -->
-      
-                <!-- Checkbox -->
-                <div class="flex items-center">
-                  <div class="flex">
-                    <input id="remember-me" name="remember-me" type="checkbox" class="shrink-0 mt-0.5 border border-gray-200 rounded text-blue-600 focus:ring-blue-500">
-                  </div>
-                  <div class="ms-3">
-                    <label for="remember-me" class="text-sm">Remember me</label>
-                  </div>
-                </div>
-                <!-- End Checkbox -->
-      
+
                 <button type="submit" class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none">Sign in</button>
               </div>
             </form>
@@ -99,14 +61,47 @@ align-items: center;">
           </div>
         </div>
       </div>
-  </main>
+    </main>
+  </div>
 
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
 
+      try {
+        const response = await fetch('/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, password }),
+        });
 
+        if (!response.ok) {
+          const result = await response.json();
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: result.message,
+          });
+          return;
+        }
 
+        // Handle successful login (e.g., redirect to a different page)
+        window.location.href = response.url;
 
-
-
-<script src="preline.js"></script>
+      } catch (error) {
+        console.error('Error:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Email or password is incorrect!',
+        });
+      }
+    });
+  </script>
 </body>
 </html>
