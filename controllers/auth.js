@@ -11,13 +11,15 @@ export const Login = async (req, res) => {
     });
 
     if (!user) {
-      throw new Error("Email tidak ditemukan");
+      return res.status(401).json("Email tidak ditemukan, silahkan daftar terlebih dahulu");
     }
+    else{
 
+  
     const match = await bcrypt.compare(req.body.password, user.password);
 
     if (!match) {
-      throw new Error("Password salah");
+      return res.status(401).json("Password salah");  
     }
 
     const userId = user.id;
@@ -59,10 +61,10 @@ export const Login = async (req, res) => {
     } else if (user.role === "admin") {
       return res.redirect("/admin/dashboard");
     }
-
+  }
   } catch (error) {
     console.log(error);
-    res.status(401).send(error.message);
+    res.status(401).json(error.message);
   }
 };
 
@@ -142,7 +144,7 @@ export const changePassword = async (req, res) => {
       return res.status(401).json({ message: "Password saat ini salah" });
     }
 
-    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+      const hashedNewPassword = await bcrypt.hash(newPassword, 10);
 
     await user.update({ password: hashedNewPassword });
 
