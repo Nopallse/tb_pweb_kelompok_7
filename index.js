@@ -17,13 +17,15 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(process.cwd(), 'views'));
 app.use(express.static(path.join(process.cwd(), 'assets')));
 app.use('/preline', express.static(path.join(process.cwd(), '/node_modules/preline/dist')));
+app.use('/sweet', express.static(path.join(process.cwd(), '/node_modules/sweetalert2/dist')));
+
 app.use('/images', express.static(path.join(process.cwd(), 'public/images')));
+app.use('/data', express.static(path.join(process.cwd(), 'public/data')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(cors({credentials:true, origin:'http://localhost:3000'}));
 app.use(cookieParser());
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

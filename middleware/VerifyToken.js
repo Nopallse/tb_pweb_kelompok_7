@@ -48,8 +48,7 @@ function verifyToken(role) {
           });
         } else {
           console.log("Access token verification failed:", err);
-          return res.status(403).json({ message: "Token akses tidak valid" });
-        }
+          return res.redirect('/login');        }
       } else {
         req.userId = decoded.userId;
         req.userRole = decoded.role;
