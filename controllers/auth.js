@@ -1,6 +1,9 @@
 import jwt from 'jsonwebtoken';
 import Users from "../models/UserModel.js";
 import bcrypt from "bcrypt"
+import fs from 'fs/promises';
+import multer from 'multer';
+
 
 export const Login = async (req, res) => {
   try {
@@ -11,7 +14,7 @@ export const Login = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(401).json("Email tidak ditemukan, silahkan daftar terlebih dahulu");
+      return res.status(401).json({ message: "Email tidak ditemukan, silahkan daftar terlebih dahulu"});
     }
     else{
 
@@ -19,7 +22,7 @@ export const Login = async (req, res) => {
     const match = await bcrypt.compare(req.body.password, user.password);
 
     if (!match) {
-      return res.status(401).json("Password salah");  
+      return res.status(401).json({ message: "Password salah"});  
     }
 
     const userId = user.id;
@@ -56,11 +59,8 @@ export const Login = async (req, res) => {
 
     res.cookie("token", token, { httpOnly: true });
 
-    if (user.role === "mahasiswa") {
-      return res.redirect("/home");
-    } else if (user.role === "admin") {
-      return res.redirect("/admin/dashboard");
-    }
+    res.status(200).json({ message: 'Login berhasil', role: user.role });
+
   }
   } catch (error) {
     console.log(error);
@@ -193,3 +193,27 @@ export const getUser = async (req, res) => {
   return newProfile; 
 };
 
+export const uploadProfilePicture = async (req, res) => {
+  const upload = multer({
+    storage: multer.diskStorage({
+      destination: async (req, file, cb) => {
+        const user = await getUser(req, res);
+        const userId = user.id;
+        const dir = `public/data/user_${userId}`;
+        await fs.mkdir(dir, { recursive: true });
+        cb(null, dir);
+      },
+      filename: (req, file, cb) => {
+        cb(null, 'profile.jpg');
+      }
+    })
+  }).single('profile');
+
+  await upload(req, res, async (err) => {
+    if (err) {
+      return res.status(400).json({ error: err.message });
+    }
+
+    await editProfile(req, res);
+  });
+};

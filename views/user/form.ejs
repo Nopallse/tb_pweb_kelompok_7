@@ -1,78 +1,4 @@
-<!doctype html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="/output.css" rel="stylesheet">
-  <script src="./node_modules/preline/dist/preline.js"></script>
-
-</head>
-<body style="background-color: #f8f9fa;">
-
-
-
-
-  <!-- ========== HEADER ========== -->
-<header class="flex flex-wrap sm:justify-start sm:flex-nowrap z-50 w-full bg-white border-b border-gray-200 text-sm py-3 sm:py-0"  >
-  <nav class="relative max-w- w-full mx-auto px-4 sm:flex sm:items-center sm:justify-between sm:px- lg:px-8"  aria-label="Global">
-    <div class="flex items-center justify-between">
-      <img src="/images/logo.svg">
-    </div>
-    <div id="navbar-collapse-with-animation"  class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow sm:block">
-      <div class="flex flex-col gap-y-4 gap-x-0 mt-5 sm:flex-row sm:items-center sm:gap-y-0 sm:gap-x-7 sm:mt-0 sm:ps-7">
-        <br>
-        <a class="font-medium text-gray-500 hover:text-gray-400 sm:py-6" href="/home">Home</a>
-        <a class="font-medium sm:py-6" style="color: #388E3C ;" href="#" aria-current="page">Layanan</a>
-        <a class="font-medium text-gray-500 hover:text-gray-400 sm:py-6" href="#">Riwayat</a>
-
-        <div class="container mx-auto mt-4">
-       
-
-        </div>
-
-
-          <h1 class="font-medium text-gray-500" style="color: #388E3C; white-space: nowrap;"><%= user.email %></h1>
-
-
-        <nav class="flex justify-between px-4 py-2 text-white">
-          <div >
-              <div>
-                  <div class="hs-dropdown " data-hs-dropdown-placement="bottom-right">
-                    <button id="hs-dropdown-with-header" class="rounded-full" type="button" style="width: 50px; height: 50px; background-color: aqua;">
-                      <img class="rounded-full"  src="https://lh3.googleusercontent.com/a/ACg8ocJ1H3DxS0qAPJZMJbBFu5iAA0hhd5yRuEfOyNMfYNEnQepUQHKn=s260-c-no" alt="Image Description">
-                    </button>
-                    <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-[200px] max-w-[400px] z-10 bg-white shadow-md rounded-lg p-2" style="background-color: white;" aria-labelledby="hs-dropdown-with-header">
-                      <div class="mt-2 py-2 first:pt-0 last:pb-0">
-                          <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300" href="#">
-                              <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
-                              notification
-                          </a>
-                          <a href="/profile" class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300" href="#">
-                              <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                              Profile
-                          </a>
-                          <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300" href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                              <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                  <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M12 12v9"/><path d="m8 17 4 4 4-4"/>
-                              </svg>
-                              Log-out
-                          </a>
-                  
-                          <form id="logout-form" action="/logout" method="DELETE" style="display: none;">
-                              <input type="hidden" name="_method" value="DELETE">
-                          </form>
-                      </div>
-                  </div>
-                  </div>
-                </div>
-              </div>
-          </nav>
-        
-
-      
-
-</header>
-<!-- ========== END HEADER ========== -->
+<%- include("../layout/navbar.ejs") %>
 
 <!-- ========== MAIN ========== -->
 
@@ -80,7 +6,7 @@
 <!-- Card Section -->
 <div class="max-w-4xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
     
-    <form>
+    <form method="POST" action="/send-form">
         <!-- Card -->
         <div class="bg-white rounded-xl shadow">
             <div class="relative h-20 rounded-t-xl bg-no-repeat bg-cover bg-center" style="background-color: #388E3C;" >
@@ -107,73 +33,76 @@
                         <label for="af-submit-app-project-name" class="inline-block text-sm font-medium text-gray-800 mt-2.5">
                             NAMA LENGKAP MAHASISWA/I
                         </label>
-                        <input id="af-submit-app-project-name" type="text" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" disabled value="<%=user.name %>">
+                        <input id="af-submit-app-project-name" name="inputName" type="text" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" disabled value="<%=user.name %>">
                     </div>
                     <div class="space-y-2" id="nim">
                         <label for="af-submit-project-url" class="inline-block text-sm font-medium text-gray-800 mt-2.5">
                             NOMOR INDUK MAHASISWA (NIM)
                         </label>
-                        <input id="af-submit-project-url" type="text" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" disabled value="<%=user.nim %>">
+                        <input id="af-submit-project-url" name="inputNim" type="text" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" disabled value="<%=user.nim %>">
                     </div>
                     <div class="space-y-2" id="Departemen">
                         <label for="af-submit-project-department" class="inline-block text-sm font-medium text-gray-800 mt-2.5">
                             DEPARTEMEN
                         </label>
-                        <input id="af-submit-project-department" type="text" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" disabled value="<%=user.departemen %>">
+                        <input id="af-submit-project-department" name="inputDepartemen" type="text" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" disabled value="<%=user.departemen %>">
                     </div>
                     
                     <div class="space-y-2">
-                        <label for="af-submit-app-category" class="inline-block text-sm font-medium text-gray-800 mt-2.5">
-                            Tujuan permintaan surat
+                        <label for="af-submit-app-target" class="inline-block text-sm font-medium text-gray-800 mt-2.5">
+                            Target permintaan surat
                         </label>
-                        <select id="af-submit-app-category" class="py-2 px-3 pe-9 block w-full border-gray-200 shadow-sm rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
-                            <option value="default" selected>Pilih tujuan</option>
+                        <select id="af-submit-app-target" name="inputTarget" class="py-2 px-3 pe-9 block w-full border-gray-200 shadow-sm rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+                            <option value="default" selected>Pilih target</option>
                             <option value="Pribadi">Pribadi</option>
                             <option value="Orang tua">Orang tua</option>
                         </select>
                     </div>
                     
+                    <div class="space-y-2">
+                        <label for="af-submit-app-tujuan" class="inline-block text-sm font-medium text-gray-800 mt-2.5">
+                            Tujuan permintaan surat
+                        </label>
+                        <select id="af-submit-app-tujuan" name="inputTujuan" class="py-2 px-3 pe-9 block w-full border-gray-200 shadow-sm rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+                            <option value="default" selected>Pilih tujuan</option>
+                            
+                        </select>
+                    </div>
                     <div class="space-y-2" id="untuk" style="display:none;" >
                         <label for="af-submit-parent-name" class="inline-block text-sm font-medium text-gray-800 mt-2.5">
-                            UNTUK:
+                            DESKRIPSI:
                         </label>
-                        <input id="af-submit-parent-name" name="untuk" type="text" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Masukan Tujuan Surat">
+                        <input id="af-submit-parent-name" name="inputDeskripsi" type="text" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Masukan Tujuan Surat">
                     </div>
                     <div class="space-y-2" id="nama-orang-tua" style="display:none;">
                         <label for="af-submit-parent-name" class="inline-block text-sm font-medium text-gray-800 mt-2.5">
                             NAMA ORANG TUA
                         </label>
-                        <input id="af-submit-parent-name" type="text" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Masukan Nama Orang Tua">
+                        <input id="af-submit-parent-name" name="inputOrtu" type="text" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Masukan Nama Orang Tua">
                     </div>
                     <div class="space-y-2" id="nip" style="display:none;">
                         <label for="af-submit-parent-name" class="inline-block text-sm font-medium text-gray-800 mt-2.5">
                             NIP
                         </label>
-                        <input id="af-submit-parent-name" type="text" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Masukan NIP">
+                        <input id="af-submit-parent-name" name="inputNip" type="text" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Masukan NIP">
                     </div>
                     <div class="space-y-2" id="pangkat-golongan" style="display:none;">
                         <label for="af-submit-parent-name" class="inline-block text-sm font-medium text-gray-800 mt-2.5">
                             PANGKAT DAN GOLONGAN
                         </label>
-                        <input id="af-submit-parent-name" type="text" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Masukan Pangkat & Golongan">
+                        <input id="af-submit-parent-name" name="inputPangkat" type="text" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Masukan Pangkat & Golongan">
                     </div>
                     <div class="space-y-2" id="unit-kerja" style="display:none;">
                         <label for="af-submit-parent-name" class="inline-block text-sm font-medium text-gray-800 mt-2.5">
                             UNIT KERJA
                         </label>
-                        <input id="af-submit-parent-name" type="text" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Enter parent name">
+                        <input id="af-submit-parent-name" name="inputUnit" type="text" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Enter parent name">
                     </div>
                     <div class="space-y-2" id="instansi-induk" style="display:none;">
                         <label for="af-submit-parent-name" class="inline-block text-sm font-medium text-gray-800 mt-2.5">
                             INSTANSI INDUK
                         </label>
-                        <input id="af-submit-parent-name" type="text" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Enter parent name">
-                    </div>
-                    <div class="space-y-2" id="description" style="display:none;">
-                        <label for="af-submit-app-description" class="inline-block text-sm font-medium text-gray-800 mt-2.5">
-                            Description
-                        </label>
-                        <textarea id="af-submit-app-description" class="py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" rows="6" placeholder="A detailed summary will better explain your products to the audiences. Our users will see this in your dedicated product page."></textarea>
+                        <input id="af-submit-parent-name" name="inputInstansi" type="text" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Enter parent name">
                     </div>
 
                     <div class="space-y-2" id="file" style="display:none;">
@@ -182,7 +111,7 @@
                         </label>
                 
                         <label for="af-submit-app-upload-images" style="border: 2px dashed gray; padding: 1rem 1.5rem; cursor: pointer; text-align: center; border-radius: 0.5rem; outline: none;" class="group p-4 sm:p-7 block cursor-pointer text-center border-2 border-dashed border-gray-200 rounded-lg focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 dark:border-neutral-700">
-                            <input id="af-submit-app-upload-images" name="af-submit-app-upload-images" type="file" class="sr-only">
+                            <input id="af-submit-app-upload-images" name="inputFile" type="file" class="sr-only">
                             <svg class="size-10 mx-auto text-gray-400 dark:text-neutral-600" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M7.646 5.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0V6.707L6.354 7.854a.5.5 0 1 1-.708-.708l2-2z"/>
                                 <path d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383zm.653.757c-.757.653-1.153 1.44-1.153 2.056v.448l-.445.049C2.064 6.805 1 7.952 1 9.318 1 10.785 2.23 12 3.781 12h8.906C13.98 12 15 10.988 15 9.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 4.825 10.328 3 8 3a4.53 4.53 0 0 0-2.941 1.1z"/>
@@ -255,29 +184,49 @@
 <!-- ========== END FOOTER ========== -->
 
 <script>
-    function handleSelectChange(event) {
-        const selectedValue = event.target.value;
+    function handleSelectChange() {
+        const targetSelect = document.getElementById('af-submit-app-target');
+        const tujuanSelect = document.getElementById('af-submit-app-tujuan');
+        
+        const tujuanOptions = {
+            default: [{ value: 'default', text: 'Pilih tujuan' }],
+            Pribadi: [{ value: 'Beasiswa', text: 'Beasiswa' }],
+            'Orang tua': [
+                { value: 'Tunjangan orang tua', text: 'Tunjangan orang tua' },
+                { value: 'Taspen', text: 'Taspen' },
+                { value: 'BPJS', text: 'BPJS' }
+            ]
+        };
+
+        const selectedTarget = targetSelect.value;
+        const options = tujuanOptions[selectedTarget] || tujuanOptions['default'];
+        
+        tujuanSelect.innerHTML = '';
+        options.forEach(option => {
+            const opt = document.createElement('option');
+            opt.value = option.value;
+            opt.text = option.text;
+            tujuanSelect.appendChild(opt);
+        });
+
+        // Handle display of additional fields
+        const file = document.getElementById('file');
+        const untuk = document.getElementById('untuk');
         const namaOrangTua = document.getElementById('nama-orang-tua');
         const nip = document.getElementById('nip');
         const pangkatGolongan = document.getElementById('pangkat-golongan');
         const unitKerja = document.getElementById('unit-kerja');
         const instansiInduk = document.getElementById('instansi-induk');
-        const file = document.getElementById('file');
-        const untuk = document.getElementById('untuk');
 
-        if (selectedValue === 'Pribadi') {
-
+        if (selectedTarget === 'Pribadi') {
             file.style.display = 'block';
+            untuk.style.display = 'block';
             namaOrangTua.style.display = 'none';
-            description.style.display = 'none';
             nip.style.display = 'none';
             pangkatGolongan.style.display = 'none';
             unitKerja.style.display = 'none';
             instansiInduk.style.display = 'none';
-            untuk.style.display = 'block';
-            
-
-        } else if (selectedValue === 'Orang tua') {
+        } else if (selectedTarget === 'Orang tua') {
             namaOrangTua.style.display = 'block';
             nip.style.display = 'block';
             pangkatGolongan.style.display = 'block';
@@ -285,21 +234,23 @@
             instansiInduk.style.display = 'block';
             file.style.display = 'block';
             untuk.style.display = 'block';
-        }
-        else {
+        } else {
             file.style.display = 'none';
+            untuk.style.display = 'none';
             namaOrangTua.style.display = 'none';
-            description.style.display = 'none';
             nip.style.display = 'none';
             pangkatGolongan.style.display = 'none';
             unitKerja.style.display = 'none';
             instansiInduk.style.display = 'none';
-            untuk.style.display = 'none';
         }
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('af-submit-app-category').addEventListener('change', handleSelectChange);
+        const targetSelect = document.getElementById('af-submit-app-target');
+        targetSelect.addEventListener('change', handleSelectChange);
+
+        // Trigger change event to set initial state
+        handleSelectChange();
     });
 </script>
 
