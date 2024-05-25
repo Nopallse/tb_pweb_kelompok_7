@@ -5,8 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node & npx tailwindcss -i ./src/input.css -o ./assets/output.css --watch",
-    "dev": "nodemon & npx tailwindcss -i ./src/input.css -o ./assets/output.css --watch"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
