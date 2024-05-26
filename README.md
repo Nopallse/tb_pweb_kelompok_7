@@ -60,6 +60,6 @@
 
 1. Authentikasi - Naufal ✅
 2. Logout - Naufal ✅
-3. Lihat Profil untuk mahasiswa dan admin
-4. Fungsionalitas Ubah Kata Sandi 
+3. Lihat Profil untuk mahasiswa dan admin Alfa Rian✅
+4. Fungsionalitas Ubah Kata Sandi Fajrin Putra Pratama✅
 
