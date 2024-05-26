@@ -1,6 +1,6 @@
 import express from "express";
 import { verifyToken } from "../middleware/VerifyToken.js";
-import { editProfile, getUser } from "../controllers/auth.js";
+import { editProfile, getUser,uploadProfilePicture } from "../controllers/auth.js";
 import Users from "../models/UserModel.js";
 import Permintaan from "../models/PermintaanModel.js"
 const router = express.Router();
@@ -17,7 +17,7 @@ router.get("/dashboard", verifyToken('admin'), async (req, res) => {
 
 router.get("/profile", verifyToken('admin'), async (req, res) => {
   const admin = await getUser(req, res); 
-  res.render("admin/profile",{  admin });
+  res.render("admin/profile",{  admin, page: 'Profile' });
 });
 
 router.get('/change-password',verifyToken('admin'), async function (req, res) {
@@ -28,6 +28,17 @@ router.get('/change-password',verifyToken('admin'), async function (req, res) {
 router.post('/change-password', verifyToken('admin'), async (req, res) => {
   await changePassword(req, res);
 });
+
+router.get('/profile/change-profile',verifyToken('admin'), async (req, res) => {
+  const admin = await getUser(req, res); 
+  res.render('admin/change-profile', { admin , page:'Profile'});
+});
+
+
+router.post('/change-profile', verifyToken('admin'), uploadProfilePicture);
+
+
+
 
 router.get("/mahasiswa", verifyToken('admin'), async (req, res) => {
   const admin = await getUser(req, res); 
