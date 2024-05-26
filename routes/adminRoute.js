@@ -4,6 +4,7 @@ import { editProfile, getUser,uploadProfilePicture } from "../controllers/auth.j
 import Users from "../models/UserModel.js";
 import Permintaan from "../models/PermintaanModel.js"
 const router = express.Router();
+import { changePassword } from "../controllers/auth.js";
 
 router.get('/', (req, res) => {
   res.redirect('/admin/dashboard');
@@ -19,6 +20,15 @@ router.get("/profile", verifyToken('admin'), async (req, res) => {
   res.render("admin/profile",{  admin, page: 'Profile' });
 });
 
+router.get('/change-password',verifyToken('admin'), async function (req, res) {
+  const admin = await getUser(req, res); 
+  res.render('admin/change-password', { admin , page:'change password'});
+});
+
+router.post('/change-password', verifyToken('admin'), async (req, res) => {
+  await changePassword(req, res);
+});
+
 router.get('/profile/change-profile',verifyToken('admin'), async (req, res) => {
   const admin = await getUser(req, res); 
   res.render('admin/change-profile', { admin , page:'Profile'});
@@ -26,6 +36,7 @@ router.get('/profile/change-profile',verifyToken('admin'), async (req, res) => {
 
 
 router.post('/change-profile', verifyToken('admin'), uploadProfilePicture);
+
 
 
 
