@@ -17,7 +17,7 @@
               <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200">
                 <div>
                   <h2 class="text-xl font-semibold text-gray-800">
-                    Daftar Permintaan
+                    Daftar Arsip
                   </h2>
                   <p class="text-sm text-gray-600">
                     Surat Keterangan Aktif Kuliah
@@ -89,8 +89,10 @@
                 </thead>
 
                 <tbody>
+                  <% let count = 0; %>
                   <% permintaan.forEach(item=> { %>
-                    <% if (item.status==='proses' ) { %>
+                    <% if (item.status==='selesai' ) { %>
+                      <% count++; %>
                       <tr class="bg-white hover:bg-gray-50">
                         <td class="size-px whitespace-nowrap">
                           <button type="button" class="block" data-hs-overlay="#hs-ai-invoice-modal">
@@ -148,7 +150,7 @@
                           </button>
                         </td>
                         <td class="size-px whitespace-nowrap">
-                          <a href="/admin/permintaan/<%= item.idPermintaan %>"
+                          <a href="/admin/arsip/<%= item.idPermintaan %>"
                             class="px-6 py-1.5 inline-flex justify-center items-center gap-2 rounded-lg border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm">
                             <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                               fill="currentColor" viewBox="0 0 16 16">
@@ -172,7 +174,7 @@
                 <div>
                   <p class="text-sm text-gray-600">
                     <span class="font-semibold text-gray-800">
-                      <%= permintaan.length %>
+                      <%= count %>
                     </span> results
                   </p>
                 </div>

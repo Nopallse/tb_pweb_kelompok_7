@@ -24,7 +24,8 @@ export const sendForm = async (req, res) => {
       nip: inputNip,
       pangkatGolongan: inputPangkat,
       unitKerja: inputUnit,
-      instansiInduk: inputInstansi
+      instansiInduk: inputInstansi,
+      status: "proses"
     });
 
     console.log('Form Data:', newForm); // Log data form yang baru dibuat
