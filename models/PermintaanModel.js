@@ -42,7 +42,7 @@ const Permintaan = db.define('permintaan', {
     instansiInduk: {
         type: DataTypes.STRING
     },
-    nama_berkas: {
+    status: {
         type: DataTypes.STRING
     },
     tanggal: {
