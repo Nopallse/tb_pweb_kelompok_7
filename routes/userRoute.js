@@ -2,7 +2,7 @@ import express from "express";
 import { verifyToken } from "../middleware/VerifyToken.js";
 import { editProfile, getUser,getMahasiswa ,uploadProfilePicture  } from "../controllers/auth.js";
 import { changePassword} from "../controllers/auth.js";
-import { sendForm } from "../controllers/Users.js";
+import { sendForm, getRiwayat} from "../controllers/Users.js";
 import path from "path";
 import multer from "multer";
 import fs from 'fs/promises';
@@ -67,7 +67,7 @@ router.get('/profile/change-profile',verifyToken('mahasiswa'), async (req, res) 
 });
 
 
-
+router.get("/riwayat", verifyToken('mahasiswa'), getRiwayat);
 
 
 
