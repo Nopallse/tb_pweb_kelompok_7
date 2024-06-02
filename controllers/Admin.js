@@ -86,7 +86,7 @@ export const generate = async (req, res) => {
     });
 
     const fileName = `Surat Keterangan Aktif.docx`;
-    const userDir = path.resolve("public", "data", `user_${mahasiswa.id}`);
+    const userDir = path.resolve("public", "data", `surat`);
     const outputPath = path.join(userDir, fileName);
 
     if (!fs.existsSync(userDir)) {
@@ -95,7 +95,7 @@ export const generate = async (req, res) => {
 
     fs.writeFileSync(outputPath, buf);
 
-    const pdfDir = path.resolve(userDir, "surat");
+    const pdfDir = path.resolve("public", "data", "surat");
     const pdfPath = path.join(pdfDir, `Surat Keterangan Aktif (${surat.nomorSurat}).pdf`);
 
     if (!fs.existsSync(pdfDir)) {

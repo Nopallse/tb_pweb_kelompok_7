@@ -230,7 +230,7 @@ export const uploadProfilePicture = async (req, res) => {
       destination: async (req, file, cb) => {
         const user = await getUser(req, res);
         const userId = user.id;
-        const dir = 'public/data/user_${userId}';
+        const dir = `public/data/user_${userId}`;
         await fs.mkdir(dir, { recursive: true });
         cb(null, dir);
       },
