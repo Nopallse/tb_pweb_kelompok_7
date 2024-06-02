@@ -13,7 +13,7 @@
         <h2 class="text-xl font-bold text-gray-800">
           Profile  
           <br>
-          ID: <%= user.id  %>
+          ID: <%= mahasiswa.id  %>
         </h2>
       </div>
   
@@ -29,7 +29,7 @@
   
           <div class="sm:col-span-9">
             <div class="flex items-center gap-5">
-              <img class="inline-block size-16 rounded-full ring-2 ring-white" src="https://lh3.googleusercontent.com/a/ACg8ocJ1H3DxS0qAPJZMJbBFu5iAA0hhd5yRuEfOyNMfYNEnQepUQHKn=s260-c-no" alt="Image Description">
+              <img class="rounded-full"  src="/data/user_<%=mahasiswa.id  %>/profile.jpg" alt="Image Description" style="width: 60px;height: 60px;object-fit: cover;">
             </div>
           </div>
   
@@ -42,7 +42,7 @@
   
           <div class="sm:col-span-9">
             <div class="sm:flex">
-                <input id="af-account-full-name" type="text" value="<%= user.name %>" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" style= "font-weight: 600;color: black;" placeholder="Maria" disabled>
+                <input id="af-account-full-name" type="text" value="<%= mahasiswa.name %>" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" style= "font-weight: 600;color: black;" placeholder="Maria" disabled>
             </div>
         </div>
         
@@ -58,7 +58,7 @@
   
           <div class="sm:col-span-9">
             <div class="sm:flex">
-                <input id="af-account-full-name" type="text" value="<%= user.email %>" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" style= "font-weight: 600;color: black;" placeholder="Maria" disabled>
+                <input id="af-account-full-name" type="text" value="<%= mahasiswa.user.email %>" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" style= "font-weight: 600;color: black;" placeholder="Maria" disabled>
             </div>
         </div>  
           <!-- End Col -->
@@ -72,7 +72,7 @@
   
           <div class="sm:col-span-9">
             <div class="sm:flex">
-                <input id="af-account-full-name" type="text" value="<%= user.nim %>" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" style= "font-weight: 600;color: black;" placeholder="Maria" disabled>
+                <input id="af-account-full-name" type="text" value="<%= mahasiswa.nim %>" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" style= "font-weight: 600;color: black;" placeholder="Maria" disabled>
             </div>
         </div>  
           <!-- End Col -->
@@ -86,7 +86,7 @@
   
           <div class="sm:col-span-9">
             <div class="sm:flex">
-                <input id="af-account-full-name" type="text" value="<%= user.departemen %>" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" style= "font-weight: 600;color: black;" placeholder="Maria" disabled>
+                <input id="af-account-full-name" type="text" value="<%= mahasiswa.departemen %>" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" style= "font-weight: 600;color: black;" placeholder="Maria" disabled>
             </div>
         </div>  
           <!-- End Col -->
@@ -100,16 +100,18 @@
   
           <div class="sm:col-span-9">
             <div class="sm:flex">
-                <input id="af-account-full-name" type="text" value="<%= user.hp %>" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" style= "font-weight: 600;color: black;" placeholder="Maria" disabled>
+                <input id="af-account-full-name" type="text" value="<%= mahasiswa.phone %>" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" style= "font-weight: 600;color: black;" placeholder="Maria" disabled>
             </div>
         </div>  
         </div>
   
   
         <div class="mt-5 flex justify-end gap-x-2">
-          <button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
-            <a href="/admin/mahasiswa" onclick="window.location.href='/profile/change-profile';">Back</a>
-          </button>       
+            <a href="/admin/mahasiswa" >
+              <div class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+                Back
+              </div>       
+              </a>
         </div>
   
         

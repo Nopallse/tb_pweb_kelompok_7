@@ -4,8 +4,10 @@ import db from "../config/database.js";
 const { DataTypes } = Sequelize;
 
 const Users = db.define('users', {
-    name: {
-        type: DataTypes.STRING
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
     },
     email: {
         type: DataTypes.STRING
@@ -18,15 +20,9 @@ const Users = db.define('users', {
     },
     refresh_token: { 
         type: DataTypes.STRING
-    },departemen: {
-        type: DataTypes.STRING
-    },
-    hp: {
-        type: DataTypes.STRING
-    },
-    nim: {
-        type: DataTypes.STRING
     }
+
+
 }, {
     freezeTableName: true
 });

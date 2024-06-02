@@ -9,22 +9,13 @@ const Permintaan = db.define('permintaan', {
         primaryKey: true,
         autoIncrement: true
     },
+    nim: {
+        type: DataTypes.STRING
+    },
     target: {
         type: DataTypes.STRING
     },
     tujuan: {
-        type: DataTypes.STRING
-    },
-    deskripsi: {
-        type: DataTypes.STRING
-    },
-    namaMahasiswa: {
-        type: DataTypes.STRING
-    },
-    nim: {
-        type: DataTypes.STRING
-    },
-    departemen: {
         type: DataTypes.STRING
     },
     namaOrangtua: {

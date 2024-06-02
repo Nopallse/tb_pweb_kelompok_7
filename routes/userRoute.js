@@ -1,6 +1,6 @@
 import express from "express";
 import { verifyToken } from "../middleware/VerifyToken.js";
-import { editProfile, getUser, uploadProfilePicture  } from "../controllers/auth.js";
+import { editProfile, getUser,getMahasiswa ,uploadProfilePicture  } from "../controllers/auth.js";
 import { changePassword} from "../controllers/auth.js";
 import { sendForm } from "../controllers/Users.js";
 import path from "path";
@@ -17,23 +17,26 @@ router.get('/', (req, res) => {
 
 
 router.get("/home", verifyToken('mahasiswa'), async function (req, res) {
-    const user = await getUser(req, res); 
-    res.render("user/home", { user , page:'home' });
+    const mahasiswa = await getMahasiswa(req, res); 
+    res.render("user/home", { mahasiswa , page:'home' });
 });
 
 router.get("/layanan", verifyToken('mahasiswa'), async function (req, res) {
-  const user = await getUser(req, res); 
-  res.render("user/layanan", { user , page:'home'});
+  const mahasiswa = await getMahasiswa(req, res); 
+  res.render("user/layanan", { mahasiswa, page:'layanan'});
 });
 
 router.get("/layanan/form", verifyToken('mahasiswa'), async function (req, res) {
   const user = await getUser(req, res); 
-  res.render("user/form", { user , page:'home'});
+  const mahasiswa = await getMahasiswa(req, res); 
+
+  res.render("user/form", { mahasiswa, user, page:'home'});
 });
 
 router.get("/profile", verifyToken('mahasiswa'), async function (req, res) {
-  const user = await getUser(req, res); 
-  res.render("user/profile", { user , page:'home'});
+  const mahasiswa = await getMahasiswa(req, res); 
+  const user = await getUser(req, res);
+  res.render("user/profile", { mahasiswa , user, page:'home'});
 });
 
 
@@ -53,14 +56,16 @@ router.get('/logout', (req, res) => {
   res.redirect('/login');
 });
 
-router.post('/change-password', verifyToken, async (req, res) => {
-  await changePassword(req, res);
-});
 
 router.get('/profile/change-profile',verifyToken('mahasiswa'), async (req, res) => {
+  const mahasiswa = await getMahasiswa(req, res); 
+
   const user = await getUser(req, res); 
-  res.render('user/change-profile', { user , page:'home'});
+
+  console.log(mahasiswa);
+  res.render('user/change-profile', { mahasiswa, user , page:'home'});
 });
+
 
 
 

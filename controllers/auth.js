@@ -3,7 +3,8 @@ import Users from "../models/UserModel.js";
 import bcrypt from "bcryptjs"
 import fs from 'fs/promises';
 import multer from 'multer';
-
+import Admin from '../models/AdminModel.js';
+import Mahasiswa from '../models/MahasiswaModel.js';
 
 export const Login = async (req, res) => {
   try {
@@ -114,12 +115,8 @@ export function checkUserLoggedIn(req) {
             const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
             user = {
                 userId: decoded.userId,
-                name: decoded.name,
                 email: decoded.email,
                 role: decoded.role,
-                nim: decoded.nim,
-                hp: decoded.hp,
-                departemen:decoded.departemen
             };
             
         } catch (error) {
@@ -159,19 +156,14 @@ export const changePassword = async (req, res) => {
 
 export const editProfile = async (req, res) => {
   try {
-    const { newName,newEmail, newNim, newDepartment, newPhoneNumber,  } = req.body;
+    const { newName, newNim, newPhoneNumber,  } = req.body;
 
-    const user = await Users.findByPk(req.userId);
-    if (!user) {
-      return res.status(404).json({ message: "Pengguna tidak ditemukan" });
-    }
+    const mahasiswa = await Mahasiswa.findOne(req.newNim);
     
-    await user.update({ 
+    await mahasiswa.update({ 
       name: newName,
-      email: newEmail,
       nim: newNim,
-      departemen: newDepartment,
-      hp: newPhoneNumber
+      phone: newPhoneNumber
     });
     return res.redirect('/profile');
 
@@ -193,13 +185,52 @@ export const getUser = async (req, res) => {
   return newProfile; 
 };
 
+
+export const getAdmin = async (req, res) => {
+  const { user } = checkUserLoggedIn(req, res);
+
+  try {
+    // Menggunakan model Admin untuk mencari admin berdasarkan userId
+    const admin = await Admin.findOne({
+      where: { id: user.userId },
+      include: {
+        model: Users,
+        attributes: ['email']
+      }
+    });
+    return admin;
+  } catch (error) {
+    console.error('Error while fetching admin:', error);
+    return null;
+  }
+};
+
+export const getMahasiswa = async (req, res) => {
+  const { user } = checkUserLoggedIn(req, res);
+
+  try {
+    // Menggunakan model Admin untuk mencari admin berdasarkan userId
+    const mahasiswa = await Mahasiswa.findOne({
+      where: { id: user.userId },
+      include: {
+        model: Users,
+        attributes: ['email']
+      }
+    });
+    return mahasiswa;
+  } catch (error) {
+    console.error('Error while fetching admin:', error);
+    return null;
+  }
+};
+
 export const uploadProfilePicture = async (req, res) => {
   const upload = multer({
     storage: multer.diskStorage({
       destination: async (req, file, cb) => {
         const user = await getUser(req, res);
         const userId = user.id;
-        const dir = `public/data/user_${userId}`;
+        const dir = 'public/data/user_${userId}';
         await fs.mkdir(dir, { recursive: true });
         cb(null, dir);
       },

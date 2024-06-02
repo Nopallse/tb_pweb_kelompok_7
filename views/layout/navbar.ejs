@@ -1,80 +1,124 @@
 <!doctype html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="/output.css" rel="stylesheet">
   <script src="./node_modules/preline/dist/preline.js"></script>
+  <script src="/sweet/sweetalert2.all.min.js"></script>
 
 </head>
+
 <body style="background-color: #f8f9fa;">
 
 
 
 
   <!-- ========== HEADER ========== -->
-<header class="flex flex-wrap sm:justify-start sm:flex-nowrap z-50 w-full bg-white border-b border-gray-200 text-sm py-3 sm:py-0"  >
-  <nav class="relative max-w- w-full mx-auto px-4 sm:flex sm:items-center sm:justify-between sm:px- lg:px-8"  aria-label="Global">
-    <div class="flex items-center justify-between">
-      <img src="/images/logo.svg">
-    </div>
-    <div id="navbar-collapse-with-animation"  class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow sm:block">
-      <div class="flex flex-col gap-y-4 gap-x-0 mt-5 sm:flex-row sm:items-center sm:gap-y-0 sm:gap-x-7 sm:mt-0 sm:ps-7">
-        <br>
-        <a class="font-medium text-gray-500 sm:py-6" 
-        <% if(page == 'home'){ %>
-          style="color: #388E3C;"
-        <% } %>
-        
-        href="/home" aria-current="page">Home</a>
-        <a class="font-medium text-gray-500 hover:text-gray-400 sm:py-6" href="/layanan">Layanan</a>
-        <a class="font-medium text-gray-500 hover:text-gray-400 sm:py-6" href="#">Riwayat</a>
+  <header
+    class="flex flex-wrap sm:justify-start sm:flex-nowrap z-50 w-full bg-white border-b border-gray-200 text-sm py-3 sm:py-0">
+    <nav class="relative max-w- w-full mx-auto px-4 sm:flex sm:items-center sm:justify-between sm:px- lg:px-8"
+      aria-label="Global">
+      <div class="flex items-center justify-between">
+        <img src="/images/logo.svg">
+      </div>
+      <div id="navbar-collapse-with-animation"
+        class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow sm:block">
+        <div
+          class="flex flex-col gap-y-4 gap-x-0 mt-5 sm:flex-row sm:items-center sm:gap-y-0 sm:gap-x-7 sm:mt-0 sm:ps-7">
+          <br>
+          <a class="font-medium text-gray-500 sm:py-6" <% if(page=='home' ){ %>
+            style="color: #388E3C;"
+            <% } %>
+              href="/home" aria-current="page">Home
+          </a>
 
-        <div class="container mx-auto mt-4">
-       
+          <a class="font-medium text-gray-500 sm:py-6" <% if(page=='layanan' ){ %>
+            style="color: #388E3C;"
+            <% } %>
+              href="/layanan">Layanan
+          </a>
 
-        </div>
+          <a class="font-medium text-gray-500 sm:py-6" <% if(page=='riwayat' ){ %>
+            style="color: #388E3C;"
+            <% } %>
+              href="#">Riwayat
+          </a>
 
 
-        <h1 class="font-medium text-gray-500" style="color: #388E3C; white-space: nowrap;"disabled><%= user.email %></h1>
+          <div class="container mx-auto mt-4">
 
 
-        <nav class="flex justify-between px-4 py-2 text-white">
-          <div >
+          </div>
+
+
+          <h1 class="font-medium text-gray-500" style="color: #388E3C; white-space: nowrap;" disabled>
+            <%= mahasiswa.email %>
+          </h1>
+
+
+          <nav class="flex justify-between px-4 py-2 text-white">
+            <div>
               <div>
-                  <div class="hs-dropdown " data-hs-dropdown-placement="bottom-right">
-                    <button id="hs-dropdown-with-header" class="rounded-full" type="button" style="width: 50px; height: 50px; background-color: aqua;">
-                      <img class="rounded-full"  src="/data/user_<%=user.id  %>/profile.jpg" alt="Image Description" style="width: 100%;height: 100%;object-fit: cover;">
-                    </button>
-                    <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-[200px] max-w-[400px] z-10 bg-white shadow-md rounded-lg p-2" style="background-color: white;" aria-labelledby="hs-dropdown-with-header">
-                      <div class="mt-2 py-2 first:pt-0 last:pb-0">
-                          <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-green-500 :text-neutral-400 :hover:bg-neutral-700 :hover:text-neutral-300" href="#">
-                              <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
-                              notification
-                          </a>
-                          <a href="/profile" class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-green-500 :text-neutral-400 :hover:bg-neutral-700 :hover:text-neutral-300" href="#">
-                              <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                              Profile
-                          </a>
-                          <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-green-500 :text-neutral-400 :hover:bg-neutral-700 :hover:text-neutral-300" href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                              <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                  <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M12 12v9"/><path d="m8 17 4 4 4-4"/>
-                              </svg>
-                              Log-out
-                          </a>
-                  
-                          <form id="logout-form" action="/logout" method="DELETE" style="display: none;">
-                              <input type="hidden" name="_method" value="DELETE">
-                          </form>
-                      </div>
-                  </div>
+                <div class="hs-dropdown " data-hs-dropdown-placement="bottom-right">
+                  <button id="hs-dropdown-with-header" class="rounded-full" type="button"
+                    style="width: 50px; height: 50px; background-color: aqua;">
+                    <img class="rounded-full" src="/data/user_<%=mahasiswa.id  %>/profile.jpg" alt="Image Description"
+                      style="width: 100%;height: 100%;object-fit: cover;">
+                  </button>
+                  <div
+                    class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-[200px] max-w-[400px] z-10 bg-white shadow-md rounded-lg p-2"
+                    style="background-color: white;" aria-labelledby="hs-dropdown-with-header">
+                    <div class="mt-2 py-2 first:pt-0 last:pb-0">
+                      <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-green-500 :text-neutral-400 :hover:bg-neutral-700 :hover:text-neutral-300"
+                        href="#">
+                        <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                          stroke-linejoin="round">
+                          <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+                          <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+                        </svg>
+                        notification
+                      </a>
+                      <a href="/profile"
+                        class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-green-500 :text-neutral-400 :hover:bg-neutral-700 :hover:text-neutral-300"
+                        href="#">
+                        <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                          stroke-linejoin="round">
+                          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                          <circle cx="9" cy="7" r="4" />
+                          <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                        </svg>
+                        Profile
+                      </a>
+                      <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-green-500 :text-neutral-400 :hover:bg-neutral-700 :hover:text-neutral-300"
+                        href="/logout"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                          stroke-linejoin="round">
+                          <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" />
+                          <path d="M12 12v9" />
+                          <path d="m8 17 4 4 4-4" />
+                        </svg>
+                        Log-out
+                      </a>
+
+                      <form id="logout-form" action="/logout" method="DELETE" style="display: none;">
+                        <input type="hidden" name="_method" value="DELETE">
+                      </form>
+                    </div>
                   </div>
                 </div>
               </div>
+            </div>
           </nav>
-        
 
-      
 
-</header>
-<!-- ========== END HEADER ========== -->
+
+
+  </header>
+  <!-- ========== END HEADER ========== -->

@@ -116,41 +116,40 @@
             </thead>
 
             <tbody>
-              <% users.forEach(user => { %>
-                  <% if(user.role === 'mahasiswa') { %>
+              <% mahasiswa.forEach(mahasiswa => { %>
               <tr class="bg-white hover:bg-gray-50">
                 <td class="size-px whitespace-nowrap">
                   <button type="button" class="block" data-hs-overlay="#hs-ai-invoice-modal">
                     <span class="block px-6 py-2">
-                      <span class="font-mono text-sm text-blue-600"><%= user.id %></span>
+                      <span class="font-mono text-sm text-blue-600"><%= mahasiswa.id %></span>
                     </span>
                   </button>
                 </td>
                 <td class="size-px whitespace-nowrap">
                   <button type="button" class="block" data-hs-overlay="#hs-ai-invoice-modal">
                     <span class="block px-6 py-2">
-                      <span class="text-sm text-gray-600"><%= user.nim %></span>
+                      <span class="text-sm text-gray-600"><%= mahasiswa.nim %></span>
                     </span>
                   </button>
                 </td>
                 <td class="size-px whitespace-nowrap">
                   <button type="button" class="block" data-hs-overlay="#hs-ai-invoice-modal">
                     <span class="block px-6 py-2">
-                      <span class="text-sm text-gray-600"><%= user.name %></span>
+                      <span class="text-sm text-gray-600"><%= mahasiswa.name %></span>
                     </span>
                   </button>
                 </td>
                 <td class="size-px whitespace-nowrap">
                   <button type="button" class="block" data-hs-overlay="#hs-ai-invoice-modal">
                     <span class="block px-6 py-2">
-                      <span class="text-sm text-gray-600"><%= user.departemen %></span>
+                      <span class="text-sm text-gray-600"><%= mahasiswa.departemen %></span>
                     </span>
                   </button>
                 </td>
                 <td class="size-px whitespace-nowrap">
                   <button type="button" class="block" data-hs-overlay="#hs-ai-invoice-modal">
                     <span class="block px-6 py-2">
-                      <span class="text-sm text-gray-600"><%= user.hp %></span>
+                      <span class="text-sm text-gray-600"><%= mahasiswa.phone %></span>
                     </span>
                   </button>
                 </td>
@@ -163,13 +162,12 @@
                           <path d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm8-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5z"/>
                         </svg>
                       
-                        <a href="/admin/mahasiswa/<%= user.id %>" class="btn btn-primary">Detail</a>
+                        <a href="/admin/mahasiswa/<%= mahasiswa.id %>" class="btn btn-primary">Detail</a>
                       </span>
                     </span>
                   </button>
                 </td>
               </tr>
-              <% } %>
           <% }) %>
       </tbody>
           </table>
@@ -179,7 +177,7 @@
           <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200">
             <div>
               <p class="text-sm text-gray-600">
-                  <span class="font-semibold text-gray-800"><%= users.length - 1 %></span> results
+                  <span class="font-semibold text-gray-800"><%= mahasiswa.length %></span> results
               </p>
           </div>
           
