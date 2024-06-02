@@ -5,9 +5,14 @@ import Permintaan from "./PermintaanModel.js";
 const { DataTypes } = Sequelize;
 
 const StatusPermintaan = db.define('statusPermintaan', {
-    idPermintaan: {
+    idStatus: {
         type: DataTypes.INTEGER,
         primaryKey: true,
+        autoIncrement: true
+    },
+    idPermintaan: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
         references: {
             model: Permintaan,
             key: 'idPermintaan'
@@ -16,11 +21,6 @@ const StatusPermintaan = db.define('statusPermintaan', {
     status: {
         type: DataTypes.STRING
     },
-    createdAt: {
-        type: DataTypes.DATE,
-        primaryKey: true,
-        defaultValue: Sequelize.NOW
-    }
 }, {
     freezeTableName: true,
     timestamps: false

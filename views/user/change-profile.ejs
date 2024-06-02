@@ -40,11 +40,11 @@
   lg:block lg:translate-x-0 lg:end-auto lg:bottom-0
  " style="margin-top: 80px;border-radius: 10px;">
   <div class="px-8 pt-4" style="text-align: center;">
-    <img class="rounded-full"  src="/data/user_<%=user.id  %>/profile.jpg" alt="Image Description" style="width: 110px;height: 110px;object-fit: cover;margin-left: auto; margin-right: auto;">
+    <img class="rounded-full"  src="/data/user_<%=mahasiswa.id  %>/profile.jpg" alt="Image Description" style="width: 110px;height: 110px;object-fit: cover;margin-left: auto; margin-right: auto;">
     <br>
-      <h1 class="font-bold text-gray-500 " style="font-size: 20px;color: black; white-space: nowrap;"><%= user.name %></h1>
-    <h1 class="font-medium text-gray-500" style="color: black; white-space: nowrap;"> <%= user.email.split('_')[0] %></h1>
-  <h1 class="font-medium text-gray-500" style="color: black; white-space: nowrap;"> <%= user.departemen%></h1>
+      <h1 class="font-bold text-gray-500 " style="font-size: 20px;color: black; white-space: nowrap;"><%= mahasiswa.name %></h1>
+    <h1 class="font-medium text-gray-500" style="color: black; white-space: nowrap;"> <%= mahasiswa.nim %></h1>
+  <h1 class="font-medium text-gray-500" style="color: black; white-space: nowrap;"> <%= mahasiswa.departemen%></h1>
 </div>    
 
   <nav class="hs-accordion-group p-6 w-full flex flex-col flex-wrap" data-hs-accordion-always-open>
@@ -117,7 +117,7 @@
 
         <div class="sm:col-span-9">
           <div class="flex items-center gap-5">
-            <img class="rounded-full"  src="/data/user_<%=user.id  %>/profile.jpg" alt="Image Description" style="width: 60px;height: 60px;object-fit: cover;">
+            <img class="rounded-full"  src="/data/user_<%=mahasiswa.id  %>/profile.jpg" alt="Image Description" style="width: 60px;height: 60px;object-fit: cover;">
             <div class="flex gap-x-2">
               <div>
 
@@ -146,7 +146,7 @@
 
         <div class="sm:col-span-9">
           <div class="sm:flex">
-            <input id="af-account-full-name" type="text" name="newName" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" value="<%= user.name %>" >
+            <input id="af-account-full-name" type="text" name="newName" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" value="<%= mahasiswa.name %>" >
           </div>
         </div>
         <!-- End Col -->
@@ -171,7 +171,7 @@
         <!-- End Col -->
 
         <div class="sm:col-span-9">
-          <input id="af-account-email" type="text" name="newNim" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" value="<%= user.nim %>">
+          <input id="af-account-email" type="text" name="newNim" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" value="<%= mahasiswa.nim %>">
         </div>
         <!-- End Col -->
         <div class="sm:col-span-3">
@@ -182,7 +182,7 @@
         <!-- End Col -->
 
         <div class="sm:col-span-9">
-          <input id="af-account-email" type="text" name="newDepartment" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" value="<%= user.departemen %>">
+          <input id="af-account-email" type="text" name="newDepartment" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" value="<%= mahasiswa.departemen %>">
         </div>
         <!-- End Col -->
 
@@ -197,7 +197,7 @@
 
         <div class="sm:col-span-9">
           <div class="sm:flex">
-            <input id="newPhoneNumber" type="text" name="newPhoneNumber" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" value="<%= user.hp %>">
+            <input id="newPhoneNumber" type="text" name="newPhoneNumber" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" value="<%= mahasiswa.phone %>">
           </div>
         </div>
         <!-- End Col -->

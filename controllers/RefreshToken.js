@@ -25,8 +25,8 @@ export const refreshToken = async (req, res) => {
         return res.sendStatus(403);
       }
 
-      const { userId, name, email, role, nim, hp, departemen } = decoded;
-      const newAccessToken = jwt.sign({ userId, name, email, role, nim, hp, departemen }, process.env.ACCESS_TOKEN_SECRET, {
+      const { userId, email, role } = decoded;
+      const newAccessToken = jwt.sign({ userId, email, role }, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: "15m",
       });
 
@@ -36,6 +36,6 @@ export const refreshToken = async (req, res) => {
     });
   } catch (error) {
     console.error("Refresh token error:", error);
-    res.status(500).json({ message: "Internal server error" });
+    res.redirect('/login');
   }
 };
