@@ -73,6 +73,7 @@
               </thead>
               <tbody>
                 <% permintaan.forEach((item, index) => { %>
+                  <% if (item.status == "proses") { %>
                   <tr class="bg-white hover:bg-gray-50">
                     <td class="size-px whitespace-nowrap">
                       <button type="button" class="block" data-hs-overlay="#hs-ai-invoice-modal">
@@ -142,7 +143,8 @@
                       </a>
                     </td>
                   </tr>
-                <% }); %>
+                  <% } %>
+                  <% }); %>
               </tbody>
             </table>
 

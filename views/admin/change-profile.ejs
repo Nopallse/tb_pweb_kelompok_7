@@ -43,21 +43,16 @@
           <label for="af-account-full-name" class="inline-block text-sm text-gray-800 mt-2.5">
             Full name
           </label>
-          <div class="hs-tooltip inline-block">
-            <button type="button" class="hs-tooltip-toggle ms-1">
-            </button>
-            <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible w-40 text-center z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded shadow-sm" role="tooltip">
-              Displayed on public forums, such as Preline
-            </span>
-          </div>
         </div>
         <!-- End Col -->
 
         <div class="sm:col-span-9">
           <div class="sm:flex">
-            <input id="af-account-full-name" type="text" name="newName" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" value="<%= admin.name %>" >
+              <input id="af-account-full-name" type="text" value="<%= admin.name %>" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" style= "font-weight: 600;color: black;" disabled>
           </div>
-        </div>
+      </div>
+      
+      
         <!-- End Col -->
 
         <div class="sm:col-span-3">
@@ -68,48 +63,53 @@
         <!-- End Col -->
 
         <div class="sm:col-span-9">
-          <input id="af-account-email" type="email" name="newEmail" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" value="<%= admin.user.email %>">
-        </div>
+          <div class="sm:flex">
+              <input id="af-account-full-name" type="text" value="<%= admin.user.email %>" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" style= "font-weight: 600;color: black;" placeholder="Maria" disabled>
+          </div>
+      </div>  
         <!-- End Col -->
 
         <div class="sm:col-span-3">
-          <label for="af-account-email" class="inline-block text-sm text-gray-800 mt-2.5">
+          <label for="af-account-password" class="inline-block text-sm text-gray-800 mt-2.5">
             NIP
           </label>
         </div>
         <!-- End Col -->
 
         <div class="sm:col-span-9">
-          <input id="af-account-email" type="text" name="newNim" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" value="<%= admin.nip %>">
-        </div>
+          <div class="sm:flex">
+              <input id="af-account-full-name" type="text" value="<%= admin.nip %>" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" style= "font-weight: 600;color: black;" placeholder="Maria" disabled>
+          </div>
+      </div>  
         <!-- End Col -->
+
         <div class="sm:col-span-3">
-          <label for="af-account-email" class="inline-block text-sm text-gray-800 mt-2.5">
+          <label for="af-account-password" class="inline-block text-sm text-gray-800 mt-2.5">
             Pangkat/Golongan
           </label>
         </div>
         <!-- End Col -->
 
         <div class="sm:col-span-9">
-          <input id="af-account-email" type="text" name="newDepartment" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" value="<%= admin.pangkat_golongan %>">
-        </div>
+          <div class="sm:flex">
+              <input id="af-account-full-name" type="text" value="<%= admin.pangkat_golongan %>" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" style= "font-weight: 600;color: black;" placeholder="Maria" disabled>
+          </div>
+      </div>  
         <!-- End Col -->
 
         <div class="sm:col-span-3">
-          <div class="inline-block">
-            <label for="newPhoneNumber" class="inline-block text-sm text-gray-800 mt-2.5">
-              Jabatan
-            </label>
-          </div>
+          <label for="af-account-password" class="inline-block text-sm text-gray-800 mt-2.5">
+            Jabatan
+          </label>
         </div>
         <!-- End Col -->
 
         <div class="sm:col-span-9">
           <div class="sm:flex">
-            <input id="newPhoneNumber" type="text" name="newPhoneNumber" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" value="<%= admin.jabatan %>">
+              <input id="af-account-full-name" type="text" value="<%= admin.jabatan %>" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" style= "font-weight: 600;color: black;" placeholder="Maria" disabled>
           </div>
-        </div>
-        <!-- End Col -->
+      </div>  
+      </div> <!-- End Col -->
 
         
 

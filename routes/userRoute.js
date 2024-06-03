@@ -42,8 +42,9 @@ router.get("/profile", verifyToken('mahasiswa'), async function (req, res) {
 
 
 router.get('/profile/change-password',verifyToken('mahasiswa'), async function (req, res) {
-  const user = await getUser(req, res); 
-  res.render('user/change-password', { user , page:'home'});
+  const mahasiswa = await getMahasiswa(req, res); 
+
+  res.render('user/change-password', { mahasiswa , page:'home'});
 });
 
 router.post('/change-password', verifyToken('mahasiswa'), async (req, res) => {

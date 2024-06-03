@@ -190,77 +190,9 @@
   </div>
   <!-- End Content -->
   <!-- ========== END MAIN CONTENT ========== -->
-  <div class="  lg:ps-72">
-
-  <div id="piechart"></div>
-  </div>
-  <style>
-    #piechart {
-        width: 100%; /* Atur lebar grafik */
-        height: 500px; /* Atur tinggi grafik */
-      
-        background-color: black;
-    }
-
-</style>
 
 
 
-  <script type="text/javascript">
-    google.charts.load('current', { 'packages': ['corechart'] });
-    google.charts.setOnLoadCallback(drawChart);
-
-    let count = 0;
-    permintaan.forEach(item => {
-      if (item.tujuan === 'Beasiswa') {
-        count++;
-      }
-    });
-    let beasiswa = count;
-
-    count = 0;
-    permintaan.forEach(item => {
-      if (item.tujuan === 'Tunjangan orang tua') {
-        count++;
-      }
-    });
-    let tunjanganOrangTua = count;
-
-    count = 0;
-    permintaan.forEach(item => {
-      if (item.tujuan === 'Taspen') {
-        count++;
-      }
-    });
-
-    let taspen = count;
-    permintaan.forEach(item => {
-      if (item.tujuan === 'BPJS') {
-        count++;
-      }
-    }); 
-    let bpjs = count;
-    
-
-    function drawChart() {
-      var data = google.visualization.arrayToDataTable([
-
-        ['tujuan', 'permintaan'],
-        ['Beasiswa', 8],
-        ['Tunjangan orang tua', 8],
-        ['Taspen', 2],
-        ['BPJS', 4],
-
-      ]);
-
-      var options = {
-        title: 'Pie chart of requests',    
-
-      };
-      var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-      chart.draw(data, options);
-    }
-  </script>
 
   <script src="/preline/preline.js"></script>
   </body>
