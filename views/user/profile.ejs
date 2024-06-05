@@ -1,6 +1,66 @@
 <%- include("../layout/navbar.ejs") %>
-<%- include("../layout/sidebar_user.ejs") %>
 
+<!-- End Breadcrumb -->
+
+<!-- Sidebar -->
+<div id="application-sidebar" class="hs-overlay [--auto-close:lg]
+  hs-overlay-open:translate-x-0
+  -translate-x-full transition-all duration-300 transform
+  w-[260px]
+  hidden
+  absolute inset-y-0 start-0 z-[60]
+  bg-white border-e border-gray-200
+  lg:block lg:translate-x-0 lg:end-auto lg:bottom-0
+ " style="margin-top: 80px;border-radius: 10px;">
+  <div class="px-8 pt-4" style="text-align: center;">
+    <img class="rounded-full"  src="/data/user_<%=mahasiswa.id  %>/profile.jpg" alt="Image Description" style="width: 110px;height: 110px;object-fit: cover;margin-left: auto; margin-right: auto;">
+    <br>
+      <h1 class="font-bold text-gray-500 " style="font-size: 20px;color: black; white-space: nowrap;"><%= mahasiswa.name %></h1>
+    <h1 class="font-medium text-gray-500" style="color: black; white-space: nowrap;"> <%= mahasiswa.nim %></h1>
+  <h1 class="font-medium text-gray-500" style="color: black; white-space: nowrap;"> <%= mahasiswa.departemen%></h1>
+</div>    
+
+  <nav class="hs-accordion-group p-6 w-full flex flex-col flex-wrap" data-hs-accordion-always-open>
+    <ul class="space-y-1.5">
+      <li>
+        <form action="/profile" method="GET">
+          <button type="submit" class="w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-neutral-700 rounded-lg hover:bg-gray-100">
+            <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+            Notification
+          </button>
+        </form>
+      </li>
+      
+      <li>
+        <a class="flex items-center gap-x-3.5 py-2 px-2.5 bg-gray-100 text-sm text-neutral-700 rounded-lg hover:bg-gray-100" href="/profile">
+          <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Profile
+        </a>
+      </li>
+
+
+
+      <li>
+        <form action="/profile/change-password" method="GET">
+          <button type="submit" class="w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-neutral-700 rounded-lg hover:bg-gray-100">
+            <img src="/images/change-password.svg"  width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+            <a href="/profile/change-password" onclick="window.location.href='/profile/change-password';">Change Password</a>
+          </button>
+        </form>
+      </li>
+
+      <li>
+        <form action="/logout" method="DELETE">
+          <button type="submit" class="w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-neutral-700 rounded-lg hover:bg-gray-100">
+            <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            Logout
+          </button>
+        </form>
+      </li>
+      
+    </ul>
+  </nav>
+</div>
 <!-- End Sidebar -->
 
 

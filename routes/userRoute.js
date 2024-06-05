@@ -3,10 +3,10 @@ import { verifyToken } from "../middleware/VerifyToken.js";
 import { editProfile, getUser,getMahasiswa ,uploadProfilePicture  } from "../controllers/auth.js";
 import { changePassword} from "../controllers/auth.js";
 import { sendForm, getRiwayat} from "../controllers/Users.js";
-import path from "path";
-import multer from "multer";
-import fs from 'fs/promises';
-
+import Permintaan from "../models/PermintaanModel.js";
+import Mahasiswa from "../models/MahasiswaModel.js";
+import Users from "../models/UserModel.js";
+import StatusPermintaan from "../models/StatusPermintaanModel.js";
 
 const router = express.Router();
 
@@ -72,6 +72,31 @@ router.get("/riwayat", verifyToken('mahasiswa'), getRiwayat);
 
 
 
+router.get('/riwayat/:idPermintaan', verifyToken('mahasiswa'), async (req, res) => {
+  const idPermintaan = req.params.idPermintaan;
+  const permintaan = await Permintaan.findByPk(idPermintaan);
+  
+
+  const Status = await StatusPermintaan.findAll({
+    where: { idPermintaan: idPermintaan}
+  })
+
+  const nimMahasiswa = permintaan.nim;
+  const mahasiswa = await Mahasiswa.findOne({
+    where: { nim: nimMahasiswa },
+    include: {
+        model: Users,
+        attributes: ['email']
+    }
+});
+  console.log(Status)
+
+  if (permintaan) {
+    res.render('user/riwayatDetail', { mahasiswa ,Status ,permintaan, page: 'riwayat' });
+  } else {
+    res.status(404).send('Permintaan not found');
+  }
+});
 
 
 

@@ -22,14 +22,27 @@ export const sendForm = async (req, res) => {
       pangkatGolongan: inputPangkat,
       unitKerja: inputUnit,
       instansiInduk: inputInstansi,
-      status: "proses"
+      status: "Diajukan"
     });
     
     const idPermintaan = permintaanBaru.idPermintaan; // Asumsikan kolom ID di model Permintaan adalah 'id'
     console.log(idPermintaan);
     await StatusPermintaan.create({
+      idStatus: "1",
       idPermintaan: idPermintaan,
-      status: "proses",
+      status: "Selesai",
+    });
+
+    await StatusPermintaan.create({
+      idStatus: "2",
+      idPermintaan: idPermintaan,
+      status: "Sedang Berlangsung",
+    });
+
+    await StatusPermintaan.create({
+      idStatus: "3",
+      idPermintaan: idPermintaan,
+      status: "Belum Diproses",
     });
 
     return res.redirect('/home');

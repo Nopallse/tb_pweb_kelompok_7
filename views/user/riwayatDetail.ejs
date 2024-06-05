@@ -1,0 +1,321 @@
+<%- include("../layout/navbar.ejs") %>
+
+  <!-- ========== MAIN ========== -->
+
+  <!-- Contact Us -->
+  <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+
+    <!-- Card Section -->
+    <div class="max-w-4xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto bg-white shadow-md rounded-lg">
+
+      <!-- Card -->
+      <div style="color: #388E3C;">
+        <br>
+        <h2 class="text-2xl md:text-3xl font-bold">
+          Riwayat Proses Permintaan
+        </h2>
+        <br>
+      </div>
+
+      <div class="pt-0 p-4 sm:pt-0 sm:p-7">
+        <!-- Grid -->
+        <div class="mb-6">
+          <div class="relative border-l-2 border-gray-200" style="margin: 50px;">
+            <% Status.forEach((item, index)=> { %>
+              <div class="mb-10 ml-8">
+                <% if(item.status=="Sedang Berlangsung" ){ %>
+
+                  <span
+                    class="absolute flex items-center justify-center w-10 h-10 bg-yellow-600 rounded-full -left-5 ring-8 ring-white"
+                    style="background-color: #FFC107;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                      stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                      class="lucide lucide-clock">
+                      <circle cx="12" cy="12" r="10" />
+                      <polyline points="12 6 12 12 16 14" />
+                    </svg> </span>
+                  <% }else if(item.status=="Selesai" ){ %>
+                    <span
+                      class="absolute flex items-center justify-center w-10 h-10 bg-blue-600 rounded-full -left-5 ring-8 ring-white">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-circle-check">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="m9 12 2 2 4-4" />
+                      </svg>
+
+                    </span>
+
+                    <% }else if(item.status=="Belum Diproses" ){ %>
+                      <span
+                        class="absolute flex items-center justify-center w-10 h-10 bg-red-600 rounded-full -left-5 ring-8 ring-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                          stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                          class="lucide lucide-circle-dot-dashed">
+                          <path d="M10.1 2.18a9.93 9.93 0 0 1 3.8 0" />
+                          <path d="M17.6 3.71a9.95 9.95 0 0 1 2.69 2.7" />
+                          <path d="M21.82 10.1a9.93 9.93 0 0 1 0 3.8" />
+                          <path d="M20.29 17.6a9.95 9.95 0 0 1-2.7 2.69" />
+                          <path d="M13.9 21.82a9.94 9.94 0 0 1-3.8 0" />
+                          <path d="M6.4 20.29a9.95 9.95 0 0 1-2.69-2.7" />
+                          <path d="M2.18 13.9a9.93 9.93 0 0 1 0-3.8" />
+                          <path d="M3.71 6.4a9.95 9.95 0 0 1 2.7-2.69" />
+                          <circle cx="12" cy="12" r="1" />
+                        </svg> </span>
+                      <% }else if(item.status=="Ditolak" ){ %>
+                        <span
+                          class="absolute flex items-center justify-center w-6 h-6 bg-red-600 rounded-full -left-3 ring-8 ring-white">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-circle-check">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="m9 12 2 2 4-4" />
+                          </svg>
+                        </span>
+                        <% } %>
+
+                          <div class="p-4 bg-gray-100 rounded-lg shadow">
+
+                            <p class="font-semibold text-gray-800">
+                              <% if (item.idStatus=="1" ) { %>
+                                Diajukan
+                                <% } else if (item.idStatus=="2" ) { %>
+                                  Diverifikasi
+                                  <% } else if (item.idStatus=="3" ) { %>
+                                    Diterbitkan
+                                    <% } %>
+                            </p>
+                            <p class="text-sm text-gray-500">
+                              <%= item.tanggal %>
+                            </p>
+
+                            <% if(item.status=="selesai" && item.idStatus=="3" ){ %>
+
+                              <button type="submit"
+                                class="button preline bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                                form="download-kartu" formtarget="_blank" style="margin-top: 10px;">
+                                <i class="fas fa-eye"></i>
+                                Download Surat
+                                <form action="/download-surat" method="POST" style="display: none;" id="download-surat">
+                                  <input type="hidden" name="_token" value="" autocomplete="off"> <input type="hidden"
+                                    name="id" value="">
+                                </form>
+                              </button>
+                              <% } %>
+                          </div>
+
+
+              </div>
+              <% }); %>
+
+              <div class="ring-4 ring-white">
+
+                <p class="font-semibold text-gray-800 ring-8 ring-white">
+                  Legenda:
+                </p>
+                <div style="display: flex;flex-direction: row;">
+
+                <span
+                  class="flex items-center justify-center w-10 h-10 bg-blue-600 rounded-full -left-5 ring-4 ring-white" 
+                  style="margin: 5px 5px 30px 0;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-circle-check">
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="m9 12 2 2 4-4" />
+                  </svg>
+                </span>
+                <p class="text-sm text-gray-500" style="margin: 13px 30px 0 0;">Selesai</p> 
+
+
+                <span
+                  class="flex items-center justify-center w-10 h-10 bg-blue-600 rounded-full -left-5 ring-4 ring-white" 
+                  style="margin: 5px 5px 30px 0;background-color: #FFC107;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-clock">
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" />
+                  </svg>
+                </span>
+                <p class="text-sm text-gray-500" style="margin: 13px 30px 0 0;">Sedang Berlangsung</p> 
+
+                <span
+                        class="flex items-center justify-center w-10 h-10 bg-red-600 rounded-full -left-5 ring-4 ring-white"
+                        style="margin: 5px 5px 30px 0;">
+                  
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                          stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                          class="lucide lucide-circle-dot-dashed">
+                          <path d="M10.1 2.18a9.93 9.93 0 0 1 3.8 0" />
+                          <path d="M17.6 3.71a9.95 9.95 0 0 1 2.69 2.7" />
+                          <path d="M21.82 10.1a9.93 9.93 0 0 1 0 3.8" />
+                          <path d="M20.29 17.6a9.95 9.95 0 0 1-2.7 2.69" />
+                          <path d="M13.9 21.82a9.94 9.94 0 0 1-3.8 0" />
+                          <path d="M6.4 20.29a9.95 9.95 0 0 1-2.69-2.7" />
+                          <path d="M2.18 13.9a9.93 9.93 0 0 1 0-3.8" />
+                          <path d="M3.71 6.4a9.95 9.95 0 0 1 2.7-2.69" />
+                          <circle cx="12" cy="12" r="1" />
+                        </svg> </span>
+              <p class="text-sm text-gray-500" style="margin: 13px 30px 0 0;">Belum Diproses</p> 
+
+
+
+
+              </div>
+
+
+
+            </div>
+
+
+          </div>
+
+        </div>
+        <!-- End Grid -->
+      </div>
+      <!-- End Card -->
+    </div>
+
+    <div class="max-w-4xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto bg-white shadow-md rounded-lg">
+      <!-- Card -->
+      <div class="bg-white rounded-xl shadow" style="margin: 40px;">
+        <div class="relative h-20 rounded-t-xl bg-no-repeat bg-cover bg-center" style="background-color: #388E3C;">
+          <div class="text-center">
+            <br>
+            <h2 class="text-2xl md:text-3xl font-bold text-white">
+              Formulir Permintaan Surat Keterangan Aktif Kuliah
+            </h2>
+            <br>
+          </div>
+        </div>
+
+        <div class="pt-0 p-4 sm:pt-0 sm:p-7">
+          <!-- Grid -->
+          <div class="space-y-4 sm:space-y-6">
+            <div class="space-y-2">
+              <label class="inline-block text-sm font-medium text-gray-800 mt-2.5">
+                NAMA LENGKAP MAHASISWA/I
+              </label>
+              <p class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm rounded-lg text-sm text-gray-800"
+                style="background-color:aliceblue;">
+
+                <%= mahasiswa.name %>
+              </p>
+            </div>
+            <div class="space-y-2">
+              <label class="inline-block text-sm font-medium text-gray-800 mt-2.5">
+                NOMOR INDUK MAHASISWA (NIM)
+              </label>
+              <p class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm rounded-lg text-sm text-gray-800"
+                style="background-color:aliceblue;">
+
+                <%= permintaan.nim %>
+              </p>
+            </div>
+            <div class="space-y-2">
+              <label class="inline-block text-sm font-medium text-gray-800 mt-2.5">
+                DEPARTEMEN
+              </label>
+              <p class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm rounded-lg text-sm text-gray-800"
+                style="background-color:aliceblue;">
+
+                <%= mahasiswa.departemen %>
+              </p>
+            </div>
+            <div class="space-y-2">
+              <label class="inline-block text-sm font-medium text-gray-800 mt-2.5">
+                Target permintaan surat
+              </label>
+              <p class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm rounded-lg text-sm text-gray-800"
+                style="background-color:aliceblue;">
+
+                <%= permintaan.target %>
+              </p>
+            </div>
+            <div class="space-y-2">
+              <label class="inline-block text-sm font-medium text-gray-800 mt-2.5">
+                Tujuan permintaan surat
+              </label>
+              <p class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm rounded-lg text-sm text-gray-800"
+                style="background-color:aliceblue;">
+
+                <%= permintaan.tujuan %>
+              </p>
+            </div>
+
+            <% if(permintaan.target !=='Pribadi' ) { %>
+              <div>
+                <div class="space-y-2">
+                  <label class="inline-block text-sm font-medium text-gray-800 mt-2.5">
+                    NAMA ORANG TUA
+                  </label>
+                  <p class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm rounded-lg text-sm text-gray-800"
+                    style="background-color:aliceblue;">
+
+                    <%= permintaan.namaOrangtua %>
+                  </p>
+                </div>
+                <div class="space-y-2">
+                  <label class="inline-block text-sm font-medium text-gray-800 mt-2.5">
+                    NIP
+                  </label>
+                  <p class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm rounded-lg text-sm text-gray-800"
+                    style="background-color:aliceblue;">
+
+                    <%= permintaan.nip %>
+                  </p>
+                </div>
+                <div class="space-y-2">
+                  <label class="inline-block text-sm font-medium text-gray-800 mt-2.5">
+                    PANGKAT DAN GOLONGAN
+                  </label>
+                  <p class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm rounded-lg text-sm text-gray-800"
+                    style="background-color:aliceblue;">
+
+                    <%= permintaan.pangkatGolongan %>
+                  </p>
+                </div>
+                <div class="space-y-2">
+                  <label class="inline-block text-sm font-medium text-gray-800 mt-2.5">
+                    UNIT KERJA
+                  </label>
+                  <p class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm rounded-lg text-sm text-gray-800"
+                    style="background-color:aliceblue;">
+
+                    <%= permintaan.unitKerja %>
+                  </p>
+                </div>
+                <div class="space-y-2">
+                  <label class="inline-block text-sm font-medium text-gray-800 mt-2.5">
+                    INSTANSI INDUK
+                  </label>
+                  <p class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm rounded-lg text-sm text-gray-800"
+                    style="background-color:aliceblue;">
+
+                    <%= permintaan.instansiInduk %>
+                  </p>
+                </div>
+              </div>
+              <% } %>
+
+
+          </div>
+          <!-- End Grid -->
+        </div>
+      </div>
+      <!-- End Card -->
+    </div>
+
+
+
+
+
+  </div>
+  <!-- End Card Section -->
+
+
+  </div>
+  <!-- End Contact Us -->
+
+  <%- include("../layout/footer.ejs") %>

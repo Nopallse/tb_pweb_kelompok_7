@@ -1,5 +1,6 @@
 import Sequelize from "sequelize";
 import db from "../config/database.js";
+import Mahasiswa from "./MahasiswaModel.js";
 
 const { DataTypes } = Sequelize;
 
@@ -10,7 +11,12 @@ const Permintaan = db.define('permintaan', {
         autoIncrement: true
     },
     nim: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        references: {
+            model: Mahasiswa,
+            key: 'nim'
+        }
+        
     },
     target: {
         type: DataTypes.STRING
@@ -49,4 +55,5 @@ const Permintaan = db.define('permintaan', {
     timestamps: false  // Disable `createdAt` and `updatedAt`
 });
 
+Permintaan.belongsTo(Mahasiswa, { foreignKey: 'nim' });
 export default Permintaan;

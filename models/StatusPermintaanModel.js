@@ -6,17 +6,19 @@ const { DataTypes } = Sequelize;
 
 const StatusPermintaan = db.define('statusPermintaan', {
     idStatus: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         primaryKey: true,
-        autoIncrement: true
     },
     idPermintaan: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        primaryKey: true,
         references: {
             model: Permintaan,
             key: 'idPermintaan'
         }
+    },
+    tanggal: {
+        type: DataTypes.STRING
     },
     status: {
         type: DataTypes.STRING
