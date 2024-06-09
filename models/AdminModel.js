@@ -1,6 +1,6 @@
-import Sequelize from "sequelize";
-import db from "../config/database.js";
-import Users from "./UserModel.js";
+const Sequelize = require("sequelize");
+const db = require("../config/database.js");
+const Users = require("./UserModel.js");
 
 const { DataTypes } = Sequelize;
 
@@ -48,5 +48,4 @@ const Admin = db.define('admin', {
 
 Admin.belongsTo(Users, { foreignKey: 'id' });
 
-
-export default Admin;
+module.exports = Admin;

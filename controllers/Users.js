@@ -1,15 +1,13 @@
-import Users from "../models/UserModel.js";
-import Mahasiswa from "../models/MahasiswaModel.js";
-import StatusPermintaan from "../models/StatusPermintaanModel.js";
-import Permintaan from "../models/PermintaanModel.js";
-import { getMahasiswa, getUser } from "./auth.js";
+const Users = require("../models/UserModel.js");
+const Mahasiswa = require("../models/MahasiswaModel.js");
+const StatusPermintaan = require("../models/StatusPermintaanModel.js");
+const Permintaan = require("../models/PermintaanModel.js");
+const { getMahasiswa, getUser } = require("./auth.js");
 
-export const sendForm = async (req, res) => {
+const sendForm = async (req, res) => {
   try {
     const { inputName, inputNim, inputDepartemen, inputTarget, inputTujuan, inputOrtu, inputNip, inputPangkat, inputUnit, inputInstansi } = req.body;
     
-
-
     // Extract nim from associated Mahasiswa model
 
     // Memasukkan data form ke dalam basis data menggunakan model Permintaan
@@ -22,17 +20,36 @@ export const sendForm = async (req, res) => {
       pangkatGolongan: inputPangkat,
       unitKerja: inputUnit,
       instansiInduk: inputInstansi,
-      status: "proses"
+      status: "Diajukan"
     });
     
     const idPermintaan = permintaanBaru.idPermintaan; // Asumsikan kolom ID di model Permintaan adalah 'id'
     console.log(idPermintaan);
     await StatusPermintaan.create({
+      idStatus: "1",
       idPermintaan: idPermintaan,
-      status: "proses",
+      status: "Selesai",
     });
 
-    return res.redirect('/home');
+    await StatusPermintaan.create({
+      idStatus: "2",
+      idPermintaan: idPermintaan,
+      status: "Sedang Berlangsung",
+    });
+
+    await StatusPermintaan.create({
+      idStatus: "3",
+      idPermintaan: idPermintaan,
+      status: "Belum Diproses",
+    });
+
+    const io = req.app.get("io");
+    io.to("admin").emit("new_permintaan", {
+      message: "Test notifikasi",
+      permintaan: { inputTujuan: inputTujuan, inputNim: inputNim }
+    });
+
+    return res.redirect('/riwayat');
 
   } catch (error) {
     console.log(error);
@@ -40,8 +57,7 @@ export const sendForm = async (req, res) => {
   }
 };
 
-
-export const getRiwayat = async (req, res) => {
+const getRiwayat = async (req, res) => {
   try {
     const mahasiswa = await getMahasiswa(req, res); 
     const user = await getUser(req, res); 
@@ -88,3 +104,5 @@ export const getRiwayat = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
+module.exports = { sendForm, getRiwayat };

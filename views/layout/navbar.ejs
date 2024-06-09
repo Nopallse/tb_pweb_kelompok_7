@@ -1,12 +1,13 @@
 <!doctype html>
 <html>
 
+
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="/output.css" rel="stylesheet">
   <script src="./node_modules/preline/dist/preline.js"></script>
-  <script src="/sweet/sweetalert2.all.min.js"></script>
 
 </head>
 
@@ -31,21 +32,18 @@
           <a class="font-medium text-gray-500 sm:py-6" <% if(page=='home' ){ %>
             style="color: #388E3C;"
             <% } %>
+
               href="/home" aria-current="page">Home
           </a>
-
-          <a class="font-medium text-gray-500 sm:py-6" <% if(page=='layanan' ){ %>
+          <a class="font-medium text-gray-500 hover:text-gray-400 sm:py-6"<% if(page=='layanan' ){ %>
             style="color: #388E3C;"
             <% } %>
-              href="/layanan">Layanan
-          </a>
-
-          <a class="font-medium text-gray-500 sm:py-6" <% if(page=='riwayat' ){ %>
+            
+            href="/layanan">Layanan</a>
+          <a class="font-medium text-gray-500 hover:text-gray-400 sm:py-6"<% if(page=='riwayat' ){ %>
             style="color: #388E3C;"
             <% } %>
-              href="/riwayat">Riwayat
-          </a>
-
+            href="/riwayat">Riwayat</a>
 
           <div class="container mx-auto mt-4">
 
@@ -54,7 +52,7 @@
 
 
           <h1 class="font-medium text-gray-500" style="color: #388E3C; white-space: nowrap;" disabled>
-            <%= mahasiswa.email %>
+            <%= mahasiswa.user.email %>
           </h1>
 
 

@@ -1,12 +1,12 @@
-import express from "express";
-import { verifyToken } from "../middleware/VerifyToken.js";
-import { editProfile, getUser,getMahasiswa ,uploadProfilePicture  } from "../controllers/auth.js";
-import { changePassword} from "../controllers/auth.js";
-import { sendForm, getRiwayat} from "../controllers/Users.js";
-import path from "path";
-import multer from "multer";
-import fs from 'fs/promises';
-
+const express = require("express");
+const { verifyToken } = require("../middleware/VerifyToken.js");
+const { editProfile, getUser, getMahasiswa, uploadProfilePicture } = require("../controllers/auth.js");
+const { changePassword } = require("../controllers/auth.js");
+const { sendForm, getRiwayat } = require("../controllers/Users.js");
+const Permintaan = require("../models/PermintaanModel.js");
+const Mahasiswa = require("../models/MahasiswaModel.js");
+const Users = require("../models/UserModel.js");
+const StatusPermintaan = require("../models/StatusPermintaanModel.js");
 
 const router = express.Router();
 
@@ -42,8 +42,9 @@ router.get("/profile", verifyToken('mahasiswa'), async function (req, res) {
 
 
 router.get('/profile/change-password',verifyToken('mahasiswa'), async function (req, res) {
-  const user = await getUser(req, res); 
-  res.render('user/change-password', { user , page:'home'});
+  const mahasiswa = await getMahasiswa(req, res); 
+
+  res.render('user/change-password', { mahasiswa , page:'home'});
 });
 
 router.post('/change-password', verifyToken('mahasiswa'), async (req, res) => {
@@ -67,12 +68,44 @@ router.get('/profile/change-profile',verifyToken('mahasiswa'), async (req, res) 
 });
 
 
+
+
 router.get("/riwayat", verifyToken('mahasiswa'), getRiwayat);
 
 
 
+router.get('/riwayat/:idPermintaan', verifyToken('mahasiswa'), async (req, res) => {
+  const idPermintaan = req.params.idPermintaan;
+  const permintaan = await Permintaan.findByPk(idPermintaan);
+  
 
+  const Status = await StatusPermintaan.findAll({
+    where: { idPermintaan: idPermintaan}
+  })
 
+  const nimMahasiswa = permintaan.nim;
+  const mahasiswa = await Mahasiswa.findOne({
+    where: { nim: nimMahasiswa },
+    include: {
+        model: Users,
+        attributes: ['email']
+    }
+});
+  console.log(Status)
+
+  if (permintaan) {
+    res.render('user/riwayatDetail', { mahasiswa ,Status ,permintaan, page: 'riwayat' });
+  } else {
+    res.status(404).send('Permintaan not found');
+  }
+});
+
+router.get('/preview', (req, res) => {
+  const pdfUrl = `http://localhost:3000/data/surat/file.pdf`;
+  const googleDocsUrl = `https://docs.google.com/viewer?url=${encodeURIComponent('http://www.pdf995.com/samples/pdf.pdf')}&embedded=true`;
+  
+  res.render('surat', { googleDocsUrl });
+});
 
 
 
@@ -90,4 +123,4 @@ router.post('/send-form', verifyToken('mahasiswa'), async (req, res) => {
 
 
 
-  export default router;
+module.exports = router;

@@ -1,35 +1,145 @@
-import fs from "fs";
-import path from "path";
-import PizZip from "pizzip";
-import Docxtemplater from "docxtemplater";
-import libre from "libreoffice-convert";
-import Users from "../models/UserModel.js";
-import Permintaan from "../models/PermintaanModel.js";
-import StatusPermintaaan from "../models/StatusPermintaanModel.js";
-import Surat from "../models/SuratModel.js";
-import Mahasiswa from "../models/MahasiswaModel.js";
-import { getAdmin, getMahasiswa, getUser } from "./auth.js";
+const fs = require("fs");
+const path = require("path");
+const PizZip = require("pizzip");
+const Docxtemplater = require("docxtemplater");
+const libre = require("libreoffice-convert");
+const Users = require("../models/UserModel.js");
+const Permintaan = require("../models/PermintaanModel.js");
+const StatusPermintaan = require("../models/StatusPermintaanModel.js");
+const Surat = require("../models/SuratModel.js");
+const Mahasiswa = require("../models/MahasiswaModel.js");
+const { getAdmin, getMahasiswa, getUser } = require("./auth.js");
+const { get } = require("http");
 
-export const generate = async (req, res) => {
+const getDashboard = async (req, res) => {
+  const admin = await getAdmin(req, res); 
+  const permintaan = await Permintaan.findAll();
+  res.render("admin/dashboard",{  admin ,permintaan, page: 'Dashboard' });
+};
+
+const getAdminProfile = async (req, res) => {
+  const admin = await getAdmin(req, res);
+  res.render("admin/profile", { admin, page: "Profile" });
+}
+
+const getAdminChangeProfile = async (req, res) => {
+  const admin = await getAdmin(req, res);
+  res.render("admin/change-profile", { admin, page: "Profile" });
+}
+
+const getAdminChangePassword = async (req, res) => {
+  const admin = await getAdmin(req, res);
+  res.render("admin/change-password", { admin, page: "change password" });
+}
+
+const getAdminMahasiswa = async (req, res) => {
+  const admin = await getAdmin(req, res); 
+  const mahasiswa = await Mahasiswa.findAll({ order: [['id', 'ASC']] });
+  res.render("admin/mahasiswa",{  admin, mahasiswa , page: 'Mahasiswa' });
+}
+
+const getDetailMahasiswa = async (req, res) => {
+  const userId = req.params.id;
+  const admin = await getAdmin(req, res); 
+  const mahasiswa = await getMahasiswaById(userId);
+  console.log(mahasiswa);
+  res.render('admin/mahasiswaDetail', { admin, mahasiswa , page: 'permintaan'});
+}
+
+
+const getDetailPermintaanUnverified = async (req, res) => {
+  const admin = await getAdmin(req, res); 
+  const idPermintaan = req.params.idPermintaan;
+  const permintaan = await Permintaan.findByPk(idPermintaan);
+  const nimMahasiswa = permintaan.nim;
+  const mahasiswa = await Mahasiswa.findOne({
+    where: { nim: nimMahasiswa },
+    include: {
+        model: Users,
+        attributes: ['email']
+    }
+});
+  if (permintaan) {
+    res.render('admin/permintaan-unverified-detail', { admin,mahasiswa ,permintaan, page: 'permintaan' });
+  }
+}
+
+
+const getDetailPermintaanVerify = async (req, res) => {
+  const admin = await getAdmin(req, res); 
+  const id = req.params.idPermintaan;
+  const permintaan = await Permintaan.findOne({
+    where: { idPermintaan: id},
+    include: {
+      model: Mahasiswa,
+      attributes: ['name', 'nim', 'departemen']
+    }});
+  
+  if (permintaan) {
+    res.render('admin/permintaan-verify-detail', { admin,permintaan, page: 'permintaan' });
+  }
+}
+
+
+const getDetail = async (req, res) => {
+  const admin = await getUser(req, res); 
+  const user = await getUser(req, res); 
+  const idPermintaan = req.params.idPermintaan;
+
+  // Fetch the specific permintaan detail by id
+  const permintaan = await Permintaan.findByPk(idPermintaan);
+
+  if (permintaan) {
+    res.render('admin/suratDetail', { admin, user, permintaan, page: 'surat' });
+  } else {
+    res.status(404).send('Surat not found');
+  }
+}
+
+
+
+const verifikasi = async (req, res) => {
   try {
     const {
       idPermintaan,
-      inputName,
-      inputNim,
-      inputDepartemen,
-      inputTarget,
-      inputTujuan,
-      inputOrtu,
-      inputPangkat,
-      inputUnit,
-      inputInstansi,
     } = req.body;
 
     const permintaan = await Permintaan.findByPk(idPermintaan);
+   
+        await permintaan.update({ status: "Proses" });
 
-    if (!permintaan) {
-      return res.status(404).json({ message: "Permintaan tidak ditemukan" });
-    }
+        await StatusPermintaan.findAll({
+          where: { idPermintaan: idPermintaan },
+        });
+        
+        // Update entries with idStatus "Diverifikasi" to "Selesai"
+        await StatusPermintaan.update(
+          { status: "Selesai" },
+          { where: { idPermintaan: idPermintaan, idStatus: "2" } }
+        );
+        
+        // Update entries with idStatus "Diterbitkan" to "Sedang Berlangsung"
+        await StatusPermintaan.update(
+          { status: "Sedang Berlangsung" },
+          { where: { idPermintaan: idPermintaan, idStatus: "3" } }
+        );
+
+    
+        res.status(200).json({ message: 'Permintaan berhasil di verifikasi' });
+      
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Terjadi kesalahan server" });
+  }
+};
+
+const generate = async (req, res) => {
+  try {
+    const {
+      idPermintaan,
+    } = req.body;
+
+    const permintaan = await Permintaan.findByPk(idPermintaan);
 
     let target = permintaan.target === "Pribadi" ? "pribadi" : "orangtua";
 
@@ -117,16 +227,17 @@ export const generate = async (req, res) => {
 
         await fs.promises.unlink(outputPath);
 
-        await permintaan.update({ status: "selesai" });
+        await permintaan.update({ status: "Selesai" });
 
+
+        await StatusPermintaan.update(
+          { status: "Selesai" },
+          { where: { idPermintaan: idPermintaan, idStatus: "3" } }
+        );
+    
         
 
-        await StatusPermintaaan.create({
-          idPermintaan: idPermintaan,
-          status: "selesai",
-        });
-
-        res.status(200).json({ message: 'Surat berhasil di proses' });
+        res.status(200).json({ message: 'Surat berhasil di terbitkan' });
       }
     );
   } catch (error) {
@@ -135,8 +246,7 @@ export const generate = async (req, res) => {
   }
 };
 
-
-export const getMahasiswaById = async (mahasiswaId) => {
+const getMahasiswaById = async (mahasiswaId) => {
   try {
       const mahasiswa = await Mahasiswa.findOne({
           where: { id: mahasiswaId },
@@ -156,19 +266,20 @@ export const getMahasiswaById = async (mahasiswaId) => {
   }
 };
 
-export const getPermintaan = async (req, res) => {
+const getPermintaanUnverified = async (req, res) => {
   try {
-    const admin = await getUser(req, res); 
+    const admin = await getAdmin(req, res); 
     const user = await getUser(req, res); 
 
     const perPage = 10; // Number of entries per page
     const page = req.query.page ? parseInt(req.query.page) : 1; // Current page, default to 1 if not specified
 
-    const totalEntries = await Permintaan.count(); // Get total number of entries
+    const totalEntries = await Permintaan.count({ where: { status: "Diajukan" } }); // Get total number of entries with status "Diajukan"
     const totalPages = Math.ceil(totalEntries / perPage); // Calculate total number of pages
 
-    // Fetch only the entries for the current page
+    // Fetch only the entries for the current page with status "Diajukan"
     const permintaan = await Permintaan.findAll({
+      where: { status: "Diajukan" },
       offset: (page - 1) * perPage,
       limit: perPage
     });
@@ -188,17 +299,115 @@ export const getPermintaan = async (req, res) => {
       };
     }));
 
-    res.render("admin/permintaan", {  
+    res.render("admin/permintaan-unverified", {  
       admin,
       user,
       permintaan: permintaanWithMahasiswa,
       currentPage: page,
       totalPages: totalPages,
       totalEntries: totalEntries,
-      page: 'permintaan'
+      page: 'permintaan unverified'
     });
   } catch (error) {
     console.error("Error fetching permintaan:", error);
     res.status(500).send("Internal Server Error");
   }
 };
+
+const getPermintaanVerify = async (req, res) => {
+  try {
+    const admin = await getAdmin(req, res); 
+    const user = await getUser(req, res); 
+
+    const perPage = 10; // Number of entries per page
+    const page = req.query.page ? parseInt(req.query.page) : 1; // Current page, default to 1 if not specified
+
+    const totalEntries = await Permintaan.count({ where: { status: 'Proses' } }); // Get total number of entries with status 'Proses'
+    const totalPages = Math.ceil(totalEntries / perPage); // Calculate total number of pages
+
+    // Fetch only the entries for the current page with status 'Proses'
+    const permintaan = await Permintaan.findAll({
+      where: { status: 'Proses' },
+      offset: (page - 1) * perPage,
+      limit: perPage
+    });
+
+    // Iterate over permintaan to fetch additional mahasiswa details
+    const permintaanWithMahasiswa = await Promise.all(permintaan.map(async (entry) => {
+      const mahasiswa = await Mahasiswa.findOne({
+        where: { nim: entry.nim },
+        include: {
+          model: Users,
+          attributes: ['email']
+        }
+      });
+      return {
+        ...entry.toJSON(), // Convert Sequelize instance to plain object
+        mahasiswa
+      };
+    }));
+
+    res.render("admin/permintaan-verify", {  
+      admin,
+      user,
+      permintaan: permintaanWithMahasiswa,
+      currentPage: page,
+      totalPages: totalPages,
+      totalEntries: totalEntries,
+      page: 'surat'
+    });
+  } catch (error) {
+    console.error("Error fetching permintaan:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+const getSurat = async (req, res) => {
+  try {
+    const admin = await getAdmin(req, res); 
+    const user = await getUser(req, res); 
+
+    const perPage = 10; // Number of entries per page
+    const page = req.query.page ? parseInt(req.query.page) : 1; // Current page, default to 1 if not specified
+
+    const totalEntries = await Permintaan.count({ where: { status: 'Selesai' } }); // Get total number of entries with status 'Proses'
+    const totalPages = Math.ceil(totalEntries / perPage); // Calculate total number of pages
+
+    // Fetch only the entries for the current page with status 'Proses'
+    const permintaan = await Permintaan.findAll({
+      where: { status: 'Selesai' },
+      offset: (page - 1) * perPage,
+      limit: perPage
+    });
+
+    // Iterate over permintaan to fetch additional mahasiswa details
+    const permintaanWithMahasiswa = await Promise.all(permintaan.map(async (entry) => {
+      const mahasiswa = await Mahasiswa.findOne({
+        where: { nim: entry.nim },
+        include: {
+          model: Users,
+          attributes: ['email']
+        }
+      });
+      return {
+        ...entry.toJSON(), // Convert Sequelize instance to plain object
+        mahasiswa
+      };
+    }));
+
+    res.render("admin/surat", {  
+      admin,
+      user,
+      permintaan: permintaanWithMahasiswa,
+      currentPage: page,
+      totalPages: totalPages,
+      totalEntries: totalEntries,
+      page: 'surat'
+    });
+  } catch (error) {
+    console.error("Error fetching permintaan:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+module.exports = { getDashboard, getAdminProfile, getAdminChangeProfile, getAdminChangePassword, getAdminMahasiswa, getDetailMahasiswa, getDetailPermintaanUnverified, getDetailPermintaanVerify, getDetail, verifikasi, generate, getPermintaanUnverified, getPermintaanVerify, getSurat };
