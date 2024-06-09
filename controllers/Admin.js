@@ -1,44 +1,54 @@
-import fs from "fs";
-import path from "path";
-import PizZip from "pizzip";
-import Docxtemplater from "docxtemplater";
-import libre from "libreoffice-convert";
-import Users from "../models/UserModel.js";
-import Permintaan from "../models/PermintaanModel.js";
-import StatusPermintaan from "../models/StatusPermintaanModel.js";
-import Surat from "../models/SuratModel.js";
-import Mahasiswa from "../models/MahasiswaModel.js";
-import { getAdmin, getMahasiswa, getUser } from "./auth.js";
 
+const fs = require("fs");
+const path = require("path");
+const PizZip = require("pizzip");
+const Docxtemplater = require("docxtemplater");
+const libre = require("libreoffice-convert");
+const Users = require("../models/UserModel.js");
+const Permintaan = require("../models/PermintaanModel.js");
+const StatusPermintaan = require("../models/StatusPermintaanModel.js");
+const Surat = require("../models/SuratModel.js");
+const Mahasiswa = require("../models/MahasiswaModel.js");
+const { getAdmin, getMahasiswa, getUser } = require("./auth.js");
+const { get } = require("http");
 
-export const getDashboard = async (req, res) => {
+const getDashboard = async (req, res) => {
+
   const admin = await getAdmin(req, res); 
   const permintaan = await Permintaan.findAll();
   res.render("admin/dashboard",{  admin ,permintaan, page: 'Dashboard' });
 };
 
-export const getAdminProfile = async (req, res) => {
+const getAdminProfile = async (req, res) => {
+
   const admin = await getAdmin(req, res);
   res.render("admin/profile", { admin, page: "Profile" });
 }
 
-export const getAdminChangeProfile = async (req, res) => {
+
+const getAdminChangeProfile = async (req, res) => {
+
   const admin = await getAdmin(req, res);
   res.render("admin/change-profile", { admin, page: "Profile" });
 }
 
-export const getAdminChangePassword = async (req, res) => {
+const getAdminChangePassword = async (req, res) => {
+
   const admin = await getAdmin(req, res);
   res.render("admin/change-password", { admin, page: "change password" });
 }
 
-export const getAdminMahasiswa = async (req, res) => {
+const getAdminMahasiswa = async (req, res) => {
+
   const admin = await getAdmin(req, res); 
   const mahasiswa = await Mahasiswa.findAll({ order: [['id', 'ASC']] });
   res.render("admin/mahasiswa",{  admin, mahasiswa , page: 'Mahasiswa' });
 }
 
-export const getDetailMahasiswa = async (req, res) => {
+
+const getDetailMahasiswa = async (req, res) => {
+
+  
   const userId = req.params.id;
   const admin = await getAdmin(req, res); 
   const mahasiswa = await getMahasiswaById(userId);
@@ -47,7 +57,8 @@ export const getDetailMahasiswa = async (req, res) => {
 }
 
 
-export const getDetailPermintaanUnverified = async (req, res) => {
+const getDetailPermintaanUnverified = async (req, res) => {
+
   const admin = await getAdmin(req, res); 
   const idPermintaan = req.params.idPermintaan;
   const permintaan = await Permintaan.findByPk(idPermintaan);
@@ -65,7 +76,8 @@ export const getDetailPermintaanUnverified = async (req, res) => {
 }
 
 
-export const getDetailPermintaanVerify = async (req, res) => {
+const getDetailPermintaanVerify = async (req, res) => {
+
   const admin = await getAdmin(req, res); 
   const id = req.params.idPermintaan;
   const permintaan = await Permintaan.findOne({
@@ -81,7 +93,8 @@ export const getDetailPermintaanVerify = async (req, res) => {
 }
 
 
-export const getDetail = async (req, res) => {
+const getDetail = async (req, res) => {
+
   const admin = await getUser(req, res); 
   const user = await getUser(req, res); 
   const idPermintaan = req.params.idPermintaan;
@@ -98,7 +111,8 @@ export const getDetail = async (req, res) => {
 
 
 
-export const verifikasi = async (req, res) => {
+
+const verifikasi = async (req, res) => {
   try {
     const {
       idPermintaan,
@@ -133,7 +147,8 @@ export const verifikasi = async (req, res) => {
   }
 };
 
-export const generate = async (req, res) => {
+const generate = async (req, res) => {
+
   try {
     const {
       idPermintaan,
@@ -232,9 +247,12 @@ export const generate = async (req, res) => {
 
         await StatusPermintaan.update(
           { status: "Selesai" },
-          { where: { idPermintaan: idPermintaan, idStatus: "Diterbitkan" } }
+
+          { where: { idPermintaan: idPermintaan, idStatus: "3" } }
         );
     
+        
+
 
         res.status(200).json({ message: 'Surat berhasil di terbitkan' });
       }
@@ -245,7 +263,10 @@ export const generate = async (req, res) => {
   }
 };
 
-export const getMahasiswaById = async (mahasiswaId) => {
+
+const getMahasiswaById = async (mahasiswaId) => {
+
+  
   try {
       const mahasiswa = await Mahasiswa.findOne({
           where: { id: mahasiswaId },
@@ -265,7 +286,10 @@ export const getMahasiswaById = async (mahasiswaId) => {
   }
 };
 
-export const getPermintaanUnverified = async (req, res) => {
+
+const getPermintaanUnverified = async (req, res) => {
+
+  
   try {
     const admin = await getAdmin(req, res); 
     const user = await getUser(req, res); 
@@ -313,7 +337,7 @@ export const getPermintaanUnverified = async (req, res) => {
   }
 };
 
-export const getPermintaanVerify = async (req, res) => {
+const getPermintaanVerify = async (req, res) => {
   try {
     const admin = await getAdmin(req, res); 
     const user = await getUser(req, res); 
@@ -361,7 +385,8 @@ export const getPermintaanVerify = async (req, res) => {
   }
 };
 
-export const getSurat = async (req, res) => {
+const getSurat = async (req, res) => {
+
   try {
     const admin = await getAdmin(req, res); 
     const user = await getUser(req, res); 
@@ -370,11 +395,14 @@ export const getSurat = async (req, res) => {
     const page = req.query.page ? parseInt(req.query.page) : 1; // Current page, default to 1 if not specified
 
     const totalEntries = await Permintaan.count({ where: { status: 'Selesai' } }); // Get total number of entries with status 'Proses'
+
     const totalPages = Math.ceil(totalEntries / perPage); // Calculate total number of pages
 
     // Fetch only the entries for the current page with status 'Proses'
     const permintaan = await Permintaan.findAll({
+
       where: { status: 'Selesai' },
+
       offset: (page - 1) * perPage,
       limit: perPage
     });
@@ -395,6 +423,7 @@ export const getSurat = async (req, res) => {
     }));
 
     res.render("admin/surat", {  
+
       admin,
       user,
       permintaan: permintaanWithMahasiswa,
@@ -408,3 +437,6 @@ export const getSurat = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
+module.exports = { getDashboard, getAdminProfile, getAdminChangeProfile, getAdminChangePassword, getAdminMahasiswa, getDetailMahasiswa, getDetailPermintaanUnverified, getDetailPermintaanVerify, getDetail, verifikasi, generate, getPermintaanUnverified, getPermintaanVerify, getSurat };
+

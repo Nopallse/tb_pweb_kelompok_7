@@ -91,7 +91,7 @@
                 <h3 class="text-xl font-medium text-gray-800">
                   <% count = 0; %>
                   <% permintaan.forEach(item => { %>
-                      <% if (item.status === 'proses') { %>
+                      <% if (item.status === 'Proses' || item.status === 'Diajukan') { %>
                           <% count++; %>
                       <% } %>
                   <% }); %>
@@ -126,7 +126,7 @@
                 <h3 class="text-xl sm:text-2xl font-medium text-gray-800">
                   <% count = 0; %>
                   <% permintaan.forEach(item => { %>
-                      <% if (item.status === 'selesai') { %>
+                      <% if (item.status === 'Selesai') { %>
                           <% count++; %>
                       <% } %>
                   <% }); %>
@@ -192,6 +192,64 @@
   <!-- ========== END MAIN CONTENT ========== -->
 
 
+
+  <div id="notification-container" class="notification-container"></div>
+
+
+  <style>
+    .notification-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 300px;
+  z-index: 1000;
+}
+
+.notification {
+  background-color: #f0f8ff;
+  border: 1px solid #dcdcdc;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+  </style>
+  <!-- Menyertakan script untuk socket.io -->
+  <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+  <script>
+    const socket = io("http://localhost:3000"); // Ganti URL dengan alamat server Anda jika berbeda
+    
+    // Saat terhubung, bergabung dengan room 'adminfti'
+    socket.on("connect", () => {
+      console.log("Connected to server");
+      socket.emit("joinRoom", "admin"); // Emit untuk bergabung dengan room 'adminfti'
+    });
+    
+    // Menerima notifikasi kegiatan baru
+    socket.on("new_permintaan", (data) => {
+      console.log("Notifikasi baru:", data);
+      showNotification(data);
+    });
+    
+    // Fungsi untuk menampilkan notifikasi di dashboard
+    function showNotification(data) {
+      const notificationContainer = document.getElementById(
+        "notification-container"
+      );
+      const notification = document.createElement("div");
+      notification.className = "notification";
+      notification.innerHTML = `
+        <strong>${data.message}</strong>
+        <p>${data.permintaan.inputTujuan} oleh ${data.permintaan.inputNim}</p>
+      `;
+      notificationContainer.appendChild(notification);
+    
+      // Menghapus notifikasi setelah beberapa detik
+      setTimeout(() => {
+        notificationContainer.removeChild(notification);
+      }, 5000);
+    }
+    </script>
 
 
   <script src="/preline/preline.js"></script>

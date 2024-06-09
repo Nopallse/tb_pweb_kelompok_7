@@ -1,6 +1,7 @@
-import Sequelize from "sequelize";
-import db from "../config/database.js";
-import Mahasiswa from "./MahasiswaModel.js";
+const Sequelize = require("sequelize");
+const db = require("../config/database.js");
+const Mahasiswa = require("./MahasiswaModel.js");
+
 
 const { DataTypes } = Sequelize;
 
@@ -16,7 +17,6 @@ const Permintaan = db.define('permintaan', {
             model: Mahasiswa,
             key: 'nim'
         }
-        
     },
     target: {
         type: DataTypes.STRING
@@ -43,17 +43,19 @@ const Permintaan = db.define('permintaan', {
         type: DataTypes.STRING
     },
     tanggal: {
-        type: DataTypes.DATEONLY,  // Only store the date part
-        defaultValue: DataTypes.NOW
+        type: DataTypes.DATEONLY,
+        defaultValue: Sequelize.NOW
     },
     waktu: {
-        type: DataTypes.TIME,  // Only store the time part
+        type: DataTypes.TIME,
         defaultValue: Sequelize.literal('CURRENT_TIME')
     }
 }, {
     freezeTableName: true,
-    timestamps: false  // Disable `createdAt` and `updatedAt`
+    timestamps: false
 });
 
 Permintaan.belongsTo(Mahasiswa, { foreignKey: 'nim' });
-export default Permintaan;
+
+module.exports = Permintaan;
+

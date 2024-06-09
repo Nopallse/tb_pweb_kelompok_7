@@ -1,12 +1,13 @@
-import express from "express";
-import { verifyToken } from "../middleware/VerifyToken.js";
-import { editProfile, getUser,getMahasiswa ,uploadProfilePicture  } from "../controllers/auth.js";
-import { changePassword} from "../controllers/auth.js";
-import { sendForm, getRiwayat} from "../controllers/Users.js";
-import Permintaan from "../models/PermintaanModel.js";
-import Mahasiswa from "../models/MahasiswaModel.js";
-import Users from "../models/UserModel.js";
-import StatusPermintaan from "../models/StatusPermintaanModel.js";
+const express = require("express");
+const { verifyToken } = require("../middleware/VerifyToken.js");
+const { editProfile, getUser, getMahasiswa, uploadProfilePicture } = require("../controllers/auth.js");
+const { changePassword } = require("../controllers/auth.js");
+const { sendForm, getRiwayat } = require("../controllers/Users.js");
+const Permintaan = require("../models/PermintaanModel.js");
+const Mahasiswa = require("../models/MahasiswaModel.js");
+const Users = require("../models/UserModel.js");
+const StatusPermintaan = require("../models/StatusPermintaanModel.js");
+
 
 const router = express.Router();
 
@@ -68,6 +69,8 @@ router.get('/profile/change-profile',verifyToken('mahasiswa'), async (req, res) 
 });
 
 
+
+
 router.get("/riwayat", verifyToken('mahasiswa'), getRiwayat);
 
 
@@ -75,8 +78,6 @@ router.get("/riwayat", verifyToken('mahasiswa'), getRiwayat);
 router.get('/riwayat/:idPermintaan', verifyToken('mahasiswa'), async (req, res) => {
   const idPermintaan = req.params.idPermintaan;
   const permintaan = await Permintaan.findByPk(idPermintaan);
-  
-
   const Status = await StatusPermintaan.findAll({
     where: { idPermintaan: idPermintaan}
   })
@@ -98,7 +99,12 @@ router.get('/riwayat/:idPermintaan', verifyToken('mahasiswa'), async (req, res) 
   }
 });
 
-
+router.get('/preview', (req, res) => {
+  const pdfUrl = `http://localhost:3000/data/surat/file.pdf`;
+  const googleDocsUrl = `https://docs.google.com/viewer?url=${encodeURIComponent('http://www.pdf995.com/samples/pdf.pdf')}&embedded=true`;
+  
+  res.render('surat', { googleDocsUrl });
+});
 
 
 
@@ -116,4 +122,4 @@ router.post('/send-form', verifyToken('mahasiswa'), async (req, res) => {
 
 
 
-  export default router;
+module.exports = router;

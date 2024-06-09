@@ -1,7 +1,7 @@
-import Sequelize from "sequelize";
-import db from "../config/database.js";
-import Permintaan from "./PermintaanModel.js";
-import Admin from "./AdminModel.js";
+const Sequelize = require("sequelize");
+const db = require("../config/database.js");
+const Permintaan = require("./PermintaanModel.js");
+const Admin = require("./AdminModel.js");
 
 const { DataTypes } = Sequelize;
 
@@ -43,4 +43,4 @@ const Surat = db.define('surat', {
     timestamps: false
 });
 
-export default Surat;
+module.exports = Surat;

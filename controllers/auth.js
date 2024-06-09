@@ -1,12 +1,13 @@
-import jwt from 'jsonwebtoken';
-import Users from "../models/UserModel.js";
-import bcrypt from "bcryptjs"
-import fs from 'fs/promises';
-import multer from 'multer';
-import Admin from '../models/AdminModel.js';
-import Mahasiswa from '../models/MahasiswaModel.js';
+const jwt = require('jsonwebtoken');
+const Users = require("../models/UserModel.js");
+const bcrypt = require("bcryptjs");
+const fs = require('fs/promises');
+const multer = require('multer');
+const Admin = require('../models/AdminModel.js');
+const Mahasiswa = require('../models/MahasiswaModel.js');
 
-export const Login = async (req, res) => {
+const Login = async (req, res) => {
+
   try {
     const user = await Users.findOne({
       where: {
@@ -15,15 +16,13 @@ export const Login = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(401).json({ message: "Email tidak ditemukan, silahkan daftar terlebih dahulu"});
+      return res.status(401).json({ message: "Email tidak ditemukan, silahkan daftar terlebih dahulu" });
     }
-    else{
 
-  
     const match = await bcrypt.compare(req.body.password, user.password);
 
     if (!match) {
-      return res.status(401).json({ message: "Password salah"});  
+      return res.status(401).json({ message: "Password salah" });
     }
 
     const userId = user.id;
@@ -34,42 +33,39 @@ export const Login = async (req, res) => {
     const hp = user.hp;
     const departemen = user.departemen;
 
-    const token = jwt.sign({ userId, name, email,role,nim,hp,departemen }, process.env.ACCESS_TOKEN_SECRET, {
+    const token = jwt.sign({ userId, name, email, role, nim, hp, departemen }, process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: "15m",
     });
-    const refreshToken = jwt.sign({ userId, name, email,role,nim,hp,departemen }, process.env.REFRESH_TOKEN_SECRET, {
+
+    const refreshToken = jwt.sign({ userId, name, email, role, nim, hp, departemen }, process.env.REFRESH_TOKEN_SECRET, {
       expiresIn: "7d",
     });
 
     await Users.update(
-      {
-        refresh_token: refreshToken,
-      },
-      {
-        where: {
-          id: userId,
-        },
-      }
+      { refresh_token: refreshToken },
+      { where: { id: userId } }
     );
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
-      // secure:true
     });
 
     res.cookie("token", token, { httpOnly: true });
+    console.log("Login berhasil");
 
     res.status(200).json({ message: 'Login berhasil', role: user.role });
-
-  }
   } catch (error) {
     console.log(error);
     res.status(401).json(error.message);
   }
 };
 
-export const Logout = async (req, res) => {
+
+
+
+
+const Logout = async (req, res) => {
   try {
     const refreshToken = req.cookies.refreshToken;
     
@@ -78,7 +74,6 @@ export const Logout = async (req, res) => {
     const user = await Users.findOne({
       where: {
         refresh_token: refreshToken,
-        token: token,
       },
     });
 
@@ -104,8 +99,7 @@ export const Logout = async (req, res) => {
   }
 };
 
-
-export function checkUserLoggedIn(req) {
+function checkUserLoggedIn(req) {
     const refreshToken = req.cookies.refreshToken;
     
     let user = null;
@@ -124,10 +118,10 @@ export function checkUserLoggedIn(req) {
             return { user: null };
         }
     }
-    return {  user };
+    return { user };
 }
 
-export const changePassword = async (req, res) => {
+const changePassword = async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body;
 
@@ -141,22 +135,20 @@ export const changePassword = async (req, res) => {
       return res.status(401).json({ message: "Password saat ini salah" });
     }
 
-      const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
 
     await user.update({ password: hashedNewPassword });
 
     res.redirect('/logout');
-
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Terjadi kesalahan server" });
   }
 };
 
-
-export const editProfile = async (req, res) => {
+const editProfile = async (req, res) => {
   try {
-    const { newName, newNim, newPhoneNumber,  } = req.body;
+    const { newName, newNim, newPhoneNumber } = req.body;
 
     const mahasiswa = await Mahasiswa.findOne(req.newNim);
     
@@ -166,18 +158,16 @@ export const editProfile = async (req, res) => {
       phone: newPhoneNumber
     });
     return res.redirect('/profile');
-
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Terjadi kesalahan server" });
   }
 };
 
-export const getUser = async (req, res) => {
+const getUser = async (req, res) => {
   const { user } = checkUserLoggedIn(req, res);
   if (!user) {
     return res.redirect('/login');
-
   }
 
   const newProfile = await Users.findByPk(user.userId);
@@ -185,12 +175,10 @@ export const getUser = async (req, res) => {
   return newProfile; 
 };
 
-
-export const getAdmin = async (req, res) => {
+const getAdmin = async (req, res) => {
   const { user } = checkUserLoggedIn(req, res);
 
   try {
-    // Menggunakan model Admin untuk mencari admin berdasarkan userId
     const admin = await Admin.findOne({
       where: { id: user.userId },
       include: {
@@ -205,11 +193,10 @@ export const getAdmin = async (req, res) => {
   }
 };
 
-export const getMahasiswa = async (req, res) => {
+const getMahasiswa = async (req, res) => {
   const { user } = checkUserLoggedIn(req, res);
 
   try {
-    // Menggunakan model Admin untuk mencari admin berdasarkan userId
     const mahasiswa = await Mahasiswa.findOne({
       where: { id: user.userId },
       include: {
@@ -219,12 +206,12 @@ export const getMahasiswa = async (req, res) => {
     });
     return mahasiswa;
   } catch (error) {
-    console.error('Error while fetching admin:', error);
+    console.error('Error while fetching mahasiswa:', error);
     return null;
   }
 };
 
-export const uploadProfilePicture = async (req, res) => {
+const uploadProfilePicture = async (req, res) => {
   const upload = multer({
     storage: multer.diskStorage({
       destination: async (req, file, cb) => {
@@ -247,4 +234,16 @@ export const uploadProfilePicture = async (req, res) => {
 
     await editProfile(req, res);
   });
+};
+
+module.exports = {
+  Login,
+  Logout,
+  checkUserLoggedIn,
+  changePassword,
+  editProfile,
+  getUser,
+  getAdmin,
+  getMahasiswa,
+  uploadProfilePicture
 };

@@ -1,6 +1,6 @@
-import Sequelize from "sequelize";
-import db from "../config/database.js";
-import Permintaan from "./PermintaanModel.js";
+const Sequelize = require("sequelize");
+const db = require("../config/database.js");
+const Permintaan = require("./PermintaanModel.js");
 
 const { DataTypes } = Sequelize;
 
@@ -28,4 +28,4 @@ const StatusPermintaan = db.define('statusPermintaan', {
     timestamps: false
 });
 
-export default StatusPermintaan;
+module.exports = StatusPermintaan;
