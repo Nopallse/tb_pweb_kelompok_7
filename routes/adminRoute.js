@@ -2,6 +2,7 @@ const express = require("express");
 const { verifyToken } = require("../middleware/VerifyToken.js");
 const { uploadProfilePicture, changePassword } = require("../controllers/auth.js");
 const {
+
   generate,
   verifikasi,
   getDashboard,
@@ -15,6 +16,7 @@ const {
   getDetailPermintaanVerify,
   getDetailPermintaanUnverified,
   getSurat,
+
 } = require("../controllers/Admin.js");
 
 const router = express.Router();
@@ -50,6 +52,7 @@ router.get("/permintaan-verify/:idPermintaan", verifyToken("admin"), getDetailPe
 router.post("/verifikasi", verifyToken("admin"), verifikasi);
 
 router.get("/surat", verifyToken("admin"), getSurat);
+
 
 router.post("/process-form", verifyToken("admin"), generate);
 

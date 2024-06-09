@@ -8,6 +8,7 @@ const Mahasiswa = require("../models/MahasiswaModel.js");
 const Users = require("../models/UserModel.js");
 const StatusPermintaan = require("../models/StatusPermintaanModel.js");
 
+
 const router = express.Router();
 
 
@@ -77,8 +78,6 @@ router.get("/riwayat", verifyToken('mahasiswa'), getRiwayat);
 router.get('/riwayat/:idPermintaan', verifyToken('mahasiswa'), async (req, res) => {
   const idPermintaan = req.params.idPermintaan;
   const permintaan = await Permintaan.findByPk(idPermintaan);
-  
-
   const Status = await StatusPermintaan.findAll({
     where: { idPermintaan: idPermintaan}
   })

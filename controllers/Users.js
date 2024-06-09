@@ -27,6 +27,7 @@ const sendForm = async (req, res) => {
     console.log(idPermintaan);
     await StatusPermintaan.create({
       idStatus: "1",
+
       idPermintaan: idPermintaan,
       status: "Selesai",
     });
@@ -40,6 +41,7 @@ const sendForm = async (req, res) => {
     await StatusPermintaan.create({
       idStatus: "3",
       idPermintaan: idPermintaan,
+
       status: "Belum Diproses",
     });
 

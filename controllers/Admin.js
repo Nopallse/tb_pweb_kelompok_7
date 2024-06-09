@@ -1,3 +1,4 @@
+
 const fs = require("fs");
 const path = require("path");
 const PizZip = require("pizzip");
@@ -12,33 +13,42 @@ const { getAdmin, getMahasiswa, getUser } = require("./auth.js");
 const { get } = require("http");
 
 const getDashboard = async (req, res) => {
+
   const admin = await getAdmin(req, res); 
   const permintaan = await Permintaan.findAll();
   res.render("admin/dashboard",{  admin ,permintaan, page: 'Dashboard' });
 };
 
 const getAdminProfile = async (req, res) => {
+
   const admin = await getAdmin(req, res);
   res.render("admin/profile", { admin, page: "Profile" });
 }
 
+
 const getAdminChangeProfile = async (req, res) => {
+
   const admin = await getAdmin(req, res);
   res.render("admin/change-profile", { admin, page: "Profile" });
 }
 
 const getAdminChangePassword = async (req, res) => {
+
   const admin = await getAdmin(req, res);
   res.render("admin/change-password", { admin, page: "change password" });
 }
 
 const getAdminMahasiswa = async (req, res) => {
+
   const admin = await getAdmin(req, res); 
   const mahasiswa = await Mahasiswa.findAll({ order: [['id', 'ASC']] });
   res.render("admin/mahasiswa",{  admin, mahasiswa , page: 'Mahasiswa' });
 }
 
+
 const getDetailMahasiswa = async (req, res) => {
+
+  
   const userId = req.params.id;
   const admin = await getAdmin(req, res); 
   const mahasiswa = await getMahasiswaById(userId);
@@ -48,6 +58,7 @@ const getDetailMahasiswa = async (req, res) => {
 
 
 const getDetailPermintaanUnverified = async (req, res) => {
+
   const admin = await getAdmin(req, res); 
   const idPermintaan = req.params.idPermintaan;
   const permintaan = await Permintaan.findByPk(idPermintaan);
@@ -66,6 +77,7 @@ const getDetailPermintaanUnverified = async (req, res) => {
 
 
 const getDetailPermintaanVerify = async (req, res) => {
+
   const admin = await getAdmin(req, res); 
   const id = req.params.idPermintaan;
   const permintaan = await Permintaan.findOne({
@@ -82,6 +94,7 @@ const getDetailPermintaanVerify = async (req, res) => {
 
 
 const getDetail = async (req, res) => {
+
   const admin = await getUser(req, res); 
   const user = await getUser(req, res); 
   const idPermintaan = req.params.idPermintaan;
@@ -95,6 +108,7 @@ const getDetail = async (req, res) => {
     res.status(404).send('Surat not found');
   }
 }
+
 
 
 
@@ -134,6 +148,7 @@ const verifikasi = async (req, res) => {
 };
 
 const generate = async (req, res) => {
+
   try {
     const {
       idPermintaan,
@@ -232,10 +247,12 @@ const generate = async (req, res) => {
 
         await StatusPermintaan.update(
           { status: "Selesai" },
+
           { where: { idPermintaan: idPermintaan, idStatus: "3" } }
         );
     
         
+
 
         res.status(200).json({ message: 'Surat berhasil di terbitkan' });
       }
@@ -246,7 +263,10 @@ const generate = async (req, res) => {
   }
 };
 
+
 const getMahasiswaById = async (mahasiswaId) => {
+
+  
   try {
       const mahasiswa = await Mahasiswa.findOne({
           where: { id: mahasiswaId },
@@ -266,7 +286,10 @@ const getMahasiswaById = async (mahasiswaId) => {
   }
 };
 
+
 const getPermintaanUnverified = async (req, res) => {
+
+  
   try {
     const admin = await getAdmin(req, res); 
     const user = await getUser(req, res); 
@@ -363,6 +386,7 @@ const getPermintaanVerify = async (req, res) => {
 };
 
 const getSurat = async (req, res) => {
+
   try {
     const admin = await getAdmin(req, res); 
     const user = await getUser(req, res); 
@@ -371,11 +395,14 @@ const getSurat = async (req, res) => {
     const page = req.query.page ? parseInt(req.query.page) : 1; // Current page, default to 1 if not specified
 
     const totalEntries = await Permintaan.count({ where: { status: 'Selesai' } }); // Get total number of entries with status 'Proses'
+
     const totalPages = Math.ceil(totalEntries / perPage); // Calculate total number of pages
 
     // Fetch only the entries for the current page with status 'Proses'
     const permintaan = await Permintaan.findAll({
+
       where: { status: 'Selesai' },
+
       offset: (page - 1) * perPage,
       limit: perPage
     });
@@ -396,6 +423,7 @@ const getSurat = async (req, res) => {
     }));
 
     res.render("admin/surat", {  
+
       admin,
       user,
       permintaan: permintaanWithMahasiswa,
@@ -411,3 +439,4 @@ const getSurat = async (req, res) => {
 };
 
 module.exports = { getDashboard, getAdminProfile, getAdminChangeProfile, getAdminChangePassword, getAdminMahasiswa, getDetailMahasiswa, getDetailPermintaanUnverified, getDetailPermintaanVerify, getDetail, verifikasi, generate, getPermintaanUnverified, getPermintaanVerify, getSurat };
+
