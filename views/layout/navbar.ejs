@@ -1,13 +1,13 @@
 <!doctype html>
 <html>
 
-
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="/output.css" rel="stylesheet">
   <script src="./node_modules/preline/dist/preline.js"></script>
+  <script src="/sweet/sweetalert2.all.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 
 </head>
 
@@ -32,18 +32,21 @@
           <a class="font-medium text-gray-500 sm:py-6" <% if(page=='home' ){ %>
             style="color: #388E3C;"
             <% } %>
-
               href="/home" aria-current="page">Home
           </a>
-          <a class="font-medium text-gray-500 hover:text-gray-400 sm:py-6"<% if(page=='layanan' ){ %>
+
+          <a class="font-medium text-gray-500 sm:py-6" <% if(page=='layanan' ){ %>
             style="color: #388E3C;"
             <% } %>
-            
-            href="/layanan">Layanan</a>
-          <a class="font-medium text-gray-500 hover:text-gray-400 sm:py-6"<% if(page=='riwayat' ){ %>
+              href="/layanan">Layanan
+          </a>
+
+          <a class="font-medium text-gray-500 sm:py-6" <% if(page=='riwayat' ){ %>
             style="color: #388E3C;"
             <% } %>
-            href="/riwayat">Riwayat</a>
+              href="/riwayat">Riwayat
+          </a>
+
 
           <div class="container mx-auto mt-4">
 
@@ -52,7 +55,7 @@
 
 
           <h1 class="font-medium text-gray-500" style="color: #388E3C; white-space: nowrap;" disabled>
-            <%= mahasiswa.user.email %>
+            <%= mahasiswa.email %>
           </h1>
 
 
@@ -61,7 +64,7 @@
               <div>
                 <div class="hs-dropdown " data-hs-dropdown-placement="bottom-right">
                   <button id="hs-dropdown-with-header" class="rounded-full" type="button"
-                    style="width: 50px; height: 50px; background-color: aqua;">
+                    style="width: 50px; height: 50px;">
                     <img class="rounded-full" src="/data/user_<%=mahasiswa.id  %>/profile.jpg" alt="Image Description"
                       style="width: 100%;height: 100%;object-fit: cover;">
                   </button>
@@ -70,7 +73,7 @@
                     style="background-color: white;" aria-labelledby="hs-dropdown-with-header">
                     <div class="mt-2 py-2 first:pt-0 last:pb-0">
                       <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-green-500 :text-neutral-400 :hover:bg-neutral-700 :hover:text-neutral-300"
-                        href="#">
+                        href="/notification">
                         <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                           viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                           stroke-linejoin="round">
@@ -79,9 +82,9 @@
                         </svg>
                         notification
                       </a>
-                      <a href="/profile"
+                      <a href="/notification"
                         class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-green-500 :text-neutral-400 :hover:bg-neutral-700 :hover:text-neutral-300"
-                        href="#">
+                        href="/notification">
                         <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                           viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                           stroke-linejoin="round">

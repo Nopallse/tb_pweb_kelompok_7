@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const db = require('./config/database.js');
 const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 const indexRouter = require('./routes/index.js');
 const userRouter = require('./routes/userRoute.js');
 const adminRouter = require('./routes/adminRoute.js');
@@ -10,32 +11,40 @@ const socketio = require("socket.io");
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
-
+const { encrypt } = require('./controllers/encryptionController.js');
 const dotenv = require('dotenv');
 dotenv.config();
 
 
 
-io.on("connection", (socket) => {
-  console.log("New client connected");
-  socket.on("joinRoom", (role) => {
-    if (role === "admin") {
-      socket.join("admin");
-    }
+app.set('io', io);
+
+io.on('connection', (socket) => {
+  console.log('a user connected');
+
+  socket.on('join', (nim) => {
+    console.log(`User with NIM ${nim} joined room`);
+    socket.join(nim);
   });
-  socket.on("disconnect", () => {
-    console.log("Client disconnected");
+
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
   });
 });
 
-app.set("io", io);
+// app.use((req, res, next) => {
+//     console.log(`Request received: ${req.method} ${req.url}`);
+//     next();
+// });
 app.use((req, res, next) => {
-    console.log(`Request received: ${req.method} ${req.url}`);
-    next();
+  res.locals.encrypt = encrypt; // Make encrypt function available in EJS templates
+  next();
 });
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'assets')));

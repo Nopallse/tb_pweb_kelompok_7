@@ -7,159 +7,135 @@
   <script src="./node_modules/preline/dist/preline.js"></script>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script src="/sweet/sweetalert2.all.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMt23cez/3paNdF+Yx10No7sztSnGAPX2O1uM3z" crossorigin="anonymous">
 
   <title><%= page %></title>
-
+  <style>
+    .sidebar {
+        width: 250px;
+        height: 100vh;
+        background-color: #f8f9fa;
+        padding: 20px;
+        position: fixed;
+    }
+    .sidebar ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    .sidebar ul li {
+        margin: 10px 0;
+    }
+    .sidebar ul li a {
+        text-decoration: none;
+        color: #333;
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .sidebar ul li a:hover,
+    .sidebar ul li.active > a {
+        background-color: #e9ecef;
+        color: #139561;
+    }
+    .sidebar ul li a svg {
+        margin-right: 10px;
+        width: 20px;
+        height: 20px;
+    }
+    .sidebar ul li ul {
+        padding-left: 20px;
+        overflow: hidden;
+        max-height: 0;
+        transition: max-height 0.3s ease-in-out;
+    }
+    .sidebar ul li.open > ul {
+        max-height: 500px; /* Arbitrary large value for animation */
+    }
+    .sidebar ul li ul li a {
+        font-size: 0.9em;
+    }
+</style>
 </head>
 <body>
   <!-- ========== HEADER ========== -->
 <!-- ========== MAIN CONTENT ========== -->
 <!-- Breadcrumb -->
-<div class="sticky top-0 inset-x-0 z-20 bg-white border-y px-4 sm:px-6 md:px-8 lg:hidden">
-  <div class="flex justify-between items-center py-2">
-    <!-- Breadcrumb -->
-    <ol class="ms-3 flex items-center whitespace-nowrap">
-      <li class="flex items-center text-sm text-gray-800">
-        Application Layout
-        <svg class="flex-shrink-0 mx-3 overflow-visible size-2.5 text-gray-400" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M5 1L10.6869 7.16086C10.8637 7.35239 10.8637 7.64761 10.6869 7.83914L5 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </li>
-      <li class="text-sm font-semibold text-gray-800 truncate" aria-current="page">
-        Dashboard
-      </li>
-    </ol>
-    <!-- End Breadcrumb -->
-
-    <!-- Sidebar -->
-    <button type="button" class="py-2 px-3 flex justify-center items-center gap-x-1.5 text-xs rounded-lg border border-gray-200 text-gray-500 hover:text-gray-600" data-hs-overlay="#application-sidebar" aria-controls="application-sidebar" aria-label="Sidebar">
-      <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8L21 12L17 16M3 12H13M3 6H13M3 18H13"/></svg>
-      <span class="sr-only">Sidebar</span>
-    </button>
-    <!-- End Sidebar -->
-  </div>
-</div>
-<!-- End Breadcrumb -->
-
-<!-- Sidebar -->
-<div id="application-sidebar" class="hs-overlay [--auto-close:lg]
-  hs-overlay-open:translate-x-0
-  -translate-x-full transition-all duration-300 transform
-  w-[260px]
-  hidden
-  fixed inset-y-0 start-0 z-[60]
-  bg-white border-e border-gray-200
-  lg:block lg:translate-x-0 lg:end-auto lg:bottom-0
- 
- ">
-  <div class="px-8 pt-4" style="text-align: center;">
+<div class="sidebar">
+  <div style="text-align: center;">
     <img class="rounded-full"  src="/data/user_<%=admin.id  %>/profile.jpg" alt="Image Description" style="width: 110px;height: 110px;object-fit: cover;margin-left: auto; margin-right: auto;">
     <br>
-      <h1 class="font-bold text-gray-500 " style="font-size: 20px;color: black; white-space: nowrap;"><%= admin.name %></h1>
-    <h1 class="font-medium text-gray-500" style="color: black; white-space: nowrap;"> <%= admin.departemen %></h1>
+    <h1 class="font-bold text-gray-500 " style="font-size: 20px;color: black; white-space: nowrap;"><%= admin.name %></h1>
+    <h1 class="font-medium text-gray-500" style="color: black; white-space: nowrap;"> <%= admin.jabatan %></h1>
   </div>
-
-  <nav class="hs-accordion-group p-6 w-full flex flex-col flex-wrap" data-hs-accordion-always-open
-  >
-    <ul class="space-y-1.5">
-      <li>
-        <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-neutral-700 rounded-lg hover:bg-gray-100" href="/admin/dashboard">
-          <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          Dashboard
-        </a>
-      </li>
-
-      <li class="hs-accordion" id="account-accordion">
-        <button type="button" class="hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-neutral-700 rounded-lg hover:bg-gray-100 ">
-          <svg class="flex-shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="15" r="3"/><circle cx="9" cy="7" r="4"/><path d="M10 15H6a4 4 0 0 0-4 4v2"/><path d="m21.7 16.4-.9-.3"/><path d="m15.2 13.9-.9-.3"/><path d="m16.6 18.7.3-.9"/><path d="m19.1 12.2.3-.9"/><path d="m19.6 18.7-.4-1"/><path d="m16.8 12.3-.4-1"/><path d="m14.3 16.6 1-.4"/><path d="m20.7 13.8 1-.4"/></svg>
-          Account
-
-          <svg class="hs-accordion-active:block ms-auto hidden size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
-
-          <svg class="hs-accordion-active:hidden ms-auto block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-        </button>
-
-        <div id="account-accordion-child" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden">
-          <ul class="pt-2 ps-2">
-            <li>
-              <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-neutral-700 rounded-lg hover:bg-gray-100 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-300" href="/admin/profile">
-                Profile
-              </a>
-            </li>
-            <li>
-
-              <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-neutral-700 rounded-lg hover:bg-gray-100 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-300" href="/admin/change-password">
-                Change Password
-              </a>
-            </li>
+  <ul>
+      <li><a href="/admin/dashboard" class="preline hover:bg-gray-200">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg> Dashboard</a></li>
+      <li class="has-submenu">
+          <a href="#" class="preline hover:bg-gray-200" onclick="toggleSubmenu(event)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-cog"><circle cx="18" cy="15" r="3"/><circle cx="9" cy="7" r="4"/><path d="M10 15H6a4 4 0 0 0-4 4v2"/><path d="m21.7 16.4-.9-.3"/><path d="m15.2 13.9-.9-.3"/><path d="m16.6 18.7.3-.9"/><path d="m19.1 12.2.3-.9"/><path d="m19.6 18.7-.4-1"/><path d="m16.8 12.3-.4-1"/><path d="m14.3 16.6 1-.4"/><path d="m20.7 13.8 1-.4"/></svg> Account</a>
+          <ul class="submenu">
+              <li><a href="/admin/profile" class="preline hover:bg-gray-200">Profile</a></li>
+              <li><a href="/admin/change-password" class="preline hover:bg-gray-200">Change Password</a></li>
           </ul>
-        </div>
       </li>
-
-    <li class="hs-accordion" id="users-accordion">
-        <button  onclick="window.location.href='/admin/mahasiswa';" type="button" class="hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-neutral-700 rounded-lg hover:bg-gray-100">
-            <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            Mahasiswa
-            <svg class="hs-accordion-active:block ms-auto hidden size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
-        </button>
-    </li>
-    
-    <li class="hs-accordion" id="account-accordion">
-      <button type="button" class="hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-neutral-700 rounded-lg hover:bg-gray-100 ">
-        <svg class="flex-shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="15" r="3"/><circle cx="9" cy="7" r="4"/><path d="M10 15H6a4 4 0 0 0-4 4v2"/><path d="m21.7 16.4-.9-.3"/><path d="m15.2 13.9-.9-.3"/><path d="m16.6 18.7.3-.9"/><path d="m19.1 12.2.3-.9"/><path d="m19.6 18.7-.4-1"/><path d="m16.8 12.3-.4-1"/><path d="m14.3 16.6 1-.4"/><path d="m20.7 13.8 1-.4"/></svg>
-        Permintaan
-
-        <svg class="hs-accordion-active:block ms-auto hidden size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
-
-        <svg class="hs-accordion-active:hidden ms-auto block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-      </button>
-
-      <div id="account-accordion-child" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden">
-        <ul class="pt-2 ps-2">
-          <li>
-            <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-neutral-700 rounded-lg hover:bg-gray-100 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-300" href="/admin/permintaan-unverified">
-              Belum diverifikasi
-            </a>
-          </li>
-          <li>
-
-            <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-neutral-700 rounded-lg hover:bg-gray-100 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-300" href="/admin/permintaan-verify">
-              Sudah diverifikasi
-            </a>
-          </li>
-        </ul>
-      </div>
-    </li>
-
-
-  
-
-    <li class="hs-accordion" id="users-accordion">
-      <button onclick="window.location.href='/admin/surat';" type="button" class="hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-neutral-700 rounded-lg hover:bg-gray-100">
-        <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        Surat
-        <svg class="hs-accordion-active:block ms-auto hidden size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
-      </button>
-  </li>
-
-
-    <li class="hs-accordion" id="users-accordion">
-        <button onclick="window.location.href='/admin/report';" type="button" class="hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-neutral-700 rounded-lg hover:bg-gray-100">
-          <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-          Report
-          <svg class="hs-accordion-active:block ms-auto hidden size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
-        </button>
-    </li>
-      
-    <li><form action="/logout" method="DELETE">
-        <button type="submit" class="w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-neutral-700 rounded-lg hover:bg-gray-100">
-          <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-          Logout
-        </button>
-      </form>
-    </li>
-      
-    </ul>
-  </nav>
+      <li><a href="/admin/mahasiswa" class="preline hover:bg-gray-200">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Mahasiswa</a></li>
+      <li class="has-submenu">
+          <a href="#" class="preline hover:bg-gray-200" onclick="toggleSubmenu(event)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-input"><path d="M4 22h14a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v4"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M2 15h10"/><path d="m9 18 3-3-3-3"/></svg> Permintaan</a>
+          <ul class="submenu">
+              <li><a href="/admin/permintaan-unverified" class="preline hover:bg-gray-200">Belum diverifikasi</a></li>
+              <li><a href="/admin/permintaan-verify" class="preline hover:bg-gray-200">Sudah diverifikasi</a></li>
+          </ul>
+      </li>
+      <li><a href="/admin/surat" class="preline hover:bg-gray-200">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-newspaper"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg> Surat</a></li>
+      <li><a href="/admin/report" class="preline hover:bg-gray-200">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-square-warning"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M12 7v2"/><path d="M12 13h.01"/></svg> Report</a></li>
+      <li><a href="/logout" class="preline hover:bg-gray-200">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg> Logout</a></li>
+  </ul>
 </div>
-<!-- End Sidebar -->
+
+<script>
+  function toggleSubmenu(event) {
+      event.preventDefault();
+      const parentLi = event.target.closest('li');
+      const submenu = parentLi.querySelector('ul');
+      parentLi.classList.toggle('open');
+      if (parentLi.classList.contains('open')) {
+          submenu.style.maxHeight = submenu.scrollHeight + "px";
+      } else {
+          submenu.style.maxHeight = 0;
+      }
+  }
+
+  // Mengatur active class berdasarkan halaman yang dibuka
+  document.addEventListener('DOMContentLoaded', () => {
+      const path = window.location.pathname; // Dapatkan path dari URL
+      document.querySelectorAll('.sidebar ul li a').forEach(link => {
+          if (link.getAttribute('href') === path) {
+              link.closest('li').classList.add('active');
+              if (link.closest('ul').classList.contains('submenu')) {
+                  link.closest('ul').style.maxHeight = link.closest('ul').scrollHeight + "px";
+                  link.closest('li.has-submenu').classList.add('open');
+              }
+          } else {
+              const parentLi = link.closest('li.has-submenu');
+              if (parentLi) {
+                  const submenuLinks = parentLi.querySelectorAll('ul li a');
+                  submenuLinks.forEach(subLink => {
+                      if (subLink.getAttribute('href') === path) {
+                          subLink.closest('li').classList.add('active');
+                          parentLi.classList.add('open');
+                          const submenu = parentLi.querySelector('ul');
+                          submenu.style.maxHeight = submenu.scrollHeight + "px";
+                      }
+                  });
+              }
+          }
+      });
+  });
+</script>

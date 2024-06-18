@@ -5,9 +5,11 @@ const fs = require('fs/promises');
 const multer = require('multer');
 const Admin = require('../models/AdminModel.js');
 const Mahasiswa = require('../models/MahasiswaModel.js');
+const { where } = require('sequelize');
+
+
 
 const Login = async (req, res) => {
-
   try {
     const user = await Users.findOne({
       where: {
@@ -48,10 +50,11 @@ const Login = async (req, res) => {
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+      maxAge: 24 * 60 * 60 * 1000 * 7,
+      secure: process.env.NODE_ENV === 'production' // Hanya gunakan secure di produksi
     });
 
-    res.cookie("token", token, { httpOnly: true });
+    res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
     console.log("Login berhasil");
 
     res.status(200).json({ message: 'Login berhasil', role: user.role });
@@ -60,8 +63,6 @@ const Login = async (req, res) => {
     res.status(401).json(error.message);
   }
 };
-
-
 
 
 
@@ -149,9 +150,8 @@ const changePassword = async (req, res) => {
 const editProfile = async (req, res) => {
   try {
     const { newName, newNim, newPhoneNumber } = req.body;
-
-    const mahasiswa = await Mahasiswa.findOne(req.newNim);
-    
+    console.log(req.body);
+    const mahasiswa = await Mahasiswa.findOne({ where: { nim: newNim } });
     await mahasiswa.update({ 
       name: newName,
       nim: newNim,

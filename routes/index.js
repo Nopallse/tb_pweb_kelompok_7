@@ -2,14 +2,15 @@ const express = require("express");
 const { Login, Logout } = require("../controllers/auth.js");
 const { refreshToken } = require("../controllers/RefreshToken.js");
 const { verifyToken } = require("../middleware/VerifyToken.js")
-
+const { isUserLoggedIn } = require("../middleware/isUserLoggedIn.js");
 
 const router = express.Router();
 
 router.post('/login', Login);
-router.get('/login', verifyToken({redirectToHome: true}), (req,res) => {
+router.get('/login', isUserLoggedIn, (req, res) => {
   res.render('login');
 });
+
 router.delete('/logout', Logout);
 router.get('/logout', (req, res) => {
   res.clearCookie('refreshToken');
