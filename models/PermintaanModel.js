@@ -2,7 +2,6 @@ const Sequelize = require("sequelize");
 const db = require("../config/database.js");
 const Mahasiswa = require("./MahasiswaModel.js");
 
-
 const { DataTypes } = Sequelize;
 
 const Permintaan = db.define('permintaan', {
@@ -39,6 +38,9 @@ const Permintaan = db.define('permintaan', {
     instansiInduk: {
         type: DataTypes.STRING
     },
+    berkas: {
+        type: DataTypes.STRING
+    },
     status: {
         type: DataTypes.STRING
     },
@@ -57,5 +59,5 @@ const Permintaan = db.define('permintaan', {
 
 Permintaan.belongsTo(Mahasiswa, { foreignKey: 'nim' });
 
-module.exports = Permintaan;
 
+module.exports = Permintaan;

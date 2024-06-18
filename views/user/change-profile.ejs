@@ -27,19 +27,32 @@
         </div>
         <!-- End Col -->
 
-        <div class="sm:col-span-9">
-          <div class="flex items-center gap-5">
-            <img class="rounded-full"  src="/data/user_<%=mahasiswa.id  %>/profile.jpg" alt="Image Description" style="width: 60px;height: 60px;object-fit: cover;">
-            <div class="flex gap-x-2">
-              <div>
-
-                <input type="file" name="profile" >
-             
-                
-              </div>
-            </div>
-          </div>
+        <style>
+          /* Add custom CSS for the profile edit button */
+          .edit-profile-button {
+            position: absolute;
+            bottom: 0;
+            right: 1;
+            border-radius: 50%;
+            background-color: white;
+            width: 30px;
+            height: 30px;
+            margin-left: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+          }
+        </style>
+        
+        <div class="sm:col-span-9 relative">
+          <img id="profileImage" class="rounded-full" src="/data/user_<%=mahasiswa.id  %>/profile.jpg" alt="Profile Picture" style="width: 60px;height: 60px;object-fit: cover;">
+          <label for="profileInput" class="edit-profile-button cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>            <input type="file" name="profile" id="profileInput" accept="image/*" class="hidden">
+          </label>
+          <div id="previewLabel" class="hidden">Preview:</div>
         </div>
+        
         <!-- End Col -->
 
         <div class="sm:col-span-3">
@@ -71,7 +84,7 @@
         <!-- End Col -->
 
         <div class="sm:col-span-9">
-          <input id="af-account-email" type="email" name="newEmail" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" value="<%= user.email %> " disabled>
+          <input id="af-account-email" type="email" name="newEmail" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" value="<%= mahasiswa.user.email %> " disabled>
         </div>
         <!-- End Col -->
 
@@ -83,6 +96,8 @@
         <!-- End Col -->
 
         <div class="sm:col-span-9">
+          <input style="display: none;" id="af-account-email" type="text" name="newNim" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" value="<%= mahasiswa.nim %>">
+
           <input id="af-account-email" type="text" name="newNim" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" value="<%= mahasiswa.nim %>" disabled>
         </div>
         <!-- End Col -->
@@ -148,7 +163,19 @@
 
 <!-- End Card Section -->
 
-
+<script>
+  document.getElementById('profileInput').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('profileImage').src = e.target.result;
+        document.getElementById('previewLabel').classList.remove('hidden');
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+</script>
   <!-- Tambahkan script JS eksternal atau tambahkan script internal di sini -->
   <script src="preline/preline.js"></script>
 </body>

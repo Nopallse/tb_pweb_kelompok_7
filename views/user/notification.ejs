@@ -1,0 +1,90 @@
+<%- include("../layout/navbar.ejs") %>
+<%- include("../layout/sidebar_user.ejs") %>
+
+<!-- Content -->
+<div class="w-full pt-2 px-4 sm:px-6 md:px-8 lg:ps-72">
+  <!-- your content goes here ... -->
+
+  <!-- Card Section -->
+  <div class="max-w-4xl px-4 sm:px-6 lg:px-8 mx-auto">
+    <!-- Card -->
+    <div class="bg-white rounded-xl shadow p-4 sm:p-7">
+      <h2 class="text-2xl font-bold mb-4">notification</h2>
+
+      <div class="space-y-4" id="notification-list" style="max-height: 470px; overflow-y: auto;">
+        <% if (notification.length > 0) { %>
+          <% notification.forEach(notification => { %>
+            <div class="border rounded p-4 fade-in cursor-pointer notification" onclick="window.location.href='riwayat/<%= encrypt(String(notification.href)) %>'">
+              <div class="flex items-center">
+                <h3 class="text-lg font-semibold"><%= notification.title %></h3>
+                <p class="text-gray-500 text-sm ml-auto" style="margin-left: auto;"><%= notification.tanggal %></p>
+              </div>
+              <p><%= notification.message %></p>
+            </div>
+          <% }) %>
+        <% } else { %>
+          <p>No notification found.</p>
+        <% } %>
+      </div>
+    </div>
+    <!-- End Card -->
+  </div>
+  <!-- End Card Section -->
+</div>
+<style>
+  .notification:hover {
+    background-color: #efefef; /* Ganti dengan warna latar belakang yang diinginkan saat hover */
+    transition: background-color 0.3s ease; /* Animasi perubahan warna latar belakang */
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+</style>
+
+<!-- Add external or internal JS scripts here -->
+<script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+<script src="preline/preline.js"></script>
+<script>
+  const socket = io();
+  const nim = "<%= mahasiswa.nim %>";
+
+  socket.on('connect', () => {
+    console.log('Connected to server');
+    socket.emit('join', nim);
+  });
+
+  socket.on('new_permintaan', (data) => {
+    const notificationList = document.getElementById('notification-list');
+    const newNotification = document.createElement('div');
+    newNotification.classList.add('border', 'rounded', 'p-4', 'fade-in', 'cursor-pointer', 'notification');
+    newNotification.innerHTML = `
+      <div class="flex items-center">
+        <h3 class="text-lg font-semibold">${data.message}</h3>
+        <p class="text-gray-500 text-sm ml-auto" style="margin-left: auto;">${data.permintaan.tanggal}</p>
+      </div>
+      <p>${data.permintaan.isi}</p>
+    `;
+    newNotification.onclick = () => {
+      window.location.href = data.permintaan.href;
+    };
+    notificationList.prepend(newNotification);
+
+    // Remove the animation class after it finishes so it can be reapplied next time
+    setTimeout(() => {
+      newNotification.classList.remove('fade-in');
+    }, 500); // Duration should match the animation duration
+  });
+</script>
+</body>
+</html>
