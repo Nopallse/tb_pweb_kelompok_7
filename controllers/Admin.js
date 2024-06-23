@@ -13,7 +13,7 @@ const QRCode = require("qrcode");
 const ImageModule = require("docxtemplater-image-module-free");
 const Notification = require("../models/NotificationModel.js")
 const { getAdmin, getMahasiswa, getUser } = require("./auth.js");
-const { encrypt } = require('./encryptionController'); // Adjust the path to your encryption module
+const { encrypt } = require('./encryptionController'); 
 
 const { get } = require("http");
 
@@ -101,7 +101,6 @@ const getDetail = async (req, res) => {
   const user = await getUser(req, res);
   const idPermintaan = req.params.idPermintaan;
 
-  // Fetch the specific permintaan detail by id
   const permintaan = await Permintaan.findByPk(idPermintaan);
 
   if (permintaan) {
@@ -243,8 +242,6 @@ const generate = async (req, res) => {
     );
     
 
-    console.log(surat)
-
     doc.setData({
       nomor: surat.nomorSurat,
       nama: permintaan.mahasiswa.name,
@@ -377,22 +374,20 @@ const getPermintaanUnverified = async (req, res) => {
     const admin = await getAdmin(req, res);
     const user = await getUser(req, res);
 
-    const perPage = 10; // Number of entries per page
-    const page = req.query.page ? parseInt(req.query.page) : 1; // Current page, default to 1 if not specified
+    const perPage = 10; 
+    const page = req.query.page ? parseInt(req.query.page) : 1; 
 
     const totalEntries = await Permintaan.count({
       where: { status: "Diajukan" },
-    }); // Get total number of entries with status "Diajukan"
-    const totalPages = Math.ceil(totalEntries / perPage); // Calculate total number of pages
+    }); 
+    const totalPages = Math.ceil(totalEntries / perPage); 
 
-    // Fetch only the entries for the current page with status "Diajukan"
     const permintaan = await Permintaan.findAll({
       where: { status: "Diajukan" },
       offset: (page - 1) * perPage,
       limit: perPage,
     });
 
-    // Iterate over permintaan to fetch additional mahasiswa details
     const permintaanWithMahasiswa = await Promise.all(
       permintaan.map(async (entry) => {
         const mahasiswa = await Mahasiswa.findOne({
@@ -403,7 +398,7 @@ const getPermintaanUnverified = async (req, res) => {
           },
         });
         return {
-          ...entry.toJSON(), // Convert Sequelize instance to plain object
+          ...entry.toJSON(), 
           mahasiswa,
         };
       })
@@ -429,22 +424,22 @@ const getPermintaanVerify = async (req, res) => {
     const admin = await getAdmin(req, res);
     const user = await getUser(req, res);
 
-    const perPage = 10; // Number of entries per page
-    const page = req.query.page ? parseInt(req.query.page) : 1; // Current page, default to 1 if not specified
+    const perPage = 10;
+    const page = req.query.page ? parseInt(req.query.page) : 1;
 
     const totalEntries = await Permintaan.count({
       where: { status: "Proses" },
-    }); // Get total number of entries with status 'Proses'
-    const totalPages = Math.ceil(totalEntries / perPage); // Calculate total number of pages
+    });
+    const totalPages = Math.ceil(totalEntries / perPage); 
 
-    // Fetch only the entries for the current page with status 'Proses'
+
     const permintaan = await Permintaan.findAll({
       where: { status: "Proses" },
       offset: (page - 1) * perPage,
       limit: perPage,
     });
 
-    // Iterate over permintaan to fetch additional mahasiswa details
+
     const permintaanWithMahasiswa = await Promise.all(
       permintaan.map(async (entry) => {
         const mahasiswa = await Mahasiswa.findOne({
@@ -455,7 +450,7 @@ const getPermintaanVerify = async (req, res) => {
           },
         });
         return {
-          ...entry.toJSON(), // Convert Sequelize instance to plain object
+          ...entry.toJSON(), 
           mahasiswa,
         };
       })
@@ -481,13 +476,12 @@ const getSurat = async (req, res) => {
     const admin = await getAdmin(req, res);
     const user = await getUser(req, res);
 
-    const perPage = 10; // Number of entries per page
-    const page = req.query.page ? parseInt(req.query.page) : 1; // Current page, default to 1 if not specified
+    const perPage = 10;
+    const page = req.query.page ? parseInt(req.query.page) : 1;
 
-    const totalEntries = await Surat.count(); // Get total number of entries
-    const totalPages = Math.ceil(totalEntries / perPage); // Calculate total number of pages
+    const totalEntries = await Surat.count(); 
+    const totalPages = Math.ceil(totalEntries / perPage); 
 
-    // Fetch only the entries for the current page
     const suratList = await Surat.findAll({
       offset: (page - 1) * perPage,
       limit: perPage,
@@ -517,7 +511,7 @@ const getSurat = async (req, res) => {
     res.render("admin/surat", {
       admin,
       user,
-      surat: suratList, // Pass the surat list to the template
+      surat: suratList,
       currentPage: page,
       totalPages: totalPages,
       totalEntries: totalEntries,

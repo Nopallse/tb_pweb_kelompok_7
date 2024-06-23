@@ -29,3 +29,4 @@ const StatusPermintaan = db.define('statusPermintaan', {
 });
 
 module.exports = StatusPermintaan;
+

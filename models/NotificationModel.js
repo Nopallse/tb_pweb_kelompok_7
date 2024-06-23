@@ -31,7 +31,7 @@ const Notification = db.define('notification', {
     timestamps: false
 });
 
-// Menentukan hubungan antara Notification dan Users
+
 Notification.belongsTo(Users, { foreignKey: 'userId' });
 
 module.exports = Notification;
