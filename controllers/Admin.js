@@ -12,10 +12,51 @@ const Admin = require("../models/AdminModel.js");
 const QRCode = require("qrcode");
 const ImageModule = require("docxtemplater-image-module-free");
 const Notification = require("../models/NotificationModel.js")
+const Report = require("../models/ReportModel.js");
 const { getAdmin, getMahasiswa, getUser } = require("./auth.js");
 const { encrypt } = require('./encryptionController'); 
 
 const { get } = require("http");
+
+
+const reportController = async (req, res) => {
+  try {
+      const { name, email, subject, details } = req.body;
+      
+      const newReport = await Report.create({
+        name,
+        email,
+        subject,
+        details
+      });
+      console.log("hello world")
+      res.status(201).json({
+        message: 'Report created successfully',
+        report: newReport
+      });
+    } catch (error) {
+      console.error('Error creating report:', error);
+      res.status(500).json({ message: 'An error occurred while creating the report' });
+    }
+};
+
+
+
+
+const getAllReports = async (req, res) => {
+  try {
+      const reports = await Report.findAll({
+        order: [['createdAt', 'DESC']]
+      });
+      const admin = await getAdmin(req, res);
+      const surat = await Surat.findAll();
+      const mahasiswa = await Mahasiswa.findAll();
+      res.render('admin/report', { admin, surat,mahasiswa,reports, page: "Report"});
+    } catch (error) {
+      console.error('Error fetching reports:', error);
+      res.status(500).send('An error occurred while fetching reports');
+    }
+};
 
 const getDashboard = async (req, res) => {
   const admin = await getAdmin(req, res);
@@ -540,4 +581,6 @@ module.exports = {
   getPermintaanUnverified,
   getPermintaanVerify,
   getSurat,
+  reportController, 
+  getAllReports
 };

@@ -2,6 +2,7 @@ const express = require("express");
 const { verifyToken } = require("../middleware/VerifyToken.js");
 const { uploadProfilePicture, changePassword } = require("../controllers/auth.js");
 const {
+  getAllReports,
   generate,
   verifikasi,
   getDashboard,
@@ -24,6 +25,8 @@ router.get("/", (req, res) => {
 });
 
 router.get("/dashboard", verifyToken("admin"), getDashboard);
+
+router.get('/reports', getAllReports);
 
 router.get("/profile", verifyToken("admin"), getAdminProfile);
 
