@@ -6,7 +6,7 @@ const { getMahasiswa, getUser } = require("./auth.js");
 const multer = require('multer');
 const path = require('path');
 const { check, validationResult } = require('express-validator');
-const { encrypt } = require('./encryptionController'); // Adjust the path to your encryption module
+const { encrypt } = require('./encryptionController'); 
 
 const validateForm = [
   check('inputTarget').custom(value => {
@@ -62,7 +62,7 @@ const sendForm = async (req, res) => {
     const { inputName, inputNim, inputDepartemen, inputTarget, inputTujuan, inputOrtu, inputNip, inputPangkat, inputUnit, inputInstansi } = req.body;
     const berkasFile = req.file ? req.file.filename : null;
 
-    // Memasukkan data form ke dalam basis data menggunakan model Permintaan
+    
     const permintaanBaru = await Permintaan.create({ 
       target: inputTarget,
       tujuan: inputTujuan,
@@ -73,16 +73,16 @@ const sendForm = async (req, res) => {
       unitKerja: inputUnit,
       instansiInduk: inputInstansi,
       status: "Diajukan",
-      berkas: berkasFile  // Simpan nama file di database
+      berkas: berkasFile  
     });
     
-    const idPermintaan = permintaanBaru.idPermintaan; // Asumsikan kolom ID di model Permintaan adalah 'id'
+    const idPermintaan = permintaanBaru.idPermintaan; 
     console.log(idPermintaan);
     await StatusPermintaan.create({
       idStatus: "1",
       idPermintaan: idPermintaan,
       status: "Selesai",
-      tanggal: formattedDate, // Mengonversi objek tanggal menjadi string ISO 8601
+      tanggal: formattedDate, 
     });
 
     await StatusPermintaan.create({
@@ -119,20 +119,20 @@ const getRiwayat = async (req, res) => {
     const mahasiswa = await getMahasiswa(req, res); 
     const user = await getUser(req, res); 
 
-    const perPage = 10; // Number of entries per page
-    const page = req.query.page ? parseInt(req.query.page) : 1; // Current page, default to 1 if not specified
+    const perPage = 10; 
+    const page = req.query.page ? parseInt(req.query.page) : 1; 
 
-    const totalEntries = await Permintaan.count(); // Get total number of entries
-    const totalPages = Math.ceil(totalEntries / perPage); // Calculate total number of pages
+    const totalEntries = await Permintaan.count(); 
+    const totalPages = Math.ceil(totalEntries / perPage); 
 
-    // Fetch only the entries for the current page and with nim equal to mahasiswa.nim
+    
     const permintaan = await Permintaan.findAll({
-      where: { nim: mahasiswa.nim }, // Add condition to select only permintaan with nim equal to mahasiswa.nim
+      where: { nim: mahasiswa.nim }, 
       offset: (page - 1) * perPage,
       limit: perPage
     });
 
-    // Iterate over permintaan to fetch additional mahasiswa details
+    
     const permintaanWithMahasiswa = await Promise.all(permintaan.map(async (entry) => {
       const mahasiswa = await Mahasiswa.findOne({
         where: { nim: entry.nim },
@@ -142,7 +142,7 @@ const getRiwayat = async (req, res) => {
         }
       });
       return {
-        ...entry.toJSON(), // Convert Sequelize instance to plain object
+        ...entry.toJSON(), 
         mahasiswa
       };
     }));

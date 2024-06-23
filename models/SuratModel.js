@@ -11,7 +11,7 @@ const Surat = db.define('surat', {
         primaryKey: true
     },
     idPermintaan: {
-        type: DataTypes.INTEGER,  // This should be INTEGER to match Permintaan's primary key type
+        type: DataTypes.INTEGER,  
         allowNull: false,
         references: {
             model: Permintaan,
@@ -43,7 +43,7 @@ const Surat = db.define('surat', {
     timestamps: false
 });
 
-// Define the association after model definition
+
 Permintaan.hasOne(Surat, { foreignKey: 'idPermintaan' });
 Surat.belongsTo(Permintaan, { foreignKey: 'idPermintaan' });
 Surat.belongsTo(Admin, { foreignKey: 'nip' });

@@ -7,4 +7,4 @@ const db = new Sequelize('aktif_kuliah','root','',{
 
 });
 
-module.exports = db; // Periksa bahwa Anda telah mengekspor db dengan benar
+module.exports = db; 

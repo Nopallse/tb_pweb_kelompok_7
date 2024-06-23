@@ -4,19 +4,19 @@ const verifyToken = (role) => async (req, res, next) => {
   const accessToken = req.cookies.token;
   const refreshToken = req.cookies.refreshToken;
 
-  // Jika tidak ada refresh token, arahkan pengguna ke halaman login
+  
   if (!refreshToken) {
     console.log("No refresh token found, redirecting to login");
     return res.redirect('/login');
   }
 
   try {
-    // Jika tidak ada access token, buat baru dari refresh token
+    
     if (!accessToken) {
       throw new Error("No access token found");
     }
 
-    // Verifikasi access token
+    
     const decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
     req.userId = decoded.userId;
     req.userRole = decoded.role;
@@ -46,7 +46,7 @@ const verifyToken = (role) => async (req, res, next) => {
     }
   }
 
-  // Redirect sesuai peran pengguna jika perlu
+  
   if (role && req.userRole !== role) {
     if (req.userRole === "mahasiswa") {
       return res.redirect("/home");

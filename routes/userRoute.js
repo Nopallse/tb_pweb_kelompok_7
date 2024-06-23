@@ -176,8 +176,6 @@ router.get('/data/surat/:namaSurat', async (req, res) => {
     const filePath = path.join(__dirname, '..', 'public', 'data', 'surat', `${namaSurat}`);
     const fileUrl = `http://8.215.33.203:3001/data/surat/${namaSurat}`;
 
-    console.log(filePath);
-
     const googleDocsUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(fileUrl)}&embedded=true`;
 
     res.render('preview', { googleDocsUrl });
@@ -208,7 +206,7 @@ router.get('/notification',verifyToken('mahasiswa'), async (req, res) => {
 });
   console.log(notification);
 
-// Render the notifications page and pass the notifications data
+
   console.log(mahasiswa);
   res.render('user/notification', { mahasiswa, user ,notification, page:'home'});
 });

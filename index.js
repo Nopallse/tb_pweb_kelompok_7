@@ -32,12 +32,9 @@ io.on('connection', (socket) => {
   });
 });
 
-// app.use((req, res, next) => {
-//     console.log(`Request received: ${req.method} ${req.url}`);
-//     next();
-// });
+
 app.use((req, res, next) => {
-  res.locals.encrypt = encrypt; // Make encrypt function available in EJS templates
+  res.locals.encrypt = encrypt; 
   next();
 });
 app.use(express.json());
