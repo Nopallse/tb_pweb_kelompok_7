@@ -13,6 +13,7 @@ const StatusPermintaan = require("../models/StatusPermintaanModel.js");
 const Surat = require("../models/SuratModel.js");
 const Notification = require("../models/NotificationModel.js");
 const router = express.Router();
+const { reportController } = require("../controllers/Admin.js");
 
 
 
@@ -30,6 +31,9 @@ router.get("/layanan", verifyToken('mahasiswa'), async function (req, res) {
   const mahasiswa = await getMahasiswa(req, res); 
   res.render("user/layanan", { mahasiswa, page:'layanan'});
 });
+
+
+router.post('/report', reportController);
 
 router.get("/layanan/form", verifyToken('mahasiswa'), async (req, res) => {
   const user = await getUser(req, res); 

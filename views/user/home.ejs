@@ -244,7 +244,7 @@
         <div class="flex flex-col border rounded-xl p-4 sm:p-6 lg:p-8">
           <!-- Konten elemen kedua -->
           <div>
-            <form>
+            <form id="reportForm">
               <div class="grid gap-4">
                 <!-- Grid -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -307,3 +307,37 @@
   <!-- End Contact Us -->
 
   <%- include("../layout/footer.ejs") %>
+
+  <script>
+    document.getElementById('reportForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+    
+      const formData = new FormData(e.target);
+      const data = {
+        name: formData.get('hs-firstname-contacts-1'),
+        email: formData.get('hs-lastname-contacts-1'),
+        subject: formData.get('hs-phone-number-1'),
+        details: formData.get('hs-about-contacts-1')
+      };
+    
+      try {
+        const response = await fetch('/report', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+    
+        if (response.ok) {
+          alert('Your inquiry has been sent successfully!');
+          e.target.reset();
+        } else {
+          alert('An error occurred. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+      }
+    });
+    </script>
